@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auditory System — Complete Mindmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c14;
+    --bg2: #0f1219;
+    --surface: #141720;
+    --border: #1e2433;
+    --text: #e8ecf4;
+    --muted: #7a85a0;
+    --accent1: #4f9cf9; /* blue - physics/sound */
+    --accent2: #22d3a5; /* teal - anatomy */
+    --accent3: #f97b4f; /* orange - transduction */
+    --accent4: #a78bfa; /* purple - neural */
+    --accent5: #facc15; /* yellow - localization */
+    --accent6: #f472b6; /* pink - cortex */
+    --accent7: #34d399; /* green - pathways */
+    --c1-bg: rgba(79,156,249,0.06);
+    --c2-bg: rgba(34,211,165,0.06);
+    --c3-bg: rgba(249,123,79,0.06);
+    --c4-bg: rgba(167,139,250,0.06);
+    --c5-bg: rgba(250,204,21,0.06);
+    --c6-bg: rgba(244,114,182,0.06);
+    --c7-bg: rgba(52,211,153,0.06);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #131825 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,156,249,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #4f9cf9 0%, #22d3a5 50%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ---- LEGEND ---- */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    justify-content: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px 10px; border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .legend-item:hover { color: var(--text); border-color: currentColor; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ---- MAIN ---- */
+  .map-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ---- SECTION GROUP ---- */
+  .section-group {
+    margin-bottom: 56px;
+    scroll-margin-top: 100px;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-left: 4px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  /* ---- ROW ---- */
+  .row {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    align-items: stretch;
+  }
+
+  /* ---- BOX ---- */
+  .box {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 1px solid var(--border);
+    flex: 1;
+    min-width: 220px;
+    max-width: 460px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+  .box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 12px 12px 0 0;
+  }
+  .box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  /* Color variants */
+  .c1 { background: var(--c1-bg); border-color: rgba(79,156,249,0.2); }
+  .c1::before { background: var(--accent1); }
+  .c1:hover { border-color: rgba(79,156,249,0.5); box-shadow: 0 12px 40px rgba(79,156,249,0.15); }
+  .c2 { background: var(--c2-bg); border-color: rgba(34,211,165,0.2); }
+  .c2::before { background: var(--accent2); }
+  .c2:hover { border-color: rgba(34,211,165,0.5); box-shadow: 0 12px 40px rgba(34,211,165,0.15); }
+  .c3 { background: var(--c3-bg); border-color: rgba(249,123,79,0.2); }
+  .c3::before { background: var(--accent3); }
+  .c3:hover { border-color: rgba(249,123,79,0.5); box-shadow: 0 12px 40px rgba(249,123,79,0.15); }
+  .c4 { background: var(--c4-bg); border-color: rgba(167,139,250,0.2); }
+  .c4::before { background: var(--accent4); }
+  .c4:hover { border-color: rgba(167,139,250,0.5); box-shadow: 0 12px 40px rgba(167,139,250,0.15); }
+  .c5 { background: var(--c5-bg); border-color: rgba(250,204,21,0.2); }
+  .c5::before { background: var(--accent5); }
+  .c5:hover { border-color: rgba(250,204,21,0.5); box-shadow: 0 12px 40px rgba(250,204,21,0.15); }
+  .c6 { background: var(--c6-bg); border-color: rgba(244,114,182,0.2); }
+  .c6::before { background: var(--accent6); }
+  .c6:hover { border-color: rgba(244,114,182,0.5); box-shadow: 0 12px 40px rgba(244,114,182,0.15); }
+  .c7 { background: var(--c7-bg); border-color: rgba(52,211,153,0.2); }
+  .c7::before { background: var(--accent7); }
+  .c7:hover { border-color: rgba(52,211,153,0.5); box-shadow: 0 12px 40px rgba(52,211,153,0.15); }
+
+  .box-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .c1 .box-title { color: var(--accent1); }
+  .c2 .box-title { color: var(--accent2); }
+  .c3 .box-title { color: var(--accent3); }
+  .c4 .box-title { color: var(--accent4); }
+  .c5 .box-title { color: var(--accent5); }
+  .c6 .box-title { color: var(--accent6); }
+  .c7 .box-title { color: var(--accent7); }
+
+  .box ul { list-style: none; }
+  .box ul li {
+    font-size: 0.83rem;
+    color: #b8c0d4;
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .box ul li::before {
+    content: '›';
+    position: absolute; left: 0;
+    font-size: 0.9rem; font-weight: 700;
+    color: var(--muted);
+  }
+  .box ul li.sub {
+    padding-left: 26px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .box ul li.sub::before { content: '–'; left: 14px; font-size: 0.75rem; }
+
+  /* highlight spans */
+  .hl { font-weight: 600; }
+  .c1 .hl { color: var(--accent1); }
+  .c2 .hl { color: var(--accent2); }
+  .c3 .hl { color: var(--accent3); }
+  .c4 .hl { color: var(--accent4); }
+  .c5 .hl { color: var(--accent5); }
+  .c6 .hl { color: var(--accent6); }
+  .c7 .hl { color: var(--accent7); }
+
+  /* stat badges */
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.73rem;
+    color: #c8d0e8;
+    margin-left: 4px;
+  }
+
+  /* wide box */
+  .box.wide { flex: 2; min-width: 400px; }
+  .box.full { flex: 100; min-width: 100%; max-width: 100%; }
+
+  /* connector arrows between rows */
+  .connector {
+    display: flex; justify-content: center;
+    padding: 6px 0;
+    color: var(--muted);
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+
+  /* diagram box */
+  .diagram {
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.73rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .diagram .node {
+    display: inline-block;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 2px 8px;
+    color: var(--text);
+    font-size: 0.72rem;
+  }
+  .arrow { color: var(--muted); }
+
+  /* two-col inside box */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .col-block {
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .col-block .col-title {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 6px; color: var(--muted);
+  }
+  .col-block ul li { font-size: 0.76rem; }
+
+  /* scroll-based fade-in */
+  .section-group {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section-group.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* sticky nav */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,12,20,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav-btn {
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--muted);
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+  .nav-btn.c1:hover { border-color: var(--accent1); color: var(--accent1); }
+  .nav-btn.c2:hover { border-color: var(--accent2); color: var(--accent2); }
+  .nav-btn.c3:hover { border-color: var(--accent3); color: var(--accent3); }
+  .nav-btn.c4:hover { border-color: var(--accent4); color: var(--accent4); }
+  .nav-btn.c5:hover { border-color: var(--accent5); color: var(--accent5); }
+  .nav-btn.c6:hover { border-color: var(--accent6); color: var(--accent6); }
+  .nav-btn.c7:hover { border-color: var(--accent7); color: var(--accent7); }
+
+  /* section divider */
+  .section-title-bar {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 20px; margin-top: 4px;
+  }
+  .stb-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; font-weight: 600;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid;
+  }
+  .stb-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+  }
+  .c1 .stb-num { border-color: var(--accent1); color: var(--accent1); }
+  .c2 .stb-num { border-color: var(--accent2); color: var(--accent2); }
+  .c3 .stb-num { border-color: var(--accent3); color: var(--accent3); }
+  .c4 .stb-num { border-color: var(--accent4); color: var(--accent4); }
+  .c5 .stb-num { border-color: var(--accent5); color: var(--accent5); }
+  .c6 .stb-num { border-color: var(--accent6); color: var(--accent6); }
+  .c7 .stb-num { border-color: var(--accent7); color: var(--accent7); }
+  .c1 .stb-name { color: var(--accent1); }
+  .c2 .stb-name { color: var(--accent2); }
+  .c3 .stb-name { color: var(--accent3); }
+  .c4 .stb-name { color: var(--accent4); }
+  .c5 .stb-name { color: var(--accent5); }
+  .c6 .stb-name { color: var(--accent6); }
+  .c7 .stb-name { color: var(--accent7); }
+
+  hr.divider {
+    border: none; border-top: 1px solid var(--border);
+    flex: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Auditory System</h1>
+  <p>Introduction to Neuroscience · Week 5 · Lecture 1 · Mohammad Darainy</p>
+</div>
+
+<!-- STICKY NAV -->
+<div class="sticky-nav">
+  <button class="nav-btn c1" onclick="scrollTo('s1')">🔊 Sound</button>
+  <button class="nav-btn c2" onclick="scrollTo('s2')">👂 External Ear</button>
+  <button class="nav-btn c2" onclick="scrollTo('s3')">🦴 Middle Ear</button>
+  <button class="nav-btn c2" onclick="scrollTo('s4')">🐚 Inner Ear</button>
+  <button class="nav-btn c3" onclick="scrollTo('s5')">⚡ Transduction</button>
+  <button class="nav-btn c3" onclick="scrollTo('s6')">🔬 Ionic Basis</button>
+  <button class="nav-btn c4" onclick="scrollTo('s7')">📡 Auditory Nerve</button>
+  <button class="nav-btn c5" onclick="scrollTo('s8')">📍 Localization</button>
+  <button class="nav-btn c7" onclick="scrollTo('s9')">🧠 Brainstem</button>
+  <button class="nav-btn c6" onclick="scrollTo('s10')">🩷 Cortex</button>
+</div>
+
+<div class="map-container">
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 1 — WHAT IS SOUND?
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s1">
+  <div class="section-title-bar c1">
+    <div class="stb-num">01</div>
+    <div class="stb-name">What is Sound?</div>
+    <hr class="divider">
+  </div>
+
+  <div class="row">
+    <div class="box c1">
+      <div class="box-title">Physical Nature of Sound</div>
+      <ul>
+        <li><span class="hl">Pressure waves</span> generated by vibrating air molecules</li>
+        <li>Analogous to ripples spreading across water — but in <span class="hl">3D space</span></li>
+        <li>Displacements of air molecules:</li>
+        <li class="sub"><span class="hl">Condensation</span> — molecules pressed together (higher pressure)</li>
+        <li class="sub"><span class="hl">Rarefaction</span> — molecules spread apart (lower pressure)</li>
+        <li>Forms a <span class="hl">sinusoidal wave</span> around normal atmospheric pressure</li>
+        <li>Travels as <span class="hl">concentric waves</span> radiating outward from source</li>
+      </ul>
+    </div>
+
+    <div class="box c1">
+      <div class="box-title">4 Features of Sound</div>
+      <ul>
+        <li><span class="hl">Amplitude</span> <span class="badge">dB</span> — correlates with perceived loudness</li>
+        <li><span class="hl">Frequency</span> <span class="badge">Hz</span> — correlates with perceived pitch</li>
+        <li><span class="hl">Waveform</span> — amplitude plotted across time</li>
+        <li><span class="hl">Phase</span> — the position in the cycle at a given moment; described in degrees (θ)</li>
+      </ul>
+    </div>
+
+    <div class="box c1">
+      <div class="box-title">Complex Sounds</div>
+      <ul>
+        <li>Birdsong & speech contain <span class="hl">highly periodic elements</span></li>
+        <li>Can be modeled as the <span class="hl">sum of sinusoidal waves</span> of varying amplitudes, frequencies & phases</li>
+        <li><span class="hl">Fourier Transform</span> — decomposes a time function into constituent frequencies</li>
+        <li class="sub">Analogous to what the inner ear does mechanically</li>
+        <li>Environmental sounds (e.g. <span class="hl">wind</span>) <span class="hl">lack periodic structure</span></li>
+      </ul>
+      <div class="diagram">
+        <span class="node">Sonogram</span> → frequency vs. time<br>
+        <span class="node">Oscillogram</span> → amplitude vs. time
+      </div>
+    </div>
+
+    <div class="box c1">
+      <div class="box-title">The Audible Spectrum</div>
+      <ul>
+        <li>Hearing range is <span class="hl">species-specific</span></li>
+        <li>Species emphasize frequencies of their own vocalizations</li>
+        <li>Also shaped by ecology: <span class="hl">echolocation</span> (high freq), <span class="hl">predation</span> (low freq)</li>
+        <li><span class="hl">Humans:</span> <span class="badge">20 Hz – 20 kHz</span></li>
+        <li class="sub">Adults lose high frequencies → max ~15–17 kHz</li>
+      </ul>
+      <div class="two-col" style="margin-top:10px">
+        <div class="col-block">
+          <div class="col-title">High freq</div>
+          <ul class="box" style="border:none;padding:0;background:none;">
+            <li style="padding-left:14px;font-size:0.76rem">Porpoise: 66–150k Hz</li>
+            <li style="padding-left:14px;font-size:0.76rem">Bat: 60–130k Hz</li>
+            <li style="padding-left:14px;font-size:0.76rem">Moth: 330–100k Hz</li>
+            <li style="padding-left:14px;font-size:0.76rem">Cat: 60–65k Hz</li>
+          </ul>
+        </div>
+        <div class="col-block">
+          <div class="col-title">Lower freq</div>
+          <ul class="box" style="border:none;padding:0;background:none;">
+            <li style="padding-left:14px;font-size:0.76rem">Bird: 66–9k Hz</li>
+            <li style="padding-left:14px;font-size:0.76rem">Fish: 70–3,300 Hz</li>
+            <li style="padding-left:14px;font-size:0.76rem">Cricket: 55–999 Hz</li>
+            <li style="padding-left:14px;font-size:0.76rem">Snake: 100–1k Hz</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 2 — AUDITORY FUNCTION OVERVIEW
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s1b">
+  <div class="section-title-bar c2">
+    <div class="stb-num">02</div>
+    <div class="stb-name">Auditory Function Overview</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c2 full">
+      <div class="box-title">Signal Pathway Summary</div>
+      <div class="diagram">
+        <span class="node">Sound (air vibrations)</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">External Ear</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">Middle Ear</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">Cochlea (Inner Ear)</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">Hair Cells (Transduction)</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">CN VIII</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">Brainstem Nuclei</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">Thalamus (MGC)</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">Auditory Cortex</span>
+      </div>
+      <ul style="margin-top:12px">
+        <li><span class="hl">Mechanoelectric Transduction</span> — conversion of air vibration patterns into neural activity</li>
+        <li>External & middle ears collect and amplify sound waves → transmit to fluid-filled cochlea</li>
+        <li>Biomechanical processes allow <span class="hl">hair cells</span> to transduce frequency, amplitude & phase → electrical signals</li>
+        <li><span class="hl">Tonotopy</span> — acoustical decomposition creates systematic frequency representation along cochlea length</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 3 — EXTERNAL EAR
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s2">
+  <div class="section-title-bar c2">
+    <div class="stb-num">03</div>
+    <div class="stb-name">The External Ear</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c2">
+      <div class="box-title">Anatomy</div>
+      <ul>
+        <li><span class="hl">Pinna</span> — outer visible cartilaginous flap</li>
+        <li><span class="hl">Concha</span> — bowl-shaped depression leading to canal</li>
+        <li><span class="hl">Auditory meatus (canal)</span> — tube channeling sound</li>
+        <li>All structures funnel sound energy to the <span class="hl">tympanic membrane (eardrum)</span></li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title">Resonance & Amplification</div>
+      <ul>
+        <li>Configuration of human auditory meatus <span class="hl">selectively boosts</span> sound pressure</li>
+        <li>Boost: <span class="badge">30–100×</span> for frequencies around <span class="badge">~3 kHz</span></li>
+        <li>3 kHz is directly related to <span class="hl">speech perception</span></li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title">Elevation Cues</div>
+      <ul>
+        <li><span class="hl">Pinna & concha</span> filter different sound frequencies</li>
+        <li>This spectral filtering provides cues about the <span class="hl">elevation of the sound source</span></li>
+        <li>Allows localization in the <span class="hl">vertical plane</span></li>
+        <li>Processed in the <span class="hl">dorsal cochlear nucleus</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 4 — MIDDLE EAR
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s3">
+  <div class="section-title-bar c2">
+    <div class="stb-num">04</div>
+    <div class="stb-name">The Middle Ear</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c2">
+      <div class="box-title">Impedance Matching</div>
+      <ul>
+        <li>Middle ear boosts sound pressure from tympanic membrane → inner ear by <span class="badge">~200×</span></li>
+        <li>Necessary to bridge <span class="hl">air (low impedance)</span> → <span class="hl">aqueous inner ear (high impedance)</span></li>
+        <li><span class="hl">Impedance</span> = a medium's resistance to movement</li>
+        <li>Without this, ~99.9% of sound energy would be reflected</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title">Two Mechanical Pressure Boosters</div>
+      <ul>
+        <li><span class="hl">1. Area ratio:</span> Force focused from large <span class="hl">tympanic membrane</span> onto small-diameter <span class="hl">oval window</span></li>
+        <li><span class="hl">2. Lever action</span> of the ossicles</li>
+        <li>Ossicles = <span class="hl">Malleus, Incus, Stapes</span> (smallest bones in body)</li>
+        <li>Malleus connects to tympanic membrane; stapes connects to oval window</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title">Protective Muscles</div>
+      <ul>
+        <li><span class="hl">Tensor tympani</span> — innervated by <span class="badge">CN V</span></li>
+        <li><span class="hl">Stapedius</span> — innervated by <span class="badge">CN VII</span></li>
+        <li>In response to <span class="hl">loud noise</span>, these muscles contract to <span class="hl">limit ossicle movement</span> and reduce transmission</li>
+        <li><span class="hl">Bell's palsy</span> — paralysis of these muscles → <span class="hl">hyperacusis</span> (painful sensitivity to sound)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 5 — INNER EAR
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s4">
+  <div class="section-title-bar c2">
+    <div class="stb-num">05</div>
+    <div class="stb-name">The Inner Ear & Cochlea</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c2">
+      <div class="box-title">Cochlea Structure</div>
+      <ul>
+        <li>Small <span class="hl">coiled tube</span> resembling a snail shell</li>
+        <li><span class="hl">Oval window</span> & <span class="hl">round window</span> at the <span class="hl">basal end</span></li>
+        <li>Stapes sits in oval window, transmitting vibrations</li>
+        <li>Two functions: <span class="hl">sensory transduction</span> + <span class="hl">mechanical frequency analysis</span></li>
+        <li>Transforms pressure waves → neural impulses in auditory nerve</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title">3 Fluid Chambers (Scalae)</div>
+      <ul>
+        <li><span class="hl">Scala vestibuli</span> — above cochlear partition; filled with perilymph</li>
+        <li><span class="hl">Scala tympani</span> — below cochlear partition; filled with perilymph</li>
+        <li><span class="hl">Scala media</span> (cochlear duct) — runs within the partition; filled with endolymph</li>
+        <li>Scala vestibuli & scala tympani connect at the <span class="hl">helicotrema</span> at the apex</li>
+        <li><span class="hl">Perilymph</span> = low K⁺, high Na⁺ (like other body fluids)</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title">Cochlear Partition</div>
+      <ul>
+        <li>Flexible structure running from <span class="hl">base almost to apex</span></li>
+        <li>Supports the <span class="hl">basilar membrane</span> (below) & <span class="hl">tectorial membrane</span> (above)</li>
+        <li><span class="hl">Spiral ganglion</span> — cell bodies of CN VIII neurons, located alongside cochlea</li>
+        <li>Inner & outer hair cells sit on basilar membrane</li>
+      </ul>
+    </div>
+
+    <div class="box c2 wide">
+      <div class="box-title">Tonotopy — Basilar Membrane</div>
+      <ul>
+        <li>Stiffness of basilar membrane <span class="hl">varies along its length</span> → differential frequency sensitivity</li>
+        <li><span class="hl">Base (stiff)</span> → tuned to <span class="hl">HIGH frequencies</span> <span class="badge">up to 20,000 Hz</span></li>
+        <li><span class="hl">Apex (flexible)</span> → tuned to <span class="hl">LOW frequencies</span> <span class="badge">down to 25 Hz</span></li>
+        <li><span class="hl">Travelling wave</span> propagates from base → apex, growing in amplitude until maximum displacement at the <span class="hl">characteristic frequency</span> location</li>
+        <li>This mechanical decomposition = the ear's Fourier transform analogue</li>
+      </ul>
+      <div class="diagram">
+        BASE <span class="badge">20,000 Hz</span> ←——————→ APEX <span class="badge">25 Hz</span><br>
+        Stiff / High freq &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Flexible / Low freq
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 6 — SENSORY TRANSDUCTION
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s5">
+  <div class="section-title-bar c3">
+    <div class="stb-num">06</div>
+    <div class="stb-name">Sensory Transduction — Organ of Corti</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c3">
+      <div class="box-title">Hair Cell Location & Types</div>
+      <ul>
+        <li>Hair cells located <span class="hl">between basilar & tectorial membranes</span></li>
+        <li>Sound → vibration → shearing motion between the two membranes</li>
+        <li><span class="hl">Inner hair cells (IHC):</span> true sensory receptors</li>
+        <li class="sub">Receive <span class="hl">afferent</span> innervation from CN VIII → carry impulses toward CNS</li>
+        <li class="sub">~3,500 IHCs in humans</li>
+        <li><span class="hl">Outer hair cells (OHC):</span> amplifiers</li>
+        <li class="sub">Receive mostly <span class="hl">efferent</span> innervation</li>
+        <li class="sub">Produce <span class="hl">otoacoustic emissions</span></li>
+        <li class="sub">~12,000 OHCs in humans</li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title">Stereocilia & Tip-Links</div>
+      <ul>
+        <li>Hair cells = epithelial cells with a bundle of <span class="hl">hair-like processes</span> protruding into scala media</li>
+        <li>Each bundle has <span class="badge">30 – hundreds</span> of stereocilia, <span class="hl">graded in height</span></li>
+        <li>Tallest = <span class="hl">kinocilium</span></li>
+        <li><span class="hl">Tip-links</span> — connect tips of adjacent stereocilia</li>
+        <li class="sub">Translate hair bundle movement into <span class="hl">receptor potential</span></li>
+        <li class="sub">Essentially the "gate" of the mechanosensory channel</li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title">Transduction Steps</div>
+      <ul>
+        <li><span class="hl">Step 1:</span> Bundle deflects toward tallest stereocilia (kinocilium) → <span class="hl">tip-links stretch</span></li>
+        <li><span class="hl">Step 2:</span> Tip-links directly open <span class="hl">cation-selective channels</span> (K⁺ entry)</li>
+        <li><span class="hl">Step 3:</span> K⁺ influx → <span class="hl">depolarization</span> of hair cell</li>
+        <li><span class="hl">Step 4:</span> Depolarization opens <span class="hl">voltage-gated Ca²⁺ channels</span></li>
+        <li><span class="hl">Step 5:</span> Ca²⁺ influx → <span class="hl">neurotransmitter release</span> onto auditory nerve endings</li>
+        <li><span class="hl">Reverse:</span> Opposite deflection compresses tip-links → channels close → <span class="hl">hyperpolarization</span></li>
+        <li>Some channels open at rest → receptor potential is <span class="hl">biphasic</span></li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title">Transduction Speed & Damage</div>
+      <ul>
+        <li>Hair cell transduction is fast & sensitive — <span class="badge">~10 μs</span></li>
+        <li>Speed critical for <span class="hl">sound localization</span></li>
+        <li><span class="hl">Mechanical gating</span> of ion channels enables this rapid response (vs. slow second-messenger pathways)</li>
+        <li><span class="hl">Damage to stereocilia</span> (e.g. loud sounds) → <span class="hl">irreversible hearing loss</span></li>
+        <li><span class="hl">Damage to tip-links</span> → <span class="hl">temporary hearing loss</span> only (tip-links regenerate within hours)</li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title">Frequency Following</div>
+      <ul>
+        <li>At <span class="hl">low frequencies (&lt;3 kHz)</span>: hair cell produces a <span class="hl">sinusoidal receptor potential</span> faithfully tracking stimulation</li>
+        <li>At <span class="hl">higher frequencies</span>: hair cell responds with a <span class="hl">DC offset</span> only — does NOT faithfully track the frequency</li>
+        <li class="sub">AC component visible at 300–1,000 Hz</li>
+        <li class="sub">DC only at 2,000–5,000 Hz</li>
+        <li>Hair cells release neurotransmitter only when <span class="hl">depolarized</span></li>
+        <li>→ Auditory nerve fibers fire only in the <span class="hl">rising phase</span> of low-frequency sounds</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 7 — IONIC BASIS
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s6">
+  <div class="section-title-bar c3">
+    <div class="stb-num">07</div>
+    <div class="stb-name">Ionic Basis of Mechanotransduction</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c3">
+      <div class="box-title">Endolymph vs. Perilymph</div>
+      <ul>
+        <li>Basal & apical surfaces separated by <span class="hl">tight junctions</span> → separate ionic environments</li>
+        <li><span class="hl">Endolymph</span> (scala media / apical): rich in K⁺, poor in Na⁺ <span class="badge">+80 mV</span></li>
+        <li class="sub">Produced by ion pumping in <span class="hl">stria vascularis</span></li>
+        <li><span class="hl">Perilymph</span> (scala tympani / basal): poor in K⁺, rich in Na⁺ <span class="badge">0 mV</span></li>
+        <li class="sub">Similar to other body fluids</li>
+        <li><span class="hl">Endocochlear potential</span> = difference between endolymph & perilymph</li>
+        <li><span class="hl">Hair cell interior</span>: <span class="badge">−45 mV</span> vs. perilymph; <span class="badge">~−125 mV</span> vs. endolymph</li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title">K⁺ Recycling Mechanism</div>
+      <ul>
+        <li>Large electrical gradient drives <span class="hl">K⁺ into stereocilia</span> from endolymph</li>
+        <li>Depolarization opens somatic <span class="hl">K⁺ & Ca²⁺ channels</span></li>
+        <li>Somatic K⁺ channels → K⁺ efflux toward <span class="hl">perilymph</span> (repolarization)</li>
+        <li>Perilymph is low in K⁺ → favorable gradient for K⁺ exit</li>
+        <li>Result: <span class="hl">extremely fast and energy-efficient</span> repolarization</li>
+        <li>Ionic gradient maintained even during <span class="hl">prolonged stimulation</span></li>
+        <li>Avoids need for Na⁺/K⁺-ATPase at every cycle</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 8 — AUDITORY NERVE
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s7">
+  <div class="section-title-bar c4">
+    <div class="stb-num">08</div>
+    <div class="stb-name">Auditory Nerve — Tuning & Timing</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c4">
+      <div class="box-title">Phase-Locking</div>
+      <ul>
+        <li>Hair cell potential is <span class="hl">biphasic</span> but transmitter released only during <span class="hl">depolarization</span></li>
+        <li>→ Auditory nerve fibers fire only in the <span class="hl">rising phase</span> of low-frequency sounds <span class="badge">&lt;3 kHz</span></li>
+        <li>This creates <span class="hl">phase-locking</span></li>
+        <li>Phase-locking provides <span class="hl">temporal information</span></li>
+        <li>Temporal info compared between the two ears → <span class="hl">sound localization</span></li>
+        <li>Required for <span class="hl">ITD-based localization</span></li>
+      </ul>
+    </div>
+
+    <div class="box c4">
+      <div class="box-title">Tuning Curve & Characteristic Frequency</div>
+      <ul>
+        <li><span class="hl">Tuning curve</span> — plots minimum sound level to increase fiber's firing rate above baseline (threshold)</li>
+        <li><span class="hl">Characteristic frequency (CF)</span> — frequency at which fiber responds to the <span class="hl">weakest stimulus</span></li>
+        <li>Each fiber has a sharply tuned CF corresponding to hair cell location</li>
+        <li>Tuning curves are <span class="hl">V-shaped</span> with a sharp tip at CF</li>
+      </ul>
+    </div>
+
+    <div class="box c4">
+      <div class="box-title">Labeled-Line Coding</div>
+      <ul>
+        <li>Provided by <span class="hl">tonotopic organization</span> of basilar membrane</li>
+        <li>Hair cell location along basilar membrane → <span class="hl">maximally responsive frequency</span></li>
+        <li><span class="hl">Each auditory fiber innervates only one IHC</span> → transmits only a narrow frequency band</li>
+        <li>Topographic organization <span class="hl">retained throughout</span> the ascending auditory system</li>
+        <li>Frequency information thus preserved at every relay</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 9 — SOUND LOCALIZATION
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s8">
+  <div class="section-title-bar c5">
+    <div class="stb-num">09</div>
+    <div class="stb-name">Sound Localization</div>
+    <hr class="divider">
+  </div>
+
+  <!-- Overview -->
+  <div class="row" style="margin-bottom:12px">
+    <div class="box c5 full">
+      <div class="box-title">Multiple Mechanisms Summary</div>
+      <div class="two-col">
+        <div class="col-block">
+          <div class="col-title">Horizontal Plane</div>
+          <ul class="box" style="border:none;padding:0;background:none;">
+            <li style="padding-left:14px;font-size:0.8rem;color:#b8c0d4"><span style="color:#facc15;font-weight:600">ITD</span> — Interaural Time Difference → low freq (&lt;3 kHz) → processed in <span style="color:#facc15;font-weight:600">MSO</span></li>
+            <li style="padding-left:14px;font-size:0.8rem;color:#b8c0d4"><span style="color:#facc15;font-weight:600">IID</span> — Interaural Intensity Difference → high freq (&gt;2 kHz) → processed in <span style="color:#facc15;font-weight:600">LSO</span></li>
+          </ul>
+        </div>
+        <div class="col-block">
+          <div class="col-title">Vertical Plane (Elevation)</div>
+          <ul class="box" style="border:none;padding:0;background:none;">
+            <li style="padding-left:14px;font-size:0.8rem;color:#b8c0d4">Spectral filtering by <span style="color:#facc15;font-weight:600">pinna & concha</span></li>
+            <li style="padding-left:14px;font-size:0.8rem;color:#b8c0d4">Processed in the <span style="color:#facc15;font-weight:600">dorsal cochlear nucleus</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box c5 wide">
+      <div class="box-title">ITD — Interaural Time Difference</div>
+      <ul>
+        <li>Produced by difference in arrival time based on <span class="hl">sound source position</span> relative to each ear</li>
+        <li>Maximum ITD: <span class="badge">~700 μs</span></li>
+        <li>Humans can detect ITDs as small as <span class="badge">10 μs</span></li>
+        <li>Artificial manipulation of ITDs creates perception of sound from <span class="hl">leading ear's side</span></li>
+        <li>Requires <span class="hl">phase-locking</span> → only works at <span class="badge">&lt;3 kHz</span></li>
+      </ul>
+      <div class="diagram">
+        <span class="node">Bilateral anteroventral cochlear nuclei</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">MSO (Medial Superior Olive)</span>
+        <span class="arrow"> ──▶ </span>
+        <span class="node">Inferior Colliculus</span>
+      </div>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title">MSO — Coincidence Detection</div>
+      <ul>
+        <li>MSO neurons have <span class="hl">bipolar dendrites</span>:</li>
+        <li class="sub">Lateral dendrites → <span class="hl">ipsilateral</span> input</li>
+        <li class="sub">Medial dendrites → <span class="hl">contralateral</span> input</li>
+        <li>Neurons function as <span class="hl">coincidence detectors</span> — fire maximally when BOTH inputs arrive simultaneously</li>
+        <li>Different neurons sensitive to <span class="hl">different ITDs</span></li>
+        <li>Axon lengths from anteroventral cochlear nucleus <span class="hl">systematically vary</span> to create intrinsic delays</li>
+        <li>Variation creates a <span class="hl">map of horizontal sound location</span>:</li>
+        <li class="sub">Neuron E → sounds on LEFT</li>
+        <li class="sub">Neuron A → sounds on RIGHT</li>
+        <li class="sub">Neuron C → sounds at MIDLINE</li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title">IID — Interaural Intensity Difference</div>
+      <ul>
+        <li>At frequencies <span class="badge">&gt;2 kHz</span>, head acts as <span class="hl">acoustic obstacle</span> (wavelengths too short to bend around it)</li>
+        <li>High-frequency sound directed to one side creates an <span class="hl">acoustic shadow</span> at the far ear</li>
+        <li>Intensity difference provides <span class="hl">localization cue</span></li>
+        <li>Does NOT require phase-locking</li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title">LSO & MNTB — IID Computation</div>
+      <ul>
+        <li><span class="hl">LSO (Lateral Superior Olive)</span> + <span class="hl">MNTB</span> compute sound position using IID</li>
+        <li>LSO receives <span class="hl">direct excitatory</span> input from <span class="hl">ipsilateral</span> cochlear nucleus</li>
+        <li>Contralateral inputs arrive via <span class="hl">inhibitory interneurons</span> in MNTB</li>
+        <li>LSO neurons fire most strongly when sound is <span class="hl">directly lateral</span> (ipsilateral side)</li>
+        <li class="sub">Ipsilateral excitation strong + contralateral inhibition weak</li>
+        <li>For contralateral sounds: inhibition &gt; excitation → <span class="hl">net inhibition → no signal</span></li>
+        <li>Result: <span class="hl">graded representation</span> of sound laterality</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 10 — BRAINSTEM PATHWAY
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s9">
+  <div class="section-title-bar c7">
+    <div class="stb-num">10</div>
+    <div class="stb-name">Ascending Auditory Pathway — Brainstem to Thalamus</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c7">
+      <div class="box-title">Cochlear Nucleus (1st Relay)</div>
+      <ul>
+        <li>CN VIII enters brainstem → branches to all <span class="hl">3 divisions</span> of cochlear nucleus</li>
+        <li><span class="hl">Anteroventral cochlear nucleus</span></li>
+        <li><span class="hl">Posteroventral cochlear nucleus</span></li>
+        <li><span class="hl">Dorsal cochlear nucleus</span></li>
+        <li>Tonotopic organization of cochlea <span class="hl">maintained</span> in all subdivisions</li>
+        <li>Cell bodies of CN VIII → <span class="hl">spiral (cochlear) ganglion</span></li>
+        <li>High degree of <span class="hl">bilateral connectivity</span></li>
+        <li>Bilateral connectivity supports <span class="hl">binaural processing</span> & localization</li>
+      </ul>
+    </div>
+
+    <div class="box c7">
+      <div class="box-title">Superior Olive Complex (Pons)</div>
+      <ul>
+        <li>Receives input from both cochlear nuclei</li>
+        <li><span class="hl">MSO</span> — computes ITD (low frequency)</li>
+        <li><span class="hl">LSO</span> — computes IID (high frequency)</li>
+        <li><span class="hl">MNTB</span> — inhibitory relay for IID computation</li>
+      </ul>
+    </div>
+
+    <div class="box c7">
+      <div class="box-title">Monaural Pathways</div>
+      <ul>
+        <li>From cochlear nucleus → <span class="hl">bypass superior olive</span></li>
+        <li>Terminate in <span class="hl">nuclei of the lateral lemniscus</span> on contralateral brainstem</li>
+        <li>Respond only to sound from <span class="hl">one ear</span></li>
+        <li>Cells respond to specific properties:</li>
+        <li class="sub"><span class="hl">Onset</span> of sound</li>
+        <li class="sub"><span class="hl">Duration</span> of sound</li>
+      </ul>
+    </div>
+
+    <div class="box c7">
+      <div class="box-title">Inferior Colliculus (Midbrain)</div>
+      <ul>
+        <li>Major auditory midbrain integration center</li>
+        <li>Receives input from <span class="hl">all</span> ascending pathways: LSO, MSO, lateral lemniscus, cochlear nucleus (direct)</li>
+        <li>Converging info: <span class="hl">timing, intensity, frequency</span></li>
+        <li>Brainstem inputs computed into <span class="hl">topographical representation of auditory space</span></li>
+        <li>Neurons respond best to sounds from <span class="hl">specific region of space</span></li>
+        <li>Also respond to complex temporal patterns — preferences for <span class="hl">frequency or duration</span></li>
+      </ul>
+    </div>
+
+    <div class="box c7">
+      <div class="box-title">Auditory Thalamus (MGC)</div>
+      <ul>
+        <li><span class="hl">All</span> ascending auditory information must pass through the <span class="hl">Medial Geniculate Complex (MGC)</span></li>
+        <li>Tonotopic inputs from brainstem converge onto MGC neurons</li>
+        <li>Can generate selective responses to <span class="hl">combinations of frequencies</span> or specific time intervals between frequencies</li>
+        <li><span class="hl">Ventral MGC</span> → primary auditory cortex</li>
+        <li><span class="hl">Dorsal MGC</span> → belt & parabelt (secondary auditory cortex)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin:8px 0;">
+    <div class="diagram" style="max-width:100%">
+      <span class="node">Cochlea</span>
+      <span class="arrow"> → </span>
+      <span class="node">Spiral Ganglion</span>
+      <span class="arrow"> → </span>
+      <span class="node">CN VIII</span>
+      <span class="arrow"> → </span>
+      <span class="node">Cochlear Nucleus (medulla)</span>
+      <span class="arrow"> → </span>
+      <span class="node">Superior Olive (pons)</span>
+      <span class="arrow"> → </span>
+      <span class="node">Nucleus Lat. Lemniscus</span>
+      <span class="arrow"> → </span>
+      <span class="node">Inferior Colliculus (midbrain)</span>
+      <span class="arrow"> → </span>
+      <span class="node">MGC Thalamus</span>
+      <span class="arrow"> → </span>
+      <span class="node">Auditory Cortex</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 11 — AUDITORY CORTEX
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s10">
+  <div class="section-title-bar c6">
+    <div class="stb-num">11</div>
+    <div class="stb-name">Auditory Cortex</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c6">
+      <div class="box-title">Organization</div>
+      <ul>
+        <li>Major target of ascending fibers from MGC</li>
+        <li><span class="hl">Two main subdivisions:</span></li>
+        <li><span class="hl">Primary auditory cortex (core):</span></li>
+        <li class="sub">Point-to-point input from <span class="hl">ventral MGC</span></li>
+        <li class="sub">Contains <span class="hl">precise tonotopic map</span></li>
+        <li><span class="hl">Belt & Parabelt (secondary):</span></li>
+        <li class="sub">More diffuse input from <span class="hl">dorsal MGC</span></li>
+        <li class="sub">Also receives from primary auditory cortex</li>
+        <li class="sub">Less precise tonotopic organization</li>
+        <li>Strongly <span class="hl">reciprocally interconnected</span> (belt ↔ core)</li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title">Tonotopic Maps</div>
+      <ul>
+        <li>Auditory cortex contains <span class="hl">topographic maps of the cochlea</span></li>
+        <li>Because cochlear frequencies are tonotopically arranged → cortical maps = <span class="hl">tonotopic maps</span></li>
+        <li>Primary cortex — precise frequency representation</li>
+        <li>Secondary cortex — less precise, more integrative</li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title">Binaural Organization</div>
+      <ul>
+        <li>Irregular patches of neurons arranged in <span class="hl">alternating stripes</span>:</li>
+        <li><span class="hl">EE cells</span> — excited by input from <span class="hl">both ears</span></li>
+        <li><span class="hl">EI cells</span> — excited by one ear, <span class="hl">inhibited</span> by the other</li>
+        <li>Precise function of this organization is <span class="hl">still unknown</span></li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title">Pitch & Temporal Processing</div>
+      <ul>
+        <li>Secondary auditory regions important for <span class="hl">pitch perception</span></li>
+        <li>Pitch perception fundamental to <span class="hl">music & vocal communication</span></li>
+        <li>Allows differentiation of <span class="hl">overlapping sounds</span></li>
+        <li>Important for <span class="hl">temporal characteristics</span> of auditory percepts</li>
+        <li>Critical for <span class="hl">speech perception</span> (highly ordered temporal structure)</li>
+        <li>Some neurons respond to <span class="hl">temporal order</span> of species-specific sounds</li>
+        <li class="sub">Unresponsive to same sound played in <span class="hl">reverse</span></li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title">Clinical & Functional Notes</div>
+      <ul>
+        <li><span class="hl">Bilateral damage</span> → severe problems processing temporal order; difficulty with music</li>
+        <li>Integrates <span class="hl">non-auditory info</span> from cortical & subcortical regions</li>
+        <li>Activated by <span class="hl">motor gestures</span> (vocal & manual — esp. in musicians)</li>
+        <li><span class="hl">Wernicke's area</span> (language comprehension) — continuous with secondary auditory cortex</li>
+        <li>Auditory cortex activity <span class="hl">diminishes</span> just before a vocalization — filters anticipated acoustical movements</li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title">Lateralization</div>
+      <ul>
+        <li><span class="hl">Speech</span> → activates <span class="hl">LEFT</span> auditory cortex more strongly</li>
+        <li><span class="hl">Music</span> → activates <span class="hl">RIGHT</span> auditory cortex more strongly</li>
+        <li><span class="hl">Environmental sounds</span> → bilateral but right-dominant</li>
+        <li>Significant <span class="hl">inter-individual differences</span> in lateralization</li>
+        <li>Pattern holds in both core and belt regions</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 12 — LEARNING GUIDE
+══════════════════════════════════════════════════════ -->
+<div class="section-group" id="s11">
+  <div class="section-title-bar c4">
+    <div class="stb-num">12</div>
+    <div class="stb-name">Learning Guide for Sensory Systems</div>
+    <hr class="divider">
+  </div>
+  <div class="row">
+    <div class="box c4">
+      <div class="box-title">① Mechanism of Signal Transduction?</div>
+      <ul>
+        <li>What converts the physical stimulus into an electrical signal?</li>
+        <li>For auditory: <span class="hl">mechanoelectric transduction</span> via hair cell stereocilia deflection → tip-link stretch → K⁺ channel opening → depolarization → Ca²⁺ → neurotransmitter release</li>
+      </ul>
+    </div>
+    <div class="box c4">
+      <div class="box-title">② Anatomical/Synaptic Pathway to Cortex?</div>
+      <ul>
+        <li>Cochlea → Spiral Ganglion → CN VIII → Cochlear Nucleus → Superior Olive / Lateral Lemniscus → Inferior Colliculus → MGC (Thalamus) → Auditory Cortex</li>
+      </ul>
+    </div>
+    <div class="box c4">
+      <div class="box-title">③ Mapping Rules?</div>
+      <ul>
+        <li><span class="hl">Tonotopy</span> — frequency mapped spatially from cochlea to cortex</li>
+        <li><span class="hl">Labeled-line</span> — each fiber/neuron encodes a specific frequency</li>
+        <li><span class="hl">Binaural maps</span> — ITD/IID create spatial maps in MSO/LSO</li>
+        <li><span class="hl">EE/EI organization</span> — alternating binaural stripes in primary auditory cortex</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end map-container -->
+
+<script>
+  // Scroll-into-view for nav
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Intersection Observer for fade-in
+  const groups = document.querySelectorAll('.section-group');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.06 });
+  groups.forEach(g => observer.observe(g));
+</script>
+</body>
+</html>
