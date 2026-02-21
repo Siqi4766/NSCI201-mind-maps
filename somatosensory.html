@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Somatosensory System – Complete Mindmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #2a3550;
+    --accent1: #4f8ef7;
+    --accent2: #34d89a;
+    --accent3: #f7a84f;
+    --accent4: #e05c8a;
+    --accent5: #a78bfa;
+    --accent6: #38bdf8;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --tag-bg: rgba(79,142,247,0.12);
+    --glow1: rgba(79,142,247,0.15);
+    --glow2: rgba(52,216,154,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, #0d1424 0%, #121c32 50%, #0a1020 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 30% 50%, rgba(79,142,247,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 80% at 80% 20%, rgba(52,216,154,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header-inner { position: relative; z-index: 1; max-width: 1300px; margin: 0 auto; }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  h1 span { color: var(--accent1); }
+  .header-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 300;
+    max-width: 600px;
+  }
+  .header-badges {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 18px;
+  }
+  .badge {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .badge.a1 { border-color: rgba(79,142,247,0.4); color: var(--accent1); }
+  .badge.a2 { border-color: rgba(52,216,154,0.4); color: var(--accent2); }
+  .badge.a3 { border-color: rgba(247,168,79,0.4); color: var(--accent3); }
+
+  /* ─── TOC NAV ─── */
+  .toc {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 40px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .toc a {
+    font-size: 11.5px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .toc a:hover { background: rgba(79,142,247,0.1); color: var(--accent1); border-color: rgba(79,142,247,0.3); }
+
+  /* ─── MAIN LAYOUT ─── */
+  main { max-width: 1360px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  /* ─── SECTION ─── */
+  .section {
+    margin-bottom: 52px;
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    background: var(--surface2);
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .section-title .accent { color: var(--accent1); }
+  .section-title.g2 .accent { color: var(--accent2); }
+  .section-title.g3 .accent { color: var(--accent3); }
+  .section-title.g4 .accent { color: var(--accent4); }
+  .section-title.g5 .accent { color: var(--accent5); }
+  .section-title.g6 .accent { color: var(--accent6); }
+
+  /* ─── GRID SYSTEM ─── */
+  .grid { display: grid; gap: 14px; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-auto { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .col-span-2 { grid-column: span 2; }
+  .col-span-3 { grid-column: span 3; }
+  .col-span-4 { grid-column: span 4; }
+
+  @media (max-width: 900px) {
+    .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+    .col-span-3, .col-span-4 { grid-column: span 2; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .col-span-2, .col-span-3, .col-span-4 { grid-column: span 1; }
+    .toc { display: none; }
+    main { padding: 20px 16px 60px; }
+  }
+
+  /* ─── BOX CARDS ─── */
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.25s, border-color 0.25s, transform 0.2s;
+    cursor: default;
+  }
+  .box:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    transform: translateY(-2px);
+  }
+  .box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    border-radius: 12px 12px 0 0;
+  }
+  .box.c1::before { background: linear-gradient(90deg, var(--accent1), #6aa3ff); }
+  .box.c2::before { background: linear-gradient(90deg, var(--accent2), #6ee7c0); }
+  .box.c3::before { background: linear-gradient(90deg, var(--accent3), #ffd080); }
+  .box.c4::before { background: linear-gradient(90deg, var(--accent4), #f093b8); }
+  .box.c5::before { background: linear-gradient(90deg, var(--accent5), #c4b5fd); }
+  .box.c6::before { background: linear-gradient(90deg, var(--accent6), #7dd3fc); }
+  .box.c1:hover { border-color: rgba(79,142,247,0.4); box-shadow: 0 0 0 1px rgba(79,142,247,0.1), 0 8px 32px rgba(0,0,0,0.3); }
+  .box.c2:hover { border-color: rgba(52,216,154,0.4); box-shadow: 0 0 0 1px rgba(52,216,154,0.1), 0 8px 32px rgba(0,0,0,0.3); }
+  .box.c3:hover { border-color: rgba(247,168,79,0.4); }
+  .box.c4:hover { border-color: rgba(224,92,138,0.4); }
+  .box.c5:hover { border-color: rgba(167,139,250,0.4); }
+  .box.c6:hover { border-color: rgba(56,189,248,0.4); }
+
+  /* special wide box */
+  .box.hero {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+    padding: 22px 24px;
+  }
+
+  /* ─── BOX INTERNALS ─── */
+  .box-icon {
+    font-size: 20px; margin-bottom: 8px;
+    display: inline-block;
+  }
+  .box-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .box-title.c1 { color: var(--accent1); }
+  .box-title.c2 { color: var(--accent2); }
+  .box-title.c3 { color: var(--accent3); }
+  .box-title.c4 { color: var(--accent4); }
+  .box-title.c5 { color: var(--accent5); }
+  .box-title.c6 { color: var(--accent6); }
+
+  .dot-list { list-style: none; padding: 0; }
+  .dot-list li {
+    padding: 4px 0 4px 16px;
+    color: var(--text-muted);
+    font-size: 13px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .dot-list li:last-child { border-bottom: none; }
+  .dot-list li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    color: var(--text-dim);
+    font-size: 10px;
+    top: 6px;
+  }
+  .dot-list li strong { color: var(--text); font-weight: 500; }
+  .dot-list li .hi1 { color: var(--accent1); font-weight: 500; }
+  .dot-list li .hi2 { color: var(--accent2); font-weight: 500; }
+  .dot-list li .hi3 { color: var(--accent3); font-weight: 500; }
+  .dot-list li .hi4 { color: var(--accent4); font-weight: 500; }
+  .dot-list li .hi5 { color: var(--accent5); font-weight: 500; }
+  .dot-list li .hi6 { color: var(--accent6); font-weight: 500; }
+
+  /* Sub lists */
+  .sub-list { list-style: none; padding-left: 12px; margin-top: 3px; }
+  .sub-list li {
+    font-size: 12px; color: var(--text-dim);
+    padding: 2px 0 2px 12px;
+    position: relative;
+  }
+  .sub-list li::before { content: '–'; position: absolute; left: 0; color: var(--text-dim); }
+
+  /* ─── TABLE ─── */
+  .data-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  .data-table th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    text-align: left;
+    padding: 8px 10px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 7px 10px;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .data-table td strong { color: var(--text); }
+  .data-table td .tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+  .tag-sa { background: rgba(79,142,247,0.15); color: var(--accent1); }
+  .tag-ra { background: rgba(52,216,154,0.15); color: var(--accent2); }
+  .tag-s  { background: rgba(247,168,79,0.15); color: var(--accent3); }
+  .tag-l  { background: rgba(224,92,138,0.15); color: var(--accent4); }
+
+  /* ─── PATHWAY ─── */
+  .pathway {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .pathway-step {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .pathway-step:last-child { border-bottom: none; }
+  .step-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .step-num.c1 { background: rgba(79,142,247,0.18); color: var(--accent1); border: 1px solid rgba(79,142,247,0.4); }
+  .step-num.c2 { background: rgba(52,216,154,0.18); color: var(--accent2); border: 1px solid rgba(52,216,154,0.4); }
+  .step-num.c3 { background: rgba(247,168,79,0.18); color: var(--accent3); border: 1px solid rgba(247,168,79,0.4); }
+  .step-num.c4 { background: rgba(224,92,138,0.18); color: var(--accent4); border: 1px solid rgba(224,92,138,0.4); }
+  .step-body { flex: 1; }
+  .step-body strong { color: var(--text); font-weight: 600; font-size: 13px; display: block; margin-bottom: 2px; }
+  .step-body span { color: var(--text-muted); font-size: 12.5px; }
+  .step-arrow {
+    text-align: center; color: var(--text-dim);
+    font-size: 12px; padding: 2px 0;
+    letter-spacing: 1px;
+  }
+
+  /* ─── PILL TAGS ─── */
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .pill {
+    font-size: 11.5px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-family: 'DM Mono', monospace;
+    border: 1px solid;
+  }
+  .pill.c1 { background: rgba(79,142,247,0.1); color: var(--accent1); border-color: rgba(79,142,247,0.3); }
+  .pill.c2 { background: rgba(52,216,154,0.1); color: var(--accent2); border-color: rgba(52,216,154,0.3); }
+  .pill.c3 { background: rgba(247,168,79,0.1); color: var(--accent3); border-color: rgba(247,168,79,0.3); }
+  .pill.c4 { background: rgba(224,92,138,0.1); color: var(--accent4); border-color: rgba(224,92,138,0.3); }
+  .pill.c5 { background: rgba(167,139,250,0.1); color: var(--accent5); border-color: rgba(167,139,250,0.3); }
+  .pill.c6 { background: rgba(56,189,248,0.1); color: var(--accent6); border-color: rgba(56,189,248,0.3); }
+
+  /* ─── COLLAPSIBLE ─── */
+  details { margin-top: 8px; }
+  summary {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    user-select: none;
+    padding: 4px 0;
+    list-style: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  summary::before {
+    content: '▶';
+    font-size: 9px;
+    color: var(--text-dim);
+    transition: transform 0.2s;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+  details .sub-content {
+    margin-top: 8px;
+    padding: 10px;
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    border-left: 3px solid;
+  }
+  .callout.info { background: rgba(79,142,247,0.07); border-color: var(--accent1); color: #a8c8ff; }
+  .callout.success { background: rgba(52,216,154,0.07); border-color: var(--accent2); color: #80e8c0; }
+  .callout.warn { background: rgba(247,168,79,0.07); border-color: var(--accent3); color: #ffd598; }
+  .callout.pink { background: rgba(224,92,138,0.07); border-color: var(--accent4); color: #f8a8c0; }
+  .callout strong { display: block; margin-bottom: 3px; color: #fff; }
+
+  /* ─── HORIZONTAL DIVIDER ─── */
+  .h-divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 10px 0;
+  }
+
+  /* ─── TWO-POINT TABLE ─── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .compare-cell {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .compare-cell .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .compare-cell .value {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* ─── STAT BOXES ─── */
+  .stat-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .stat {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 80px;
+  }
+  .stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .stat .lbl { font-size: 10.5px; color: var(--text-dim); text-align: center; margin-top: 2px; }
+  .stat.c1 .num { color: var(--accent1); }
+  .stat.c2 .num { color: var(--accent2); }
+  .stat.c3 .num { color: var(--accent3); }
+  .stat.c4 .num { color: var(--accent4); }
+  .stat.c5 .num { color: var(--accent5); }
+  .stat.c6 .num { color: var(--accent6); }
+
+  /* SVG diagrams */
+  .diagram { width: 100%; margin-top: 10px; }
+
+  /* ─── SCROLL PROGRESS ─── */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 9999;
+    transition: width 0.1s linear;
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Introduction to Neuroscience · Week 2 · Mohammad Darainy, PhD</div>
+    <h1>The <span>Somatosensory</span> System</h1>
+    <p class="header-sub">Complete interactive mindmap — every concept, pathway, receptor, and cortical area from the full lecture.</p>
+    <div class="header-badges">
+      <span class="badge a1">Signal Transduction</span>
+      <span class="badge a2">Mechanoreceptors</span>
+      <span class="badge a3">Proprioception</span>
+      <span class="badge">Central Pathways</span>
+      <span class="badge">Cortical Mapping</span>
+      <span class="badge">Plasticity</span>
+    </div>
+  </div>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+  <a href="#s1">① Sensation</a>
+  <a href="#s2">② Learning Guide</a>
+  <a href="#s3">③ Somatic System</a>
+  <a href="#s4">④ Transmission</a>
+  <a href="#s5">⑤ Spinal Cord</a>
+  <a href="#s6">⑥ Pseudounipolar</a>
+  <a href="#s7">⑦ Transduction</a>
+  <a href="#s8">⑧ Piezo Channels</a>
+  <a href="#s9">⑨ Afferent Specialization</a>
+  <a href="#s10">⑩ Touch &amp; Receptors</a>
+  <a href="#s11">⑪ Mechanoreceptors</a>
+  <a href="#s12">⑫ Proprioception</a>
+  <a href="#s13">⑬ Central Pathways</a>
+  <a href="#s14">⑭ Thalamus</a>
+  <a href="#s15">⑮ Cortex SI</a>
+  <a href="#s16">⑯ Plasticity</a>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 1: SENSATION
+══════════════════════════════════════════════ -->
+<section class="section" id="s1">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title"><span class="accent">Sensation</span> — General Introduction</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c1 hero col-span-3">
+      <div class="box-title c1">What Is Sensation?</div>
+      <p style="color:var(--text-muted); font-size:14px; line-height:1.7; max-width:900px;">
+        Sensation is the ability to <span style="color:var(--accent1); font-weight:600;">transduce, encode, and ultimately perceive</span> information generated by stimuli arising from both <strong>external</strong> and <strong>internal</strong> environments.
+      </p>
+    </div>
+
+    <div class="box c1">
+      <div class="box-title c1">Five Basic Senses</div>
+      <ul class="dot-list">
+        <li><strong>Somatic</strong> — pressure, temperature, vibration, pain</li>
+        <li><strong>Vision</strong> — light waves</li>
+        <li><strong>Audition</strong> — sound waves</li>
+        <li><strong>Taste</strong> — chemical</li>
+        <li><strong>Smell</strong> — chemical senses</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title c2">The Sixth Sense</div>
+      <p style="color:var(--text-muted); font-size:13px; margin-bottom:10px;"><span class="hi2" style="font-size:16px;">Proprioception</span></p>
+      <p style="color:var(--text-muted); font-size:13px;">The sense of <strong>where your body is</strong> in space — relative position of limbs and body parts.</p>
+      <div class="callout success" style="margin-top:10px;"><strong>Why "sixth"?</strong> Not part of classical five — arises from internal mechanoreceptors in muscles, tendons &amp; joints.</div>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title c3">Universal Rules of Sensation</div>
+      <ul class="dot-list">
+        <li><strong>Specialized receptors</strong> convert energy into afferent sensory signals</li>
+        <li>Signals convey: <span class="hi3">Modality</span> (touch vs pain; sharp vs dull)</li>
+        <li>Signals convey: <span class="hi3">Location</span> (where it is)</li>
+        <li>Signals convey: <span class="hi3">Intensity</span></li>
+        <li>Signals convey: <span class="hi3">Time Course</span></li>
+        <li>Understanding deficits = key to diagnosing <strong>neurological problems</strong></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 2: LEARNING GUIDE
+══════════════════════════════════════════════ -->
+<section class="section" id="s2">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title g2"><span class="accent">Learning Guide</span> for Sensory Systems</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c2">
+      <div class="box-title c2">① Mechanism of Signal Transduction</div>
+      <p style="color:var(--text-muted);font-size:13px;">How does the receptor <strong>transform information</strong> into neural electrical signals?</p>
+    </div>
+    <div class="box c2">
+      <div class="box-title c2">② Anatomical / Synaptic Pathway</div>
+      <p style="color:var(--text-muted);font-size:13px;">How does the signal get <strong>from the receptor to the cortex</strong>?</p>
+    </div>
+    <div class="box c2">
+      <div class="box-title c2">③ Mapping Rules</div>
+      <p style="color:var(--text-muted);font-size:13px;">What is represented and <strong>how is it organized</strong> in the cortex?</p>
+    </div>
+
+    <div class="box c1 col-span-3">
+      <div class="box-title c1">Signal Flow Overview</div>
+      <div class="pathway">
+        <div class="pathway-step">
+          <div class="step-num c1">1</div>
+          <div class="step-body"><strong>Specialized Receptor Organ / Nerve Terminal</strong><span> — TRANSDUCTION: Different information types → electrical signals → ENCODED in patterns of neural activity</span></div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c2">2</div>
+          <div class="step-body"><strong>Afferent Pathways (CNS)</strong><span> — Spinal cord: first station &amp; main highway to the brain</span></div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c3">3</div>
+          <div class="step-body"><strong>Brain Relay Stations</strong><span> — Brainstem → Thalamus</span></div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c4">4</div>
+          <div class="step-body"><strong>CORTEX</strong><span> — Perception, integration</span></div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c1">5</div>
+          <div class="step-body"><strong>Efferent Pathways → Movement (observable behavior)</strong><span> — So that we can ACT upon the world</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 3: SOMATIC SENSORY SYSTEM
+══════════════════════════════════════════════ -->
+<section class="section" id="s3">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title g3"><span class="accent">The Somatic Sensory System</span></h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c3">
+      <div class="box-title c3">Sensations Mediated</div>
+      <div class="pills">
+        <span class="pill c3">Touch</span>
+        <span class="pill c3">Pressure</span>
+        <span class="pill c3">Limb Position</span>
+        <span class="pill c3">Temperature</span>
+        <span class="pill c3">Pain</span>
+      </div>
+    </div>
+
+    <div class="box c1">
+      <div class="box-title c1">Sub-system 1: Fine Touch / Vibration / Pressure</div>
+      <ul class="dot-list">
+        <li>Mediated by <strong>Cutaneous Mechanoreceptors</strong></li>
+        <li>Located in the skin surface</li>
+        <li>Specialized encapsulated end organs</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title c2">Sub-system 2: Proprioception</div>
+      <ul class="dot-list">
+        <li>Sense of <strong>relative position</strong> of body parts in space</li>
+        <li>Specialized receptors in <strong>muscles, tendons &amp; joints</strong></li>
+        <li>Muscle spindles · Golgi tendon organs · Joint receptors</li>
+      </ul>
+    </div>
+
+    <div class="box c4 col-span-3">
+      <div class="box-title c4">Sub-system 3: Temperature, Pain &amp; Non-discriminative (Sensual) Touch</div>
+      <p style="color:var(--text-muted);font-size:13px;">Covered in other courses — carried by Aδ and C fibers (free nerve endings), higher threshold stimuli.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 4: TRANSMISSION
+══════════════════════════════════════════════ -->
+<section class="section" id="s4">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title g4"><span class="accent">Transmission</span> of Somatic Sensory Information</h2>
+  </div>
+  <div class="grid grid-2">
+
+    <div class="box c4">
+      <div class="box-title c4">Chain of Transmission</div>
+      <div class="pathway">
+        <div class="pathway-step">
+          <div class="step-num c1">1</div>
+          <div class="step-body"><strong>Receptors (nerve endings)</strong><span> in skin / muscle / joints</span></div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c2">2</div>
+          <div class="step-body"><strong>Afferent nerve fiber (axons)</strong><span> — carry signals peripherally</span></div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c3">3</div>
+          <div class="step-body"><strong>Afferent cell body</strong><span> — Dorsal Root Ganglia (body) or Trigeminal Ganglia (head/face)</span></div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c4">4</div>
+          <div class="step-body"><strong>Central Nervous System Circuits</strong><span> — first synapse in spinal cord grey matter</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box c1">
+      <div class="box-title c1">Key Facts: Dorsal Root Ganglia</div>
+      <ul class="dot-list">
+        <li>Cell bodies of afferent fibers sit <strong>adjacent to the spinal cord &amp; brainstem</strong></li>
+        <li><span class="hi1">Dorsal Root Ganglia (DRG)</span> — serve the body</li>
+        <li><span class="hi1">Trigeminal Ganglia</span> — serve the head &amp; face</li>
+        <li>DRG neurons are <strong>Pseudounipolar</strong></li>
+        <li><span class="hi4">No synapse</span> before entering the spinal cord</li>
+        <li>First synaptic terminals = <strong>grey matter of spinal cord</strong></li>
+        <li>PNS neurons supply CNS with sensory information from the periphery</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 5: SPINAL CORD
+══════════════════════════════════════════════ -->
+<section class="section" id="s5">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title g5"><span class="accent">Spinal Cord</span> — External Anatomy</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c5">
+      <div class="box-title c5">Peripheral Nerves</div>
+      <ul class="dot-list">
+        <li>Innervate much of the body</li>
+        <li>Arise from <strong>spinal nerves</strong></li>
+        <li>Carry both <span class="hi2">sensory (afferent)</span> AND <span class="hi3">motor (efferent)</span></li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Dorsal Root Entry</div>
+      <ul class="dot-list">
+        <li>Sensory information carried by <strong>afferent axons</strong> of spinal nerves</li>
+        <li>Enters the cord via the <span class="hi5">dorsal roots</span></li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Spinal Cord Anatomy Labels</div>
+      <ul class="dot-list">
+        <li>Grey matter / White matter</li>
+        <li>Ventral root (motor efferent)</li>
+        <li>Dorsal root + Dorsal root ganglion</li>
+        <li>Sympathetic chain ganglia</li>
+        <li>Spinal nerves</li>
+        <li>Vertebra</li>
+        <li>Layers of meninges</li>
+        <li>Segments: Cervical · Thoracic · Lumbar · Sacral</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 6: PSEUDOUNIPOLAR
+══════════════════════════════════════════════ -->
+<section class="section" id="s6">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title g6"><span class="accent">Pseudounipolar</span> Sensory Neurons</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c6">
+      <div class="box-title c6">Bipolar Neuron (comparator)</div>
+      <ul class="dot-list">
+        <li><strong>Axon</strong> — carries signal away from cell body</li>
+        <li><strong>Dendrites</strong> — receive incoming signals</li>
+        <li>Two distinct processes</li>
+      </ul>
+    </div>
+
+    <div class="box c1 col-span-2">
+      <div class="box-title c1">Pseudounipolar Neuron</div>
+      <ul class="dot-list">
+        <li><strong>One axon</strong> with <span class="hi1">two branches</span> — no true dendrites</li>
+        <li><span class="hi2">Central branch</span> → cell body → spinal cord (carries APs toward CNS)</li>
+        <li><span class="hi3">Peripheral branch</span> → cell body → periphery (skin / joint / muscle)</li>
+        <li>Found in <strong>Dorsal Root Ganglia</strong> and sensory ganglia of cranial nerves</li>
+        <li>Cell body is in DRG — <strong>axon exits DRG and splits</strong></li>
+        <li>Central branch → <span class="hi1">dorsal horn of spinal cord</span></li>
+        <li>Peripheral branch → travels through spinal nerve to skin, joint, muscle</li>
+        <li>Electrical activity <strong>does not</strong> need to pass through the cell body membrane</li>
+        <li>Travels along the <strong>continuous peripheral + central axon</strong></li>
+        <li>Also found in sensory ganglia of <span class="hi3">cranial nerves</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 7: TRANSDUCTION
+══════════════════════════════════════════════ -->
+<section class="section" id="s7">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title g1"><span class="accent">Sensory Transduction</span> — Converting Stimuli to Signals</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c1 col-span-2">
+      <div class="box-title c1">Transduction Mechanism (Pacinian Corpuscle Example)</div>
+      <ul class="dot-list">
+        <li>Stimulus → changes <strong>permeability of cation channels</strong> in afferent nerve endings</li>
+        <li>Channels open → <span class="hi1">Na⁺ flows in</span> → depolarizing current</li>
+        <li>This generates a <strong>Receptor Potential</strong> (depolarizing current)</li>
+        <li>Same basic mechanism mediates transduction in <span class="hi2">all somatic sensory afferents</span></li>
+        <li>If threshold is reached → <span class="hi1">Action Potential (AP)</span> generated in afferent fiber</li>
+        <li>Rate of AP firing is <strong>proportional to magnitude of depolarization</strong></li>
+        <li>APs travel along peripheral axon <em>past cell body</em> in DRG → along central axon → synaptic terminals in spinal cord</li>
+      </ul>
+      <div class="callout info">
+        <strong>Stimulus Strength → AP Rate</strong>
+        Weak stimulus = subthreshold receptor potential (no AP). Moderate = threshold (minimal APs). Strong = large receptor potential = rapid AP firing.
+      </div>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title c3">Afferent Terminal Types</div>
+      <div class="compare-grid">
+        <div class="compare-cell">
+          <div class="label">Encapsulated</div>
+          <div class="value" style="font-size:12px; color:var(--accent2);">Mechanoreceptors</div>
+          <p style="font-size:11.5px; color:var(--text-dim); margin-top:4px;">Specialized receptor cells surround nerve terminal • Tune to particular features • <strong>Lower threshold</strong> = more sensitive</p>
+        </div>
+        <div class="compare-cell">
+          <div class="label">Free Terminals</div>
+          <div class="value" style="font-size:12px; color:var(--accent4);">Pain Afferents</div>
+          <p style="font-size:11.5px; color:var(--text-dim); margin-top:4px;"><strong>Higher threshold</strong> • Same stimuli at higher intensities produce 'pain' • No capsule</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skin layer diagram descriptive box -->
+    <div class="box c2 col-span-3">
+      <div class="box-title c2">Receptor Locations in Glabrous Skin (Epidermis → Dermis → Subcutaneous)</div>
+      <div class="grid grid-4">
+        <div class="compare-cell">
+          <div class="label">Epidermis</div>
+          <div class="value" style="font-size:12px;">Free nerve endings</div>
+          <p style="font-size:11px; color:var(--text-dim); margin-top:3px;">Superficial, pain/temp</p>
+        </div>
+        <div class="compare-cell">
+          <div class="label">Epidermis/Dermis Border</div>
+          <div class="value" style="font-size:12px;">Meissner Corpuscle</div>
+          <p style="font-size:11px; color:var(--text-dim); margin-top:3px;">Dermal papillae</p>
+        </div>
+        <div class="compare-cell">
+          <div class="label">Epidermis (sweat ridges)</div>
+          <div class="value" style="font-size:12px;">Merkel Cell-Neurite Complex</div>
+          <p style="font-size:11px; color:var(--text-dim); margin-top:3px;">Tip of epidermal sweat ridges</p>
+        </div>
+        <div class="compare-cell">
+          <div class="label">Dermis</div>
+          <div class="value" style="font-size:12px;">Ruffini Corpuscle</div>
+          <p style="font-size:11px; color:var(--text-dim); margin-top:3px;">Deep dermal layer</p>
+        </div>
+        <div class="compare-cell" style="grid-column:span 2;">
+          <div class="label">Subcutaneous Layer</div>
+          <div class="value" style="font-size:12px;">Pacinian Corpuscle</div>
+          <p style="font-size:11px; color:var(--text-dim); margin-top:3px;">Deepest — dermis and deeper tissues</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 8: PIEZO CHANNELS
+══════════════════════════════════════════════ -->
+<section class="section" id="s8">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <h2 class="section-title g2"><span class="accent">Piezo</span> Mechanotransduction Channels</h2>
+  </div>
+  <div class="grid grid-2">
+
+    <div class="box c2">
+      <div class="box-title c2">Piezo1 &amp; Piezo2</div>
+      <ul class="dot-list">
+        <li>Evolutionarily conserved protein family</li>
+        <li>Encode <strong>mammalian mechanosensitive cation channels</strong></li>
+        <li>Critical roles in: <span class="hi2">touch, pain, proprioception</span>, vascular development, blood pressure regulation</li>
+        <li>Over <strong>2500 amino acids</strong> with numerous predicted transmembrane segments</li>
+        <li>No sequence homology with any known class of ion channels</li>
+        <li>Convert <strong>mechanical force</strong> into electrochemical signals</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title c2">Which Receptors Express Piezo?</div>
+      <ul class="dot-list">
+        <li><strong>Merkel cells</strong> AND their sensory afferents — both express <span class="hi2">Piezo2</span></li>
+        <li><strong>Meissner corpuscles</strong> — express <span class="hi2">Piezo2</span></li>
+        <li>Key papers: Coste et al. (2010) <em>Science</em>; Wang &amp; Xiao (2018) <em>J Physiol</em></li>
+      </ul>
+      <div class="callout success">
+        <strong>Piezo1</strong> — structural features and molecular bases underlying ion permeation and mechanotransduction (Wang &amp; Xiao, 2018 J Physiol 596:969–978)
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 9: SPECIALIZATION OF AFFERENTS
+══════════════════════════════════════════════ -->
+<section class="section" id="s9">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <h2 class="section-title g3"><span class="accent">Specialization</span> of Somatic Sensory Afferents</h2>
+  </div>
+
+  <!-- Afferent type table -->
+  <div class="box c3" style="margin-bottom:14px;">
+    <div class="box-title c3">Somatosensory Afferents — Axon Diameter &amp; Conduction Velocity</div>
+    <div style="overflow-x:auto;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Sensory Function</th>
+          <th>Receptor Type</th>
+          <th>Afferent Axon Type</th>
+          <th>Axon Diameter</th>
+          <th>Conduction Velocity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Proprioception</strong></td>
+          <td>Muscle spindle</td>
+          <td><span class="tag tag-sa">Ia, II</span></td>
+          <td>13–20 µm</td>
+          <td style="color:var(--accent2);">80–120 m/s</td>
+        </tr>
+        <tr>
+          <td><strong>Touch</strong></td>
+          <td>Merkel, Meissner, Pacinian, Ruffini cells</td>
+          <td><span class="tag tag-ra">Aβ</span></td>
+          <td>6–12 µm</td>
+          <td style="color:var(--accent1);">35–75 m/s</td>
+        </tr>
+        <tr>
+          <td><strong>Pain, Temperature</strong></td>
+          <td>Free nerve endings</td>
+          <td><span class="tag tag-s">Aδ</span></td>
+          <td>1–5 µm</td>
+          <td style="color:var(--accent3);">5–30 m/s</td>
+        </tr>
+        <tr>
+          <td><strong>Pain, Temperature, Itch, Non-discrim touch</strong></td>
+          <td>Free nerve endings (unmyelinated)</td>
+          <td><span class="tag tag-l">C</span></td>
+          <td>0.2–1.5 µm</td>
+          <td style="color:var(--accent4);">0.5–2 m/s</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="callout warn" style="margin-top:10px;"><strong>Key Principle:</strong> Larger axon diameter → faster conduction of action potential</div>
+  </div>
+
+  <div class="grid grid-4">
+
+    <div class="box c1">
+      <div class="box-title c1">① Axon Diameter</div>
+      <ul class="dot-list">
+        <li>Determines <strong>conduction speed</strong></li>
+        <li>Larger diameter = faster AP</li>
+        <li>Proprioception: largest (Ia)</li>
+        <li>Pain C fibers: smallest (unmyelinated)</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title c2">② Receptive Field</div>
+      <ul class="dot-list">
+        <li>Area of skin where stimulation causes significant change in AP rate</li>
+        <li>Size varies by body region</li>
+        <li>Determined by: <span class="hi2">branching of afferents</span> in skin + <span class="hi2">density of innervation</span></li>
+        <li>Smaller arborization → smaller RF</li>
+        <li>More afferents → smaller RF</li>
+        <li>Smaller RF = higher <strong>spatial acuity</strong></li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title c3">③ Temporal Dynamics</div>
+      <ul class="dot-list">
+        <li><span class="hi3">Rapidly Adapting (RA)</span>: fire at stimulus onset; quiescent if maintained; may fire at offset</li>
+        <li><span class="hi1">Slowly Adapting (SA)</span>: continue to fire with sustained stimulation</li>
+        <li>RA → important for <strong>changes in stimulation</strong> (movement)</li>
+        <li>SA → conveys <strong>spatial attributes</strong> (size, shape)</li>
+        <li>Determined by properties of mechanoreceptors</li>
+      </ul>
+    </div>
+
+    <div class="box c4">
+      <div class="box-title c4">④ Quality of Stimuli</div>
+      <ul class="dot-list">
+        <li>Different classes respond only to <strong>restricted set of stimuli</strong> (stretch, temp, vibration)</li>
+        <li>Determined by: <span class="hi4">channel properties</span> + <span class="hi4">filter properties</span> of mechanoreceptors</li>
+        <li>Different afferents = <strong>parallel pathways</strong></li>
+        <li>Remain <strong>segregated</strong> even if they travel together initially</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Two-point discrimination -->
+  <div class="grid grid-2" style="margin-top:14px;">
+
+    <div class="box c5">
+      <div class="box-title c5">Two-Point Discrimination</div>
+      <ul class="dot-list">
+        <li>Measures <strong>minimum distance</strong> between two stimuli perceived as distinct</li>
+        <li>Determined by <strong>receptive field size</strong></li>
+        <li><span class="hi2">Fingertips: ~2 mm</span> (very high acuity)</li>
+        <li><span class="hi4">Forearm: ~40 mm</span> (low acuity)</li>
+        <li>Somatic acuity much higher in <strong>fingers, toes, face</strong> than arms, legs, torso</li>
+        <li>Species specific!</li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Body Map of Two-Point Threshold</div>
+      <ul class="dot-list">
+        <li>Fingers 1–4: ~2–3 mm (smallest)</li>
+        <li>Palm / Lower arm: ~15–25 mm</li>
+        <li>Shoulder / Forehead / Cheek / Nose: ~15–25 mm</li>
+        <li>Upper lip: ~10 mm</li>
+        <li>Breast / Back / Belly / Thigh: ~30–40 mm</li>
+        <li>Calf / Sole: ~35–40 mm</li>
+        <li>Toe: ~10 mm</li>
+        <li>Left side ≈ right side (some asymmetry)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 10: TOUCH
+══════════════════════════════════════════════ -->
+<section class="section" id="s10">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <h2 class="section-title g6"><span class="accent">Touch</span> — Cutaneous Sensation</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c6">
+      <div class="box-title c6">Glabrous Skin</div>
+      <ul class="dot-list">
+        <li>Best studied region for cutaneous sensation</li>
+        <li>Palm and <strong>fingertips</strong></li>
+        <li>Specialized for <span class="hi6">high-definition neural image</span> of manipulated objects</li>
+        <li>Contains 4 types of mechanoreceptors</li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title c6">Haptics</div>
+      <ul class="dot-list">
+        <li><strong>Active touching</strong> — interpretation of complex spatiotemporal stimulus patterns</li>
+        <li>Activates <strong>many classes</strong> of mechanoreceptors simultaneously</li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title c6">Stereognosis</div>
+      <ul class="dot-list">
+        <li>Capacity to <strong>identify an object by manipulating it</strong> with the hand</li>
+        <li>Requires integration of all mechanoreceptor classes</li>
+        <li>Deficits indicate parietal lobe damage</li>
+      </ul>
+    </div>
+
+    <div class="box c4 col-span-3">
+      <div class="box-title c4">Sensory Homunculus</div>
+      <p style="color:var(--text-muted); font-size:13px;">A physical representation of body proportions as mapped in the somatosensory cortex — <strong>face and hands are grossly enlarged</strong> relative to their actual body proportion, reflecting dense innervation and large cortical representation.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 11: MECHANORECEPTORS
+══════════════════════════════════════════════ -->
+<section class="section" id="s11">
+  <div class="section-header">
+    <span class="section-num">11</span>
+    <h2 class="section-title g1"><span class="accent">Mechanoreceptors</span> for Touch — Four Types</h2>
+  </div>
+
+  <!-- Full property table -->
+  <div class="box c1" style="margin-bottom:14px;">
+    <div class="box-title c1">Afferent Systems and Their Properties (Table 9.2)</div>
+    <div style="overflow-x:auto;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Merkel (SA1)</th>
+          <th>Meissner (RA1)</th>
+          <th>Pacinian (RA2)</th>
+          <th>Ruffini (SA2)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Receptive Field</strong></td>
+          <td><span class="tag tag-sa">Small</span></td>
+          <td><span class="tag tag-sa">Small</span></td>
+          <td><span class="tag tag-l">Large</span></td>
+          <td><span class="tag tag-l">Large</span></td>
+        </tr>
+        <tr>
+          <td><strong>Location</strong></td>
+          <td>Tip of epidermal sweat ridges</td>
+          <td>Dermal papillae (close to skin surface)</td>
+          <td>Dermis + deeper tissues</td>
+          <td>Dermis</td>
+        </tr>
+        <tr>
+          <td><strong>Axon diameter</strong></td>
+          <td>7–11 µm</td>
+          <td>6–12 µm</td>
+          <td>6–12 µm</td>
+          <td>6–12 µm</td>
+        </tr>
+        <tr>
+          <td><strong>Conduction velocity</strong></td>
+          <td>40–65 m/s</td>
+          <td>35–70 m/s</td>
+          <td>35–70 m/s</td>
+          <td>35–70 m/s</td>
+        </tr>
+        <tr>
+          <td><strong>Adaptation</strong></td>
+          <td><span class="tag tag-sa">Slow (SA)</span></td>
+          <td><span class="tag tag-ra">Rapid (RA)</span></td>
+          <td><span class="tag tag-ra">Rapid (RA)</span></td>
+          <td><span class="tag tag-sa">Slow (SA)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Sensory Function</strong></td>
+          <td>Shape &amp; texture perception</td>
+          <td>Motion detection; grip control</td>
+          <td>Detect distant events through vibrations; tool use</td>
+          <td>Tangential force; hand shape; motion direction</td>
+        </tr>
+        <tr>
+          <td><strong>Effective Stimuli</strong></td>
+          <td>Edges, points, corners, curvature</td>
+          <td>Skin motion</td>
+          <td>Vibration</td>
+          <td>Skin stretch</td>
+        </tr>
+        <tr>
+          <td><strong>RF Area (finger pad)</strong></td>
+          <td>9 mm²</td>
+          <td>22 mm²</td>
+          <td>Entire finger or hand</td>
+          <td>60 mm²</td>
+        </tr>
+        <tr>
+          <td><strong>Innervation density</strong></td>
+          <td>100/cm²</td>
+          <td>150/cm²</td>
+          <td>20/cm²</td>
+          <td>10/cm²</td>
+        </tr>
+        <tr>
+          <td><strong>Spatial acuity</strong></td>
+          <td>0.5 mm</td>
+          <td>3 mm</td>
+          <td>10+ mm</td>
+          <td>7+ mm</td>
+        </tr>
+        <tr>
+          <td><strong>Frequency range</strong></td>
+          <td>0–100 Hz</td>
+          <td>1–300 Hz</td>
+          <td>5–1000 Hz</td>
+          <td>0–? Hz</td>
+        </tr>
+        <tr>
+          <td><strong>Peak sensitivity</strong></td>
+          <td>5 Hz</td>
+          <td>50 Hz</td>
+          <td>200 Hz</td>
+          <td>0.5 Hz</td>
+        </tr>
+        <tr>
+          <td><strong>% of hand afferents</strong></td>
+          <td>25%</td>
+          <td>40%</td>
+          <td>10–15%</td>
+          <td>20%</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+
+    <div class="box c2">
+      <div class="box-title c2">Merkel Cell-Neurite Complex (SA1)</div>
+      <ul class="dot-list">
+        <li><span class="hi2">Slowly adapting</span> — static aspect of touch</li>
+        <li><strong>Highest spatial resolution</strong> of all sensory afferents</li>
+        <li>Enriched in <strong>fingertips</strong></li>
+        <li>A specialized epithelial cell (Merkel cell) closely associated with enlarged nerve terminal</li>
+        <li>Both Merkel cells and sensory afferents express <span class="hi2">Piezo2</span></li>
+        <li>Highly sensitive to <strong>points, edges &amp; curvature</strong></li>
+        <li>Suited to processing <strong>form &amp; texture</strong></li>
+        <li><strong>Only afferents sampling from the epidermis</strong></li>
+        <li>25% of mechanosensory afferents in hand</li>
+      </ul>
+      <div class="stat-row">
+        <div class="stat c2"><span class="num">25%</span><span class="lbl">of hand afferents</span></div>
+        <div class="stat c2"><span class="num">0.5mm</span><span class="lbl">spatial acuity</span></div>
+        <div class="stat c2"><span class="num">9mm²</span><span class="lbl">RF area</span></div>
+      </div>
+    </div>
+
+    <div class="box c1">
+      <div class="box-title c1">Meissner Corpuscle (RA1)</div>
+      <ul class="dot-list">
+        <li><span class="hi1">Rapidly adapting</span></li>
+        <li>Express <span class="hi1">Piezo2</span></li>
+        <li><strong>High spatial resolution</strong></li>
+        <li>40% of mechanosensors in hand</li>
+        <li>Skin indentation deforms corpuscle → triggers receptor potentials</li>
+        <li>Removal of stimulus → relaxes corpuscle → also generates receptor potentials</li>
+        <li>Globular, fluid-filled capsule of flattened epithelial cells; nerve terminal entwined between layers</li>
+        <li>Formed by Schwann-cell-derived connective tissue capsule; center contains 2–6 afferent fibers</li>
+        <li><strong>Closer to skin surface</strong> than Merkel; more sensitive to skin deformation</li>
+        <li>Sensitive to vibration of objects moving across skin</li>
+        <li>Detects <strong>slippage</strong> between skin and held object — essential for <span class="hi1">grip control</span></li>
+        <li>Larger RF than Merkel → reduced spatial resolution</li>
+      </ul>
+      <div class="stat-row">
+        <div class="stat c1"><span class="num">40%</span><span class="lbl">of hand afferents</span></div>
+        <div class="stat c1"><span class="num">3mm</span><span class="lbl">spatial acuity</span></div>
+      </div>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Pacinian Corpuscle (RA2)</div>
+      <ul class="dot-list">
+        <li><span class="hi5">Rapidly adapting</span></li>
+        <li>10–15% of mechanosensors in hand</li>
+        <li>Located deep in dermis or subcutaneous tissue</li>
+        <li>Concentric layers (like an onion) of modified fibroblasts (lamellae) around a single fiber</li>
+        <li>Each connected to a sensory neuron</li>
+        <li>Laminar structure <strong>filters out all but high frequencies</strong> (5–1000 Hz, peak 200 Hz)</li>
+        <li><strong>Lower response threshold</strong> than Meissner — responds to skin displacements as small as <span class="hi5">10 nm</span></li>
+        <li><strong>Large receptive fields</strong></li>
+        <li>Detect vibrations <strong>transmitted through objects</strong> in contact with hand</li>
+        <li>Important in <strong>tool use</strong></li>
+      </ul>
+      <div class="stat-row">
+        <div class="stat c5"><span class="num">10nm</span><span class="lbl">displacement threshold</span></div>
+        <div class="stat c5"><span class="num">200Hz</span><span class="lbl">peak sensitivity</span></div>
+      </div>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title c3">Ruffini Corpuscle (SA2)</div>
+      <ul class="dot-list">
+        <li><span class="hi3">Slowly adapting</span></li>
+        <li>20% of mechanoreceptors in hand</li>
+        <li>Elongated, <strong>spindle-shaped capsules</strong> in dermis</li>
+        <li>Also found in <strong>ligaments and tendons</strong></li>
+        <li>Long axis of corpuscle lies <strong>parallel to stretch lines in skin</strong></li>
+        <li>Sensitive to <strong>cutaneous stretching</strong> with digit or limb movement</li>
+        <li>Contribute to sensation of <strong>finger position</strong> and hand conformation (along with muscle receptors)</li>
+        <li>Nerve fibers often (not always) associated with fibrous capsule</li>
+      </ul>
+      <div class="stat-row">
+        <div class="stat c3"><span class="num">20%</span><span class="lbl">of hand afferents</span></div>
+        <div class="stat c3"><span class="num">60mm²</span><span class="lbl">RF area</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Braille experiment + Hairy skin -->
+  <div class="grid grid-2" style="margin-top:14px;">
+
+    <div class="box c4">
+      <div class="box-title c4">K.O. Johnson's Braille Experiment</div>
+      <ul class="dot-list">
+        <li>First illustrated different kinds of information conveyed by different afferents</li>
+        <li>Fingertip moved across row of raised <strong>Braille letters</strong></li>
+        <li><span class="hi2">Merkel cells</span> — clearly resolve individual dots (high spatial resolution)</li>
+        <li><span class="hi1">Meissner corpuscle</span> — responds to motion across letters</li>
+        <li><span class="hi3">Ruffini corpuscle</span> — minimal response to Braille (stretch-sensitive)</li>
+        <li><span class="hi5">Pacinian corpuscle</span> — responds to transmitted vibration</li>
+      </ul>
+    </div>
+
+    <div class="box c6">
+      <div class="box-title c6">Receptors in Hairy Skin</div>
+      <ul class="dot-list">
+        <li>Different from glabrous — contains hair follicle receptors</li>
+        <li>Guard / Zigzag / Awl/Auchene hair types</li>
+        <li>Touch dome (Merkel cells) present in hairy skin</li>
+        <li>Longitudinal lanceolate endings: Aβ RA-LTMR, Aδ-LTMR, C-LTMR</li>
+        <li>Circumferential lanceolate endings (physiology unknown)</li>
+        <li><span class="hi6">Poke</span>: SAI-LTMRs > RA-Aβ/Aδ/C-LTMRs</li>
+        <li><span class="hi6">Stroke</span>: RA-Aβ/Aδ/C-LTMRs > SAI-LTMRs</li>
+        <li><span class="hi6">Breeze</span>: Aδ/C-LTMRs > RA-Aβ-LTMRs > SAI-LTMRs</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 12: PROPRIOCEPTION
+══════════════════════════════════════════════ -->
+<section class="section" id="s12">
+  <div class="section-header">
+    <span class="section-num">12</span>
+    <h2 class="section-title g2"><span class="accent">Proprioception</span> — Mechanoreceptors &amp; Function</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c2">
+      <div class="box-title c2">What Is Proprioception?</div>
+      <ul class="dot-list">
+        <li>Information about <strong>mechanical forces arising within the body</strong></li>
+        <li>Proprioceptors = low-threshold mechanoreceptors</li>
+        <li>Provide continuous, detailed info about <strong>position of limbs &amp; body parts</strong> in space</li>
+        <li>Essential for <strong>accurate complex movements</strong></li>
+        <li>Head position: integrated with <span class="hi2">vestibular system</span></li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title c2">Three Proprioceptor Types</div>
+      <div class="pills">
+        <span class="pill c2">Muscle Spindles</span>
+        <span class="pill c3">Golgi Tendon Organs</span>
+        <span class="pill c1">Joint Receptors</span>
+      </div>
+    </div>
+
+    <div class="box c4">
+      <div class="box-title c4">Vision &amp; Proprioception Integration</div>
+      <ul class="dot-list">
+        <li>Artificial vibration of spindles → <span class="hi4">sensory illusions of altered limb position</span> in stationary limbs</li>
+        <li>Illusion only if <strong>visual input is prevented</strong></li>
+        <li>Normally: proprioception achieved by <span class="hi4">integration of somatic &amp; visual cues</span></li>
+        <li>Joint angle perception = integration of <strong>afferent signals from muscle spindles + efferent motor commands</strong></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="grid grid-2" style="margin-top:14px;">
+
+    <div class="box c1">
+      <div class="box-title c1">Muscle Spindles</div>
+      <ul class="dot-list">
+        <li>Found in <strong>striated (skeletal) muscle</strong></li>
+        <li>4–8 specialized <span class="hi1">intrafusal muscle fibers</span> surrounded by connective tissue capsule</li>
+        <li>Distributed in <strong>parallel</strong> with extrafusal fibers</li>
+        <li>Sensory afferents coil around the <strong>central part</strong> of the intrafusal spindle</li>
+        <li>Muscle stretch → tension in intrafusal fibers → activates <strong>mechanically gated ion channels</strong> → APs</li>
+      </ul>
+      <div class="h-divider"></div>
+      <p style="color:var(--text-muted); font-size:12.5px; font-weight:600; margin-bottom:6px;">PRIMARY ENDINGS</p>
+      <ul class="dot-list">
+        <li><span class="hi1">Group Ia afferents</span> (largest myelinated sensory axons)</li>
+        <li><strong>Rapidly adapting</strong> responses to changes in muscle length</li>
+        <li>Transmit information about <strong>limb dynamics</strong></li>
+      </ul>
+      <div class="h-divider"></div>
+      <p style="color:var(--text-muted); font-size:12.5px; font-weight:600; margin-bottom:6px;">SECONDARY ENDINGS</p>
+      <ul class="dot-list">
+        <li><span class="hi3">Group II afferents</span></li>
+        <li><strong>Sustained responses</strong> to constant muscle lengths</li>
+        <li>Information about <strong>static limb position</strong></li>
+      </ul>
+      <div class="h-divider"></div>
+      <p style="color:var(--text-muted); font-size:12.5px; font-weight:600; margin-bottom:6px;">EFFERENT CONTROL</p>
+      <ul class="dot-list">
+        <li>Also innervated by efferent <span class="hi5">γ (gamma) motor neurons</span> in ventral horn of spinal cord</li>
+        <li>γ neurons change intrafusal fiber tension → <strong>increase sensitivity</strong> of afferents to changes in muscle length</li>
+      </ul>
+      <div class="callout info" style="margin-top:10px;"><strong>Spindle Density:</strong> Muscles generating coarse movement have fewer spindles than fine-movement muscles. More precise movement = more refined sensory input (eyes, hand, neck).</div>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title c3">Golgi Tendon Organs</div>
+      <ul class="dot-list">
+        <li>Low-threshold mechanoreceptors in <strong>tendons</strong></li>
+        <li>Sense changes in <strong>muscle tension</strong></li>
+        <li>Distributed along collagen fibers forming tendons</li>
+        <li>Arranged in <strong>series</strong> with extrafusal muscle fibers</li>
+        <li>Innervated by branches of <span class="hi3">Group Ib afferents</span></li>
+        <li>Contribute <em>less</em> to conscious sensation of muscle activity</li>
+        <li>Important role in <strong>reflex circuits protecting muscle from injury</strong></li>
+      </ul>
+      <div class="callout warn">
+        <strong>Spindle vs GTO Arrangement:</strong>
+        Muscle spindle = parallel with extrafusal fibers (senses length). Golgi tendon organ = in series with extrafusal fibers (senses tension).
+      </div>
+      <div class="h-divider" style="margin:12px 0;"></div>
+      <div class="box-title c1" style="margin-top:4px;">Joint Receptors</div>
+      <ul class="dot-list">
+        <li>Found in ligaments and joint capsules</li>
+        <li>Contribute to sensation of <strong>joint angle &amp; position</strong></li>
+        <li>Work alongside muscle spindles and Ruffini endings</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 13: CENTRAL PATHWAYS
+══════════════════════════════════════════════ -->
+<section class="section" id="s13">
+  <div class="section-header">
+    <span class="section-num">13</span>
+    <h2 class="section-title g4"><span class="accent">Central Pathways</span> — Tactile &amp; Proprioceptive</h2>
+  </div>
+  <div class="grid grid-2">
+
+    <div class="box c4">
+      <div class="box-title c4">Tactile (Touch) Pathway — Dorsal Column–Medial Lemniscus</div>
+      <div class="pathway">
+        <div class="pathway-step">
+          <div class="step-num c1">1°</div>
+          <div class="step-body">
+            <strong>First Order Neuron — IPSILATERAL</strong>
+            <span>Dorsal Root Ganglion (body) / Trigeminal Ganglion (head)</span>
+            <span style="display:block; margin-top:3px; color:var(--accent1);">→ Dorsal columns: Cuneate tract (upper body) &amp; Gracile tract (lower body) — ascend ipsilaterally // Trigeminal tract (face)</span>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c2">2°</div>
+          <div class="step-body">
+            <strong>Second Order Neuron — IPSILATERAL (then crosses!)</strong>
+            <span>Gracile nucleus (lower body) / Cuneate nucleus (upper body) in caudal medulla / Trigeminal nucleus (face)</span>
+            <span style="display:block; margin-top:3px; color:var(--accent2);">→ Internal arcuate fibers → Medial Lemniscus // Trigeminal Lemniscus</span>
+            <span style="color:var(--accent4); font-weight:600; display:block; margin-top:2px;">★ Axons CROSS the midline (decussate)</span>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c3">3°</div>
+          <div class="step-body">
+            <strong>Third Order Neuron — CONTRALATERAL</strong>
+            <span>Ventral Posterior (VP) complex / Medial Thalamic and Parabrachial nuclei in the thalamus</span>
+            <span style="display:block; color:var(--accent3); margin-top:2px;">→ Internal capsule → Cerebral Cortex</span>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c4">Cx</div>
+          <div class="step-body">
+            <strong>Cerebral Cortex</strong>
+            <span>Primary Somatosensory Cortex (SI) — postcentral gyrus — parietal lobe // Anterior cingulate &amp; Insula (pain/affective touch) // Secondary somatosensory cortex (SII)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Proprioceptive Pathway (+ Spinocerebellar)</div>
+      <div class="pathway">
+        <div class="pathway-step">
+          <div class="step-num c1">1°</div>
+          <div class="step-body">
+            <strong>Entry via Dorsal Horn</strong>
+            <span>Similar to tactile afferents — enter through dorsal horn of spinal cord</span>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c2">Bifur</div>
+          <div class="step-body">
+            <strong>Bifurcation</strong>
+            <span>Many fibers form ascending AND descending branches; collaterals synapse on neurons of dorsal AND ventral horn (reflex circuits)</span>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c3">Cb</div>
+          <div class="step-body">
+            <strong>To Cerebellum (Spinocerebellar Tract)</strong>
+            <span>Lower body: 1° neuron collaterals → <strong>Clarke's nucleus</strong> → neurons in Clarke's nucleus → axons via <strong>dorsal spinocerebellar tract</strong> → cerebellum (with collateral to dorsal column nuclei)</span>
+            <span style="display:block; margin-top:3px; color:var(--accent5);">Upper body: ascend via dorsal column → <strong>cuneate nucleus</strong> → relays signals to cerebellum</span>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="pathway-step">
+          <div class="step-num c4">Cx</div>
+          <div class="step-body">
+            <strong>Conscious Proprioception → Cortex</strong>
+            <span>Also travels via dorsal column–medial lemniscal pathway to SI (especially area 3a)</span>
+          </div>
+        </div>
+      </div>
+      <div class="callout pink" style="margin-top:8px;">
+        <strong>Why the cerebellum?</strong> Proprioceptive information is required for control of voluntary movement — cerebellum uses it for motor coordination without consciousness.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 14: THALAMUS
+══════════════════════════════════════════════ -->
+<section class="section" id="s14">
+  <div class="section-header">
+    <span class="section-num">14</span>
+    <h2 class="section-title g3"><span class="accent">Thalamus</span> — Somatic Sensory Relay</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c3">
+      <div class="box-title c3">Ventral Posterior (VP) Complex</div>
+      <ul class="dot-list">
+        <li>Ascending somatic sensory pathways from spinal cord and brainstem <strong>converge here</strong></li>
+        <li>Organization is <strong>highly organized</strong></li>
+        <li>Contains a somatotopic representation of body &amp; head</li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title c3">VP Lateral (VPL)</div>
+      <ul class="dot-list">
+        <li>Relay from <strong>body</strong></li>
+        <li>Via <span class="hi3">Medial Lemniscus</span></li>
+        <li>Somatotopic body map</li>
+      </ul>
+    </div>
+
+    <div class="box c3">
+      <div class="box-title c3">VP Medial (VPM)</div>
+      <ul class="dot-list">
+        <li>Relay from <strong>face/head</strong></li>
+        <li>Via <span class="hi3">Trigeminal Lemniscus</span></li>
+        <li>Parallel pathway to body</li>
+      </ul>
+    </div>
+
+    <div class="box c1 col-span-3">
+      <div class="box-title c1">Segregation of Information in Thalamus</div>
+      <ul class="dot-list">
+        <li>Inputs carrying <strong>different types</strong> of somatosensory information terminate on <strong>separate populations of relay cells</strong></li>
+        <li>Information from distinct receptor types (e.g., Merkel vs. Meissner) <strong>remains segregated</strong> in its passage to cortex</li>
+        <li>Also: Medial Thalamic and Parabrachial nuclei (for pain &amp; affective touch) — project to anterior cingulate and insula</li>
+        <li>Most neurons from VP thalamus project to <strong>layer 4</strong> of primary somatosensory cortex (SI)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 15: CORTEX SI
+══════════════════════════════════════════════ -->
+<section class="section" id="s15">
+  <div class="section-header">
+    <span class="section-num">15</span>
+    <h2 class="section-title g5"><span class="accent">Primary Somatosensory Cortex (SI)</span> &amp; Beyond</h2>
+  </div>
+  <div class="grid grid-4">
+
+    <div class="box c5">
+      <div class="box-title c5">Location of SI</div>
+      <ul class="dot-list">
+        <li><span class="hi5">Postcentral gyrus</span> of the parietal lobe</li>
+        <li>Has <strong>4 distinct regions</strong> (Brodmann areas)</li>
+        <li>Each contains a <strong>complete somatotopic map</strong> of the body</li>
+        <li>Organized medial-to-lateral arrangement</li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Brodmann Area 3a</div>
+      <ul class="dot-list">
+        <li>Responds primarily to <span class="hi5">proprioceptive stimulation</span></li>
+        <li>Input from Group Ia muscle spindle afferents</li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Brodmann Area 3b</div>
+      <ul class="dot-list">
+        <li>Responds primarily to <span class="hi1">cutaneous stimulation</span></li>
+        <li><strong>Obligatory first step</strong> in cortical processing</li>
+        <li>Receives largest VP thalamus input</li>
+        <li>Sends dense projections to areas 1 &amp; 2</li>
+        <li>Lesion → deficits in <strong>ALL tactile sensations</strong></li>
+      </ul>
+    </div>
+
+    <div class="box c5">
+      <div class="box-title c5">Brodmann Areas 1 &amp; 2</div>
+      <ul class="dot-list">
+        <li><strong>Area 1</strong>: cutaneous stimulation (texture discrimination)</li>
+        <li><strong>Area 2</strong>: both tactile AND proprioceptive stimuli (size &amp; shape)</li>
+        <li>Lesion area 1 → deficit in <span class="hi3">texture discrimination</span></li>
+        <li>Lesion area 2 → deficit in <span class="hi3">size and shape discrimination</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="grid grid-3" style="margin-top:14px;">
+
+    <div class="box c1 col-span-2">
+      <div class="box-title c1">Somatotopic Map — The Homunculus</div>
+      <ul class="dot-list">
+        <li>Foot, leg, trunk, forelimbs, face in <strong>medial-to-lateral arrangement</strong></li>
+        <li>Does <strong>NOT</strong> represent body in actual proportions</li>
+        <li>Bigger cortical area + more neurons for <strong>more richly innervated regions</strong></li>
+        <li><span class="hi1">Homunculus</span> — grossly enlarged face &amp; hands</li>
+        <li>Proportionality reflects <strong>neural circuitry required</strong> for associated functions</li>
+        <li>Examples: facial expressions, speech, manual manipulation of objects</li>
+        <li><strong>Species-specific:</strong> rat = whiskers overrepresented; raccoon = paws; platypus = bill; naked mole rat = teeth dominate!</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title c2">Columnar Organization in SI</div>
+      <ul class="dot-list">
+        <li>Neurons form <strong>functionally distinct columns</strong></li>
+        <li>RA and SA responses cluster into <strong>separate zones</strong> within single finger representation</li>
+        <li>Modular organization = fundamental feature of cortical organization</li>
+        <li>Functional significance still being determined</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Hierarchical connections -->
+  <div class="box c3" style="margin-top:14px;">
+    <div class="box-title c3">Functional Hierarchy &amp; Connections of SI</div>
+    <div class="grid grid-4">
+      <div class="compare-cell">
+        <div class="label">3b → 1, 2</div>
+        <div class="value" style="font-size:12px;">Dense projections — serial processing within SI</div>
+      </div>
+      <div class="compare-cell">
+        <div class="label">All SI → SII</div>
+        <div class="value" style="font-size:12px;">Secondary somatosensory cortex</div>
+      </div>
+      <div class="compare-cell">
+        <div class="label">SII → Amygdala &amp; Hippocampus</div>
+        <div class="value" style="font-size:12px;">Tactile learning &amp; memory</div>
+      </div>
+      <div class="compare-cell">
+        <div class="label">SI → Parietal areas 5a, 7b</div>
+        <div class="value" style="font-size:12px;">Motor integration → motor &amp; premotor cortex → sensorimotor integration</div>
+      </div>
+    </div>
+    <div class="callout success" style="margin-top:10px;">
+      <strong>Sensorimotor Integration:</strong> Proprioceptive afferents signaling muscle contraction gain access to circuits initiating voluntary movements via SI → parietal areas 5 &amp; 7 → motor/premotor frontal lobe.
+    </div>
+    <div class="callout info" style="margin-top:6px;">
+      <strong>Descending Projections:</strong> Outnumber ascending projections. From SI → Thalamus, Brainstem &amp; Spinal Cord. Assumed to modulate sensory information flow (function not fully understood).
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+  SECTION 16: PLASTICITY
+══════════════════════════════════════════════ -->
+<section class="section" id="s16">
+  <div class="section-header">
+    <span class="section-num">16</span>
+    <h2 class="section-title g4"><span class="accent">Plasticity</span> in the Adult Cerebral Cortex</h2>
+  </div>
+  <div class="grid grid-3">
+
+    <div class="box c4">
+      <div class="box-title c4">Lesion-Induced Plasticity</div>
+      <ul class="dot-list">
+        <li>Lesioning a sensory input → initial <strong>lack of response</strong> in corresponding cortical area</li>
+        <li>Followed by gradual <strong>increase in responding</strong> to stimulation of <em>neighboring</em> regions</li>
+        <li>Adjacent body-part representations <strong>expand</strong> into deprived cortex</li>
+        <li>Example: digit 3 amputation in owl monkey → fingers 2 &amp; 4 representation expands within 2 months</li>
+      </ul>
+    </div>
+
+    <div class="box c4">
+      <div class="box-title c4">Experience-Induced Plasticity</div>
+      <ul class="dot-list">
+        <li>Less drastic than lesion — changes via <strong>sensory or motor experience</strong></li>
+        <li>Training a monkey to use specific fingers → <span class="hi4">expands associated cortical representation</span></li>
+        <li>Local anesthetic → temporary <strong>remapping of receptive fields</strong></li>
+        <li><span class="hi2">Rapid plasticity</span> → likely reflects changes in <strong>synaptic strength</strong> of existing synapses (not new growth)</li>
+      </ul>
+    </div>
+
+    <div class="box c2">
+      <div class="box-title c2">Musical Training &amp; Plasticity</div>
+      <ul class="dot-list">
+        <li><strong>String players</strong> show increased cortical representation of left-hand fingers</li>
+        <li>Earlier onset of musical practice → greater cortical reorganization</li>
+        <li>Observed behaviorally, cortically (fMRI), and subcortically (EEG)</li>
+        <li>Key papers: Elbert et al. (1995) <em>Science</em>; Herholz &amp; Zatorre (2012) <em>Neuron</em></li>
+      </ul>
+    </div>
+
+    <div class="box c1 col-span-3">
+      <div class="box-title c1">General Principle: Functional Remapping</div>
+      <ul class="dot-list">
+        <li>Functional remapping is a <strong>general property of neocortex</strong></li>
+        <li>Also observed in <span class="hi1">visual cortex</span>, <span class="hi2">auditory cortex</span>, and <span class="hi3">motor cortex</span></li>
+        <li>Cortical maps are <strong>dynamic, not fixed</strong> — they reflect current patterns of use</li>
+        <li>Has implications for <strong>rehabilitation</strong>, prosthetics, skill learning, and understanding phantom limb pain</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER SUMMARY -->
+<div class="box c1 hero" style="margin-top:20px;">
+  <div class="box-title c1">Complete Pathway Summary — From Skin to Cortex</div>
+  <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:8px;">
+    <span class="pill c1">Stimulus</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c2">Receptor / Mechanoreceptor</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c3">Receptor Potential</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c4">Action Potentials</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c1">Peripheral Axon → DRG Cell Body → Central Axon</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c5">Dorsal Horn Synapse (Spinal Cord)</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c2">Dorsal Columns (ipsilateral ascent)</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c3">Dorsal Column Nuclei (Medulla)</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c4">Medial Lemniscus (crosses midline)</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c5">VP Thalamus (contralateral)</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c1">SI: Areas 3a, 3b, 1, 2 (postcentral gyrus)</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c2">SII → Amygdala / Hippocampus</span>
+    <span style="color:var(--text-dim);">→</span>
+    <span class="pill c3">Parietal areas 5 &amp; 7 → Motor cortex</span>
+  </div>
+</div>
+
+</main>
+
+<script>
+// Scroll progress bar
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+});
+
+// Animate sections on scroll
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+    }
+  });
+}, { threshold: 0.05 });
+sections.forEach(s => {
+  s.style.animationPlayState = 'paused';
+  observer.observe(s);
+});
+
+// Smooth scroll for ToC links
+document.querySelectorAll('.toc a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const id = a.getAttribute('href').slice(1);
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

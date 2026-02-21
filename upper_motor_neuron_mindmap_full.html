@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upper Motor Neuron Circuits – Complete Mind Map</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #111318;
+  --surface: #181c24;
+  --surface2: #1e2330;
+  --border: rgba(255,255,255,0.07);
+
+  --gold:   #e8c547;
+  --blue:   #5ab4f0;
+  --green:  #6ecb8a;
+  --orange: #f0845a;
+  --purple: #b388ff;
+  --pink:   #f48fb1;
+  --teal:   #4dd0c4;
+  --red:    #ef5350;
+  --lime:   #aed581;
+
+  --text: #dde1ea;
+  --muted: #7a8099;
+  --dimmed: #4a5068;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  padding: 36px 24px 20px;
+  border-bottom: 1px solid var(--border);
+  background: radial-gradient(ellipse at 50% 0%, rgba(232,197,71,0.08) 0%, transparent 70%);
+}
+.header h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  color: var(--gold);
+  letter-spacing: 0.03em;
+}
+.header p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 6px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── LEGEND ── */
+.legend-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.leg-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+
+/* ── CANVAS ── */
+.canvas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 18px 50px;
+}
+
+/* Full-width center title node */
+.hero {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1c1a0a 0%, #2a2608 100%);
+  border: 1px solid rgba(232,197,71,0.4);
+  border-radius: 16px;
+  padding: 22px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(232,197,71,0.12);
+}
+.hero .title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+.hero .chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.hero .chip {
+  background: rgba(232,197,71,0.12);
+  border: 1px solid rgba(232,197,71,0.3);
+  color: var(--gold);
+  border-radius: 99px;
+  padding: 3px 12px;
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 16px 15px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* Colour accents per topic */
+.c-blue   { border-color: rgba(90,180,240,0.25); }
+.c-green  { border-color: rgba(110,203,138,0.25); }
+.c-orange { border-color: rgba(240,132,90,0.25); }
+.c-purple { border-color: rgba(179,136,255,0.25); }
+.c-pink   { border-color: rgba(244,143,177,0.25); }
+.c-teal   { border-color: rgba(77,208,196,0.25); }
+.c-red    { border-color: rgba(239,83,80,0.25); }
+.c-lime   { border-color: rgba(174,213,129,0.25); }
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--border);
+}
+.card-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.card-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.c-blue   .card-title { color: var(--blue); }
+.c-green  .card-title { color: var(--green); }
+.c-orange .card-title { color: var(--orange); }
+.c-purple .card-title { color: var(--purple); }
+.c-pink   .card-title { color: var(--pink); }
+.c-teal   .card-title { color: var(--teal); }
+.c-red    .card-title { color: var(--red); }
+.c-lime   .card-title { color: var(--lime); }
+
+/* Sections inside card */
+.sec {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sec-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dimmed);
+  margin-bottom: 2px;
+}
+
+/* List */
+ul.lst {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+ul.lst li {
+  font-size: 0.68rem;
+  padding-left: 14px;
+  position: relative;
+  color: #c5cade;
+  line-height: 1.5;
+}
+ul.lst li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--dimmed);
+  font-size: 0.55rem;
+  top: 3px;
+}
+ul.lst li b { color: var(--text); font-weight: 600; }
+ul.lst li em { color: var(--gold); font-style: normal; }
+
+/* Tags row */
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag {
+  font-size: 0.62rem;
+  padding: 2px 7px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: #b0b8cc;
+  line-height: 1.5;
+}
+
+/* Highlight box */
+.hl {
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-size: 0.67rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+.hl-gold  { background: rgba(232,197,71,0.08); border-left: 3px solid var(--gold); color: #d4b53e; }
+.hl-blue  { background: rgba(90,180,240,0.08); border-left: 3px solid var(--blue); color: var(--blue); }
+.hl-green { background: rgba(110,203,138,0.08); border-left: 3px solid var(--green); color: var(--green); }
+.hl-orange{ background: rgba(240,132,90,0.08); border-left: 3px solid var(--orange); color: var(--orange); }
+.hl-purple{ background: rgba(179,136,255,0.08); border-left: 3px solid var(--purple); color: var(--purple); }
+.hl-pink  { background: rgba(244,143,177,0.08); border-left: 3px solid var(--pink); color: var(--pink); }
+.hl-teal  { background: rgba(77,208,196,0.08); border-left: 3px solid var(--teal); color: var(--teal); }
+
+/* Mono label (for experiments, papers) */
+.mono {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  background: var(--surface2);
+  border-radius: 5px;
+  padding: 5px 8px;
+  line-height: 1.6;
+}
+.mono b { color: var(--text); }
+
+/* span wide */
+.span2 { grid-column: span 2; }
+.span3 { grid-column: 1 / -1; }
+
+/* Divider */
+.divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0;
+}
+.divider span {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--dimmed);
+  white-space: nowrap;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── PATHWAY DIAGRAM (text-based) ── */
+.pathway {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  background: var(--surface2);
+  border-radius: 7px;
+  padding: 8px 10px;
+  line-height: 1.8;
+}
+.pathway .node { color: var(--text); }
+.pathway .arr  { color: var(--dimmed); }
+
+@media (max-width: 900px) {
+  .canvas { grid-template-columns: 1fr 1fr; }
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: 1 / -1; }
+}
+@media (max-width: 580px) {
+  .canvas { grid-template-columns: 1fr; }
+  .span2, .span3 { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Upper Motor Neuron Circuits</h1>
+  <p>Introduction to Neuroscience · Week 6, Lecture 2 · Mohammad Darainy · Full Slide Coverage</p>
+</div>
+
+<div class="legend-bar">
+  <div class="leg"><div class="leg-dot" style="background:var(--blue)"></div>Cortical Motor Areas</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>CST / CBT Tracts</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--orange)"></div>Premotor / Mirror</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--purple)"></div>Experimental Evidence</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--teal)"></div>Brainstem Pathways</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--pink)"></div>Postural Control</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--lime)"></div>Lower MN Review</div>
+</div>
+
+<div class="canvas">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero">
+    <div class="title">🧠 Upper Motor Neuron Circuits</div>
+    <div class="chips">
+      <span class="chip">Motor Cortex → Corticospinal Tract</span>
+      <span class="chip">Brainstem → Medial Pathways</span>
+      <span class="chip">Premotor Cortex</span>
+      <span class="chip">Voluntary vs Reflex</span>
+      <span class="chip">Postural Control</span>
+      <span class="chip">Population Coding</span>
+      <span class="chip">Mirror Neurons</span>
+    </div>
+  </div>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="divider"><span>Review: Lower Motor Neurons</span></div>
+
+  <!-- CARD 1 – Motor System Architecture -->
+  <div class="card c-lime">
+    <div class="card-header">
+      <span class="card-icon">🔁</span>
+      <div class="card-title">Motor System Architecture & LMN Review</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">4 Motor Systems</div>
+      <ul class="lst">
+        <li><b>Motor cortex</b> — planning, initiating & directing voluntary movements</li>
+        <li><b>Basal ganglia</b> — initiation of intended movement; suppression of unwanted movement</li>
+        <li><b>Brainstem centers</b> — rhythmic, stereotyped movements & postural control</li>
+        <li><b>Cerebellum</b> — coordination of ongoing movement</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Lower Motor Neurons — Final Common Pathway</div>
+      <ul class="lst">
+        <li>Convey motor commands to muscles</li>
+        <li>Each LMN innervates muscle fibers in one muscle = <b>motor neuron pool</b></li>
+        <li>Somatotopy in ventral horn: <b>medial</b> = proximal; <b>lateral</b> = distal</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">α vs γ Motor Neurons</div>
+      <ul class="lst">
+        <li><b>α-MNs</b> → extrafusal fibers → force generation (motor unit)</li>
+        <li><b>γ-MNs</b> → intrafusal (spindle) fibers → regulate stretch reflex gain → set muscle tone</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Negative Feedback Systems</div>
+      <ul class="lst">
+        <li><b>Muscle spindles</b> (Ia & II afferents) → monitor & maintain muscle <em>length</em></li>
+        <li><b>Golgi tendon organs</b> (Ib afferents) → monitor & maintain muscle <em>force</em></li>
+      </ul>
+    </div>
+
+    <div class="hl hl-green">LMNs integrate all descending commands + sensory input — they are the ONLY output to skeletal muscle.</div>
+  </div>
+
+  <!-- CARD 2 – Voluntary vs Reflex -->
+  <div class="card c-lime">
+    <div class="card-header">
+      <span class="card-icon">⚡</span>
+      <div class="card-title">Voluntary Movement vs Reflex</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Key Differences</div>
+      <ul class="lst">
+        <li>Voluntary = organized around a <b>purposeful task</b></li>
+        <li>Reflexes = 1-to-1 stimulus → response mapping</li>
+        <li>Voluntary: <b>multiple neurons of many brain regions</b> coordinate muscles toward a goal</li>
+        <li>Voluntary: effectiveness <b>improves with purposeful practice</b></li>
+        <li>Voluntary: <b>internally generated</b> — not necessarily responses to environmental stimuli</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Previous Topic Covered</div>
+      <div class="tags">
+        <span class="tag">Muscle stretch reflexes</span>
+        <span class="tag">Motor units</span>
+        <span class="tag">Flexion reflexes</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 – Spinal Cord Somatotopy -->
+  <div class="card c-lime">
+    <div class="card-header">
+      <span class="card-icon">📍</span>
+      <div class="card-title">Somatotopic Org. — Cervical Enlargement</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">White Matter Organisation</div>
+      <ul class="lst">
+        <li><b>Lateral white matter</b> — axons from motor cortex → skilled voluntary movement</li>
+        <li><b>Medial white matter</b> — axons from brainstem → posture, balance, locomotion, orienting</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Ventral Horn</div>
+      <ul class="lst">
+        <li><b>Lateral</b> ventral horn → distal limb muscles (skilled movements)</li>
+        <li><b>Medial</b> ventral horn → axial & proximal limb muscles (posture/balance/locomotion)</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Intermediate Zone (IZ)</div>
+      <ul class="lst">
+        <li><b>Medial IZ</b> → local circuit neurons → synapse with medial lower MNs</li>
+        <li><b>Lateral IZ</b> → local circuit neurons → synapse with lateral ventral horn</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">2 Sources of Upper Motor Neurons</div>
+      <ul class="lst">
+        <li><b>Cortex</b> → lateral spinal cord → contralateral → voluntary/skilled</li>
+        <li><b>Brainstem</b> → medial spinal cord → bilateral/ipsilateral → posture/balance</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="divider"><span>Cortical Motor Areas</span></div>
+
+  <!-- CARD 4 – Frontal Lobe Overview -->
+  <div class="card c-blue">
+    <div class="card-header">
+      <span class="card-icon">🗺️</span>
+      <div class="card-title">Frontal Lobe Cortical Areas of Motor Control</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Areas (Lateral View)</div>
+      <div class="tags">
+        <span class="tag">Primary Motor Cortex (M1)</span>
+        <span class="tag">Premotor Cortex</span>
+        <span class="tag">Supplementary Motor Area (SMA)</span>
+        <span class="tag">Cingulate Motor Areas</span>
+        <span class="tag">Frontal Eye Field</span>
+        <span class="tag">Lateral Premotor Areas</span>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Inputs to Cortical Motor Areas</div>
+      <div class="tags">
+        <span class="tag">Basal ganglia (via thalamus)</span>
+        <span class="tag">Cerebellum (via thalamus)</span>
+        <span class="tag">Parietal lobe</span>
+      </div>
+    </div>
+
+    <div class="hl hl-blue">Motor cortex = planning, initiating, directing voluntary movements</div>
+  </div>
+
+  <!-- CARD 5 – Primary Motor Cortex -->
+  <div class="card c-blue">
+    <div class="card-header">
+      <span class="card-icon">🎯</span>
+      <div class="card-title">Primary Motor Cortex (M1)</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Location & Properties</div>
+      <ul class="lst">
+        <li>Located in the <b>precentral gyrus</b> (Area 4)</li>
+        <li>Low current threshold → elicits movement & muscle contractions</li>
+        <li>Low threshold = large, direct pathway to lower MNs of brainstem & spinal cord</li>
+        <li>Receives input from basal ganglia & cerebellum <b>via thalamus</b></li>
+        <li>Upper MNs mediate <b>planning and initiation</b> of movements</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Cell Types (Cytoarchitecture)</div>
+      <ul class="lst">
+        <li><b>Upper MNs are pyramidal cells</b></li>
+        <li><b>Betz cells:</b> largest cell soma in CNS; only in M1; 5% of projections to spinal cord; important for distal muscle control; located in layer V</li>
+        <li><b>Non-Betz pyramidal cells:</b> found in ALL divisions of motor & premotor cortex</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Motor Homunculus (Penfield Map)</div>
+      <ul class="lst">
+        <li>Medial → trunk, lower extremity</li>
+        <li>Lateral → face, tongue, lips, jaw, vocalization, swallowing</li>
+        <li><b>Corticospinal tract</b>: trunk, upper & lower extremities</li>
+        <li><b>Corticobulbar tract</b>: face</li>
+        <li>Hand & face disproportionately large (fine motor demands)</li>
+      </ul>
+    </div>
+
+    <div class="hl hl-blue">Action goals for personal space · Direction selectivity at population level</div>
+  </div>
+
+  <!-- CARD 6 – Historical Experiments -->
+  <div class="card c-purple span2">
+    <div class="card-header">
+      <span class="card-icon">🔬</span>
+      <div class="card-title">Historical Experimental Evidence — Functional Organisation of Motor Cortex</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="sec">
+        <div class="sec-label">Fritsch & Hitzig (1870s)</div>
+        <ul class="lst">
+          <li>Electrical stimulation of motor cortex</li>
+          <li>→ muscle contractions on the <b>far (contralateral) side</b> of the body</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Hughlings Jackson</div>
+        <ul class="lst">
+          <li>Motor cortex has <b>representation of musculature</b></li>
+          <li>Epileptic partial seizures "march" systematically:</li>
+          <li>Finger → hand → forearm → arm → shoulder → face</li>
+          <li>= Jacksonian march</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Wilder Penfield — "Montreal Procedure"</div>
+        <ul class="lst">
+          <li>Patients remain <b>awake</b> during surgery</li>
+          <li>Describe reactions while surgeon stimulates brain areas</li>
+          <li>Mapped <b>precentral gyrus</b> in 400+ neurosurgical patients</li>
+          <li>Correlated location of muscle contractions with stimulation site</li>
+          <li>Demonstrated human motor cortex has <b>map of musculature</b></li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Intracortical Microstimulation (1960s)</div>
+        <ul class="lst">
+          <li>Upper MNs in <b>layer V</b> stimulated focally</li>
+          <li>Small currents → excitation of <b>several muscles</b></li>
+          <li>Movements elicited from <b>widely separated</b> stimulation sites</li>
+          <li>→ local circuits involved in controlling movements</li>
+          <li>→ <b>movements</b>, not individual muscles, might be organised</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Evarts (1960s) — Intracortical Recordings</div>
+        <ul class="lst">
+          <li>Developed system for recording from motor cortex neurons</li>
+          <li>Firing rate ∝ force: higher force → higher firing frequency</li>
+          <li>Firing rates increase <b>prior to</b> force development</li>
+          <li>→ motor cortex contributes to <b>early phase</b> of movement generation & planning</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Spike-Triggered Averaging (1970s)</div>
+        <ul class="lst">
+          <li>Correlates activity of a <b>single</b> cortical neuron with muscle EMG</li>
+          <li>Task: wrist flexion or extension</li>
+          <li>Shows a peripheral muscle group activated by one motoneuron</li>
+          <li>Single upper MN contacts <b>several lower MN pools</b></li>
+          <li>"Postspike facilitation" detected (n = 9000 spikes averaged)</li>
+          <li>→ consistent with cortical neurons encoding <b>movements not muscles</b></li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Graziano (2005) — Long Microstimulation</div>
+        <ul class="lst">
+          <li>Awake behaving monkeys; <b>longer</b> stimulations (several seconds)</li>
+          <li>Elicits <b>coordinated, purposeful, multi-joint</b> movements</li>
+          <li>Movement types mapped: <b>hand-to-mouth</b>, defensive, central space/manipulation, reach, outward arm movements, climbing/leaping</li>
+          <li>Same stimulation site → hand always moves to same final position regardless of starting position (red dots = final positions)</li>
+          <li>→ Action maps: movements can be elicited from <b>widely separated</b> motor cortex neurons</li>
+          <li>Question raised: map of musculature, movements, or <em>intention of movements</em>?</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Griffin et al. (2011) — "Neural Hijacking"</div>
+        <div class="mono">
+          <b>"Hijacking Cortical Motor Output with Repetitive Microstimulation"</b><br>
+          Journal of Neuroscience 31(37):13088–13096<br><br>
+          High-freq repetitive microstimulation (200 Hz, 500 ms)<br>
+          Rhesus monkeys during reach-to-grasp task<br>
+          Hypothesis: stimulus-evoked firing may <b>block & replace</b><br>
+          natural activity = "neural hijacking"<br>
+          (vs. simple summation assumption)<br>
+          → Assumptions influence outcomes & interpretation!
+        </div>
+      </div>
+    </div>
+
+    <div class="hl hl-purple">Population Vector Hypothesis: movement direction = integrated activity of many broadly-tuned neurons, each with a "preferred direction." Red arrows (population vector) accurately predict arm movement direction in 8-direction joystick task (Georgeopoulos).</div>
+  </div>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="divider"><span>Descending Tracts from Cortex</span></div>
+
+  <!-- CARD 7 – Corticospinal + Corticobulbar -->
+  <div class="card c-green span2">
+    <div class="card-header">
+      <span class="card-icon">🛤️</span>
+      <div class="card-title">Corticospinal Tract (CST) & Corticobulbar Tract (CBT)</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div>
+        <div class="sec">
+          <div class="sec-label">Shared Pathway</div>
+          <div class="pathway">
+<span class="node">Motor Cortex</span>
+  <span class="arr">↓</span>
+<span class="node">Internal Capsule</span>
+  <span class="arr">↓</span>
+<span class="node">Ventral surface of midbrain</span>
+  <span class="arr">↓</span>
+<span class="node">Cerebral Peduncle</span>
+  <span class="arr">↓</span>
+<span class="node">Pons</span>
+  <span class="arr">↓</span>
+<span class="node">Ventral surface of Medulla</span>
+  <span class="arr">↓</span>
+<span class="node">Spinal Cord</span>
+          </div>
+        </div>
+
+        <div class="sec" style="margin-top:8px;">
+          <div class="sec-label">CST — Two Divisions</div>
+          <ul class="lst">
+            <li><b>Lateral CST (90%):</b> decussate at caudal medulla (pyramidal decussation) → contralateral; terminates lateral ventral horn & IZ; most axons → local circuit neurons; some directly onto α-MNs → distal limbs, forearm, hand → fine motor: writing, piano, buttoning</li>
+            <li><b>Ventral CST (10%):</b> do NOT cross; continue ipsilaterally; terminate <b>bilaterally</b>; arises from dorsal & medial regions of motor cortex; serves <b>axial & proximal</b> muscles</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec">
+          <div class="sec-label">Corticobulbar Tract (CBT)</div>
+          <ul class="lst">
+            <li>Branches off in brainstem</li>
+            <li>Gives rise to <b>bilateral</b> collaterals → multiple brainstem nuclei</li>
+            <li>Mostly terminate on <b>local circuit neurons</b></li>
+            <li>Controls muscles of <b>head, face & neck</b></li>
+            <li>Functions: facial expressions, chewing, tongue movements</li>
+          </ul>
+        </div>
+
+        <div class="sec" style="margin-top:8px;">
+          <div class="sec-label">Brainstem Nuclei Innervated (CBT)</div>
+          <div class="tags">
+            <span class="tag">Trigeminal nucleus (V) — chewing</span>
+            <span class="tag">Facial motor nucleus (VII) — facial expression</span>
+            <span class="tag">Hypoglossal nucleus (XII) — tongue</span>
+            <span class="tag">Pontine fiber bundles</span>
+            <span class="tag">Red nucleus</span>
+          </div>
+        </div>
+
+        <div class="sec" style="margin-top:8px;">
+          <div class="sec-label">Termination Targets of Lateral CST</div>
+          <ul class="lst">
+            <li>Lateral ventral horn → distal limb LMNs</li>
+            <li>Intermediate zone → local circuit neurons</li>
+            <li>Direct monosynaptic onto α-MNs (unique to primates; allows fine motor control)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="hl hl-green">Key rule: Brainstem → medial spinal cord (bilateral) → posture/balance. Cortex → lateral spinal cord (contralateral) → skilled/voluntary.</div>
+  </div>
+
+  <!-- CARD 8 – Summary Cortical UMN -->
+  <div class="card c-blue">
+    <div class="card-header">
+      <span class="card-icon">📋</span>
+      <div class="card-title">Summary: Cortical Upper Motor Neurons</div>
+    </div>
+    <div class="sec">
+      <div class="sec-label">Tracts</div>
+      <ul class="lst">
+        <li><b>Corticobulbar tract</b> → head/face/neck muscles</li>
+        <li><b>Corticospinal tract</b> → limb & axial muscles</li>
+      </ul>
+    </div>
+    <div class="sec">
+      <div class="sec-label">Primary Motor Cortex</div>
+      <ul class="lst">
+        <li>Action goals for <b>personal space</b></li>
+        <li>Direction selectivity at <b>population level</b></li>
+      </ul>
+    </div>
+    <div class="sec">
+      <div class="sec-label">Premotor Cortex</div>
+      <ul class="lst">
+        <li>Action goals for <b>extra-personal space</b></li>
+        <li>Direction selectivity</li>
+        <li>Encodes <b>observed</b> movement</li>
+        <li><b>Lateral</b>: closed-loop (cued)</li>
+        <li><b>Medial</b>: open-loop (spontaneous)</li>
+      </ul>
+    </div>
+    <div class="sec">
+      <div class="sec-label">Both project to:</div>
+      <ul class="lst">
+        <li>Lateral white matter → LMNs in lateral ventral horn → distal limb muscles (skilled)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="divider"><span>Premotor Cortex & Mirror Neurons</span></div>
+
+  <!-- CARD 9 – Premotor Cortex -->
+  <div class="card c-orange">
+    <div class="card-header">
+      <span class="card-icon">🔮</span>
+      <div class="card-title">Premotor Cortex — Divisions & Function</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Connections</div>
+      <ul class="lst">
+        <li><b>Indirect</b>: reciprocal projections to primary motor cortex</li>
+        <li><b>Direct</b>: axons project into corticobulbar & corticospinal tracts</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Lateral Premotor Cortex — Closed-Loop</div>
+      <ul class="lst">
+        <li>Important for <b>externally-cued</b> ("closed-loop") motor tasks</li>
+        <li>Example: monkey trained to reach in different directions depending on visual cue</li>
+        <li>Neurons fire at <b>appearance of cue</b> & maintain elevated firing between cue and signal to move</li>
+        <li>→ neurons encode <b>intention to move</b></li>
+        <li><b>Lesion effect</b>: impairs "closed-loop" tasks even though animal can see cue and can perform the motor response separately</li>
+        <li>Patients with frontal lobe damage: difficulty initiating movements in response to visual cues</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Medial Premotor Cortex (SMA) — Open-Loop</div>
+      <ul class="lst">
+        <li>Involved in <b>internally-cued</b> / spontaneous movement selection</li>
+        <li>"Open-loop" conditions</li>
+        <li><b>Lesion effect</b>: reduces spontaneous movements BUT preserves ability to initiate movement in response to visual cues</li>
+      </ul>
+    </div>
+
+    <div class="hl hl-orange">Lateral PMC = external cues · Medial PMC (SMA) = internal cues / spontaneous</div>
+  </div>
+
+  <!-- CARD 10 – Mirror Neurons -->
+  <div class="card c-orange span2">
+    <div class="card-header">
+      <span class="card-icon">🪞</span>
+      <div class="card-title">Mirror Motor Neurons — Ventrolateral Premotor Cortex</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Definition</div>
+      <div class="hl hl-orange">A mirror motor neuron fires both when an animal <b>acts</b> AND when the animal <b>observes the same action</b> performed by another individual.</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px;">
+      <div class="sec">
+        <div class="sec-label">Condition A — Fires</div>
+        <ul class="lst">
+          <li>Trainer places food morsel with <b>hand</b></li>
+          <li>Monkey watches → <b>neuron fires</b></li>
+          <li>Monkey reaches & retrieves → <b>neuron fires</b></li>
+          <li>Monkey reaches behind barrier (can't see own hand) → <b>still fires</b></li>
+        </ul>
+      </div>
+      <div class="sec">
+        <div class="sec-label">Condition B — Does NOT Fire</div>
+        <ul class="lst">
+          <li>Food placed with <b>pliers</b> (not hand)</li>
+          <li>Neuron does NOT respond</li>
+          <li>→ action-specific, not just goal-specific</li>
+        </ul>
+      </div>
+      <div class="sec">
+        <div class="sec-label">Implications</div>
+        <ul class="lst">
+          <li>PMC plays role in encoding <b>observed actions</b> of others</li>
+          <li>Fires even without visual feedback of own movement (behind barrier)</li>
+          <li>Possible basis for imitation learning & social cognition</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Recording Method (raster plots + peristimulus histograms)</div>
+      <ul class="lst">
+        <li>Each tick mark = one action potential; each row = one trial</li>
+        <li>Histograms aligned to observed vs. executed movement onset</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="divider"><span>Brainstem Motor Pathways</span></div>
+
+  <!-- CARD 11 – Brainstem Overview -->
+  <div class="card c-teal">
+    <div class="card-header">
+      <span class="card-icon">🌉</span>
+      <div class="card-title">Brainstem Descending Motor Control — Overview</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">General Principle</div>
+      <ul class="lst">
+        <li>Brainstem motor centers work <b>in concert</b> with motor cortex</li>
+        <li>Pathways influence LMNs in the <b>medial</b> ventral horn</li>
+        <li>Originate from: vestibular complex, reticular formation, superior colliculus</li>
+        <li>Coordinate: balance, posture, gaze</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Pathway Summary</div>
+      <div class="pathway">
+Upper MNs in Brainstem
+  <span class="arr">↓</span>
+Anterior-medial white matter of spinal cord
+  <span class="arr">↓ (bilateral)</span>
+LMNs in medial ventral horn
+  <span class="arr">↓</span>
+Axial & proximal limb muscles
+(posture, balance, locomotion)
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">4 Key Brainstem Tracts</div>
+      <div class="tags">
+        <span class="tag">Vestibulospinal (medial & lateral)</span>
+        <span class="tag">Reticulospinal</span>
+        <span class="tag">Colliculospinal</span>
+        <span class="tag">Rubrospinal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 12 – Vestibular Nuclei -->
+  <div class="card c-teal">
+    <div class="card-header">
+      <span class="card-icon">⚖️</span>
+      <div class="card-title">Vestibular Nuclei</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Medial Vestibulospinal Tract</div>
+      <ul class="lst">
+        <li>Origin: vestibular complex nuclei</li>
+        <li>Projection: <b>bilateral</b></li>
+        <li>Mediates <b>feedback</b> — responds to disturbances of body posture & stability</li>
+        <li>Input signal: <b>semicircular canals</b></li>
+        <li>Example: extending arms + dorsiflexion of neck when you trip</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Lateral Vestibulospinal Tract</div>
+      <ul class="lst">
+        <li>Origin: lateral vestibular nucleus</li>
+        <li>Projection: <b>ipsilateral</b></li>
+        <li>Involved in <b>proximal muscle</b> responses</li>
+        <li>Maintains stable balance & upright posture</li>
+        <li>Input signal: <b>otolith organs</b> (linear acceleration/gravity)</li>
+      </ul>
+    </div>
+
+    <div class="hl hl-teal">Medial VS = feedback from semicircular canals (rotation). Lateral VS = feedback from otoliths (gravity/tilt).</div>
+  </div>
+
+  <!-- CARD 13 – Reticular Formation -->
+  <div class="card c-teal">
+    <div class="card-header">
+      <span class="card-icon">🕸️</span>
+      <div class="card-title">Reticular Formation</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Reticulospinal Tract</div>
+      <ul class="lst">
+        <li>Projects to <b>medial ventral horn</b></li>
+        <li>Modulates reflexes for <b>stereotyped movement</b></li>
+        <li>Receives input from: cortex, hypothalamus, brainstem</li>
+        <li>Pontine AND medullary reticular formation</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Feedforward Postural Control</div>
+      <ul class="lst">
+        <li>Cortical UMNs initiate <b>both</b> the primary movement AND a compensatory movement simultaneously</li>
+        <li>Compensatory movement counters <b>predicted</b> destabilization</li>
+        <li>Reticular formation neurons <b>initiate the feedforward adjustments</b></li>
+        <li><em>The compensatory movement PRECEDES the primary movement</em></li>
+        <li>Example: gastrocnemius (leg) contracts before biceps pull on a handle</li>
+        <li>EMG: Gastrocnemius tone rises before Biceps activation</li>
+      </ul>
+    </div>
+
+    <div class="hl hl-teal">Feedforward = preprogrammed, anticipatory. Feedback = reactive, triggered by sensory detection of instability.</div>
+  </div>
+
+  <!-- CARD 14 – Superior Colliculus & Red Nucleus -->
+  <div class="card c-teal span2">
+    <div class="card-header">
+      <span class="card-icon">🔴</span>
+      <div class="card-title">Superior Colliculus & Red Nucleus</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="sec">
+        <div class="sec-label">Superior Colliculus → Colliculospinal Tract</div>
+        <ul class="lst">
+          <li><b>Direct pathway</b> neurons to the spinal cord</li>
+          <li><b>Indirect pathway</b> through reticular formation → reticulospinal tract</li>
+          <li>Controls <b>axial muscles in the neck</b></li>
+          <li>Function: <b>head orientation</b></li>
+          <li>Projects to cervical spinal cord</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <div class="sec-label">Red Nucleus → Rubrospinal Tract</div>
+        <ul class="lst">
+          <li>Projections limited to <b>cervical level</b> of spinal cord only</li>
+          <li>Terminates in <b>lateral</b> regions of ventral horn & intermediate zone</li>
+          <li>Controls <b>arm / hand</b> movements</li>
+          <li>Active <b>prior to movement onset</b></li>
+          <li>Located in midbrain tegmentum</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 15 – Feedforward vs Feedback -->
+  <div class="card c-pink">
+    <div class="card-header">
+      <span class="card-icon">🔄</span>
+      <div class="card-title">Feedforward & Feedback Postural Control</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Feedforward</div>
+      <ul class="lst">
+        <li>"Preprogrammed" — anticipates instability</li>
+        <li>Typically <b>precedes</b> onset of limb movement</li>
+        <li>Cortical UMN initiates primary movement + compensatory signal simultaneously</li>
+        <li>Reticular formation executes adjustment</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Feedback</div>
+      <ul class="lst">
+        <li>Initiated by <b>sensory inputs</b> that detect postural instability</li>
+        <li>Reactive — occurs after disturbance detected</li>
+        <li>Vestibulospinal: main pathway for feedback responses</li>
+      </ul>
+    </div>
+
+    <div class="pathway">
+Central Command <span class="arr">──────────────────→</span> Limb Movement
+     <span class="arr">│</span>                                      <span class="arr">│</span>
+     <span class="arr">↓ (feedforward)</span>                        <span class="arr">↓ (causes)</span>
+Postural Adjustment <span class="arr">←──────</span> Postural Instability
+     (feedback if unanticipated)
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER NOTE ═══ -->
+  <div class="divider"><span>Next Lecture</span></div>
+  <div class="hero" style="background: linear-gradient(135deg,#1a0d24,#2a1a3a); border-color: rgba(179,136,255,0.3); box-shadow: 0 0 40px rgba(179,136,255,0.08);">
+    <div class="title" style="color: var(--purple); font-size:1rem;">Next: Modulation of Movement by the Basal Ganglia</div>
+    <div class="chips">
+      <span class="chip" style="background: rgba(179,136,255,0.12); border-color: rgba(179,136,255,0.3); color: var(--purple);">Initiation of intended movement</span>
+      <span class="chip" style="background: rgba(179,136,255,0.12); border-color: rgba(179,136,255,0.3); color: var(--purple);">Suppression of unwanted movement</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

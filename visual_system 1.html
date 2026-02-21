@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Visual System — Interactive Mindmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --accent1: #58a6ff;
+    --accent2: #f78166;
+    --accent3: #56d364;
+    --accent4: #e3b341;
+    --accent5: #bc8cff;
+    --accent6: #79c0ff;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --text-bright: #f0f6fc;
+    --heading-font: 'Playfair Display', serif;
+    --body-font: 'Source Sans 3', sans-serif;
+    --mono-font: 'Fira Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body-font);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 60px 32px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(88,166,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-eyebrow {
+    font-family: var(--mono-font);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent1);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  header h1 {
+    font-family: var(--heading-font);
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 900;
+    color: var(--text-bright);
+    letter-spacing: -0.5px;
+  }
+
+  header h1 span { color: var(--accent1); }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    position: relative;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: var(--mono-font);
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .legend-item:hover {
+    border-color: var(--border);
+    color: var(--text);
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 40px 100px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 56px;
+  }
+
+  .section-label {
+    font-family: var(--mono-font);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── GRID ROWS ── */
+  .row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    align-items: stretch;
+  }
+
+  .row.center { justify-content: center; }
+
+  /* ── BOX ── */
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    flex: 1;
+    min-width: 220px;
+    position: relative;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    border-color: #484f58;
+  }
+
+  /* Color variants */
+  .c1::before { background: var(--accent1); }
+  .c1:hover { border-color: var(--accent1); box-shadow: 0 12px 40px rgba(88,166,255,0.15); }
+
+  .c2::before { background: var(--accent2); }
+  .c2:hover { border-color: var(--accent2); box-shadow: 0 12px 40px rgba(247,129,102,0.15); }
+
+  .c3::before { background: var(--accent3); }
+  .c3:hover { border-color: var(--accent3); box-shadow: 0 12px 40px rgba(86,211,100,0.15); }
+
+  .c4::before { background: var(--accent4); }
+  .c4:hover { border-color: var(--accent4); box-shadow: 0 12px 40px rgba(227,179,65,0.15); }
+
+  .c5::before { background: var(--accent5); }
+  .c5:hover { border-color: var(--accent5); box-shadow: 0 12px 40px rgba(188,140,255,0.15); }
+
+  .c6::before { background: var(--accent6); }
+  .c6:hover { border-color: var(--accent6); box-shadow: 0 12px 40px rgba(121,192,255,0.15); }
+
+  .box-title {
+    font-family: var(--heading-font);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .box-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .box ul li {
+    padding: 4px 0 4px 14px;
+    position: relative;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .box ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--text-dim);
+  }
+
+  .box ul li strong {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+
+  .box ul li em {
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  /* Sub-lists */
+  .box ul ul {
+    margin-top: 2px;
+    margin-left: 12px;
+  }
+
+  .box ul ul li {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .box ul ul li::before {
+    content: '·';
+  }
+
+  /* Tag badges */
+  .tag {
+    display: inline-block;
+    font-family: var(--mono-font);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin: 3px 2px 0;
+    font-weight: 500;
+  }
+
+  .tag-blue { background: rgba(88,166,255,0.15); color: var(--accent1); border: 1px solid rgba(88,166,255,0.3); }
+  .tag-red { background: rgba(247,129,102,0.15); color: var(--accent2); border: 1px solid rgba(247,129,102,0.3); }
+  .tag-green { background: rgba(86,211,100,0.15); color: var(--accent3); border: 1px solid rgba(86,211,100,0.3); }
+  .tag-yellow { background: rgba(227,179,65,0.15); color: var(--accent4); border: 1px solid rgba(227,179,65,0.3); }
+  .tag-purple { background: rgba(188,140,255,0.15); color: var(--accent5); border: 1px solid rgba(188,140,255,0.3); }
+
+  /* Full-width box */
+  .box.full { flex: 0 0 100%; min-width: 0; }
+
+  /* Wide box */
+  .box.wide { flex: 2; }
+
+  /* Narrow box */
+  .box.narrow { flex: 0.7; min-width: 180px; }
+
+  /* Key fact callout */
+  .key-fact {
+    background: rgba(88,166,255,0.06);
+    border: 1px solid rgba(88,166,255,0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--accent6);
+    font-family: var(--mono-font);
+  }
+
+  .key-fact.orange { background: rgba(247,129,102,0.06); border-color: rgba(247,129,102,0.2); color: var(--accent2); }
+  .key-fact.green { background: rgba(86,211,100,0.06); border-color: rgba(86,211,100,0.2); color: var(--accent3); }
+  .key-fact.yellow { background: rgba(227,179,65,0.06); border-color: rgba(227,179,65,0.2); color: var(--accent4); }
+  .key-fact.purple { background: rgba(188,140,255,0.06); border-color: rgba(188,140,255,0.2); color: var(--accent5); }
+
+  /* Cascade flow arrows */
+  .cascade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .cascade-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-family: var(--mono-font);
+    color: var(--text-bright);
+    white-space: nowrap;
+  }
+
+  .cascade-arrow {
+    color: var(--text-dim);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 10px 0;
+    opacity: 0.5;
+  }
+
+  /* Spectrum bar */
+  .spectrum-bar {
+    height: 12px;
+    border-radius: 6px;
+    background: linear-gradient(to right,
+      #7b00ff 0%, #5500ff 5%, #0000ff 12%,
+      #00aaff 25%, #00ffcc 38%, #00ff00 50%,
+      #aaff00 62%, #ffff00 70%, #ffaa00 80%,
+      #ff5500 90%, #ff0000 100%);
+    margin: 8px 0;
+    position: relative;
+  }
+
+  .spectrum-markers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-dim);
+    font-family: var(--mono-font);
+  }
+
+  /* Cone markers */
+  .cone-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .cone-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: var(--mono-font);
+    font-weight: 500;
+    flex: 1;
+    min-width: 70px;
+  }
+
+  .cone-badge .nm { font-size: 16px; font-weight: 700; }
+  .cone-s { background: rgba(68,82,255,0.15); color: #6699ff; border: 1px solid rgba(68,82,255,0.3); }
+  .cone-r { background: rgba(80,80,80,0.2); color: #aaa; border: 1px solid rgba(100,100,100,0.3); }
+  .cone-m { background: rgba(56,180,56,0.15); color: #56c656; border: 1px solid rgba(56,180,56,0.3); }
+  .cone-l { background: rgba(220,50,50,0.15); color: #f07070; border: 1px solid rgba(220,50,50,0.3); }
+
+  /* Step numbered list */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+  }
+
+  .steps li {
+    counter-increment: step;
+    padding: 5px 0 5px 28px !important;
+    position: relative;
+  }
+
+  .steps li::before {
+    content: counter(step) '' !important;
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: rgba(88,166,255,0.15);
+    border: 1px solid rgba(88,166,255,0.3);
+    border-radius: 50%;
+    font-size: 10px;
+    font-family: var(--mono-font);
+    color: var(--accent1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 5px;
+    font-weight: 500;
+  }
+
+  /* Collapsible */
+  .box-toggle {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 12px;
+    width: 22px; height: 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    z-index: 2;
+    user-select: none;
+  }
+
+  .box-toggle:hover { color: var(--text-bright); border-color: var(--accent1); }
+
+  .box-body { transition: max-height 0.3s ease, opacity 0.3s ease; overflow: hidden; }
+  .box-body.collapsed { max-height: 0 !important; opacity: 0; }
+
+  /* Anatomy mini-diagram */
+  .anatomy-list li { font-size: 12.5px; }
+
+  /* Search bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin: 24px auto;
+    max-width: 500px;
+  }
+
+  .search-bar input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--body-font);
+    font-size: 14px;
+  }
+
+  .search-bar input::placeholder { color: var(--text-dim); }
+  .search-icon { color: var(--text-dim); font-size: 16px; }
+
+  .box.hidden { display: none; }
+
+  /* Progress indicator */
+  .toc {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0 0;
+  }
+
+  .toc-item {
+    font-size: 11px;
+    font-family: var(--mono-font);
+    color: var(--text-dim);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .toc-item:hover { color: var(--text-bright); border-color: var(--accent1); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    main { padding: 20px 16px 80px; }
+    header { padding: 24px 20px 20px; }
+    .box { min-width: 100%; }
+    .row { flex-direction: column; }
+  }
+
+  /* Scroll-reveal */
+  .section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Scroll to top */
+  .scroll-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--accent1);
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(88,166,255,0.4);
+    z-index: 999;
+    transition: transform 0.2s;
+  }
+
+  .scroll-top:hover { transform: scale(1.1); }
+
+  /* Info badge */
+  .info-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .info-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .info-badge .val {
+    font-family: var(--mono-font);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-bright);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">NSCI201 · Stuart Trenholm · McGill University · Jan 20 2026</div>
+  <h1>The <span>Visual System</span></h1>
+  <p class="header-sub">Part 1: The Eye & Phototransduction — Complete Interactive Mindmap</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent1)"></div>History</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent2)"></div>Eye Anatomy</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent3)"></div>Optics &amp; Vision Disorders</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent4)"></div>Retina</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent5)"></div>Phototransduction</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent6)"></div>Color Vision</div>
+  </div>
+
+  <div class="toc">
+    <a class="toc-item" href="#sec-history">01 History</a>
+    <a class="toc-item" href="#sec-anatomy">02 Eye Anatomy</a>
+    <a class="toc-item" href="#sec-optics">03 Optics</a>
+    <a class="toc-item" href="#sec-disorders">04 Disorders</a>
+    <a class="toc-item" href="#sec-retina">05 Retina</a>
+    <a class="toc-item" href="#sec-photoreceptors">06 Photoreceptors</a>
+    <a class="toc-item" href="#sec-cascade">07 Phototransduction</a>
+    <a class="toc-item" href="#sec-color">08 Color Vision</a>
+  </div>
+</header>
+
+<div class="search-bar">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="searchInput" placeholder="Search any concept, term, or detail…" oninput="filterBoxes(this.value)">
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 1: HISTORY OF VISION THEORIES
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-history">
+  <div class="section-label">01 — History of Vision Theories</div>
+
+  <div class="row">
+
+    <div class="box c1 wide" data-search="extramission history plato theophrastus galen">
+      <div class="box-title"><span class="box-icon">🏛️</span> Extramission Theory of Vision</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>Plato</strong> — 4th century BCE
+            <ul>
+              <li>Eye <em>sends out rays</em> that seize objects</li>
+            </ul>
+          </li>
+          <li><strong>Theophrastus</strong> — 3rd century BCE
+            <ul>
+              <li>Eye contains an <em>internal fire</em> from which rays emanate</li>
+            </ul>
+          </li>
+          <li><strong>Galen</strong> — 2nd century CE
+            <ul>
+              <li>Thought <em>optical pneuma</em> was emitted from the eye</li>
+              <li>Considered the <em>lens</em> the origin of vision (cataracts obstructed vision)</li>
+            </ul>
+          </li>
+          <li><strong>Winer et al. (2002)</strong>
+            <ul>
+              <li>50% of American adults still believe in extramission theory</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="key-fact">💡 Extramission = eye emits rays outward to "grab" objects</div>
+      </div>
+    </div>
+
+    <div class="box c3" data-search="intromission history al-razi ibn al-haytham ibn sina">
+      <div class="box-title"><span class="box-icon">💡</span> Intromission Theory of Vision</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>al-Razi</strong> — 10th century CE
+            <ul>
+              <li>Noted light levels control <em>pupil dilation/contraction</em></li>
+            </ul>
+          </li>
+          <li><strong>Ibn al-Haytham</strong> — 10th–11th century CE
+            <ul>
+              <li>Described how bright light <em>disturbed the eye</em></li>
+            </ul>
+          </li>
+          <li><strong>Ibn Sina</strong> — 10th–11th century CE
+            <ul>
+              <li>Argued in favour of intromission theory</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="key-fact green">💡 Intromission = light enters the eye from outside objects</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 2: EYE ANATOMY
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-anatomy">
+  <div class="section-label">02 — Anatomy & Function of the Eye</div>
+
+  <div class="row">
+    <div class="box c2" data-search="cornea refraction optical power 2/3">
+      <div class="box-title"><span class="box-icon">🔬</span> Cornea</div>
+      <div class="box-body">
+        <ul>
+          <li>Clear tissue at the <em>front</em> of the eye</li>
+          <li><strong>Refracts</strong> incoming light</li>
+          <li>Provides ~<strong>2/3 of the eye's optical power</strong></li>
+          <li>Refractive power comes from difference between cornea and <em>air</em></li>
+          <li>🏊 When swimming, water <em>eliminates</em> cornea's refractive power</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c2" data-search="pupil iris light aperture dilation constriction">
+      <div class="box-title"><span class="box-icon">⚫</span> Pupil & Iris</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>Pupil</strong> = opening in the iris</li>
+          <li>Opening/closing controls <em>amount of light</em> entering the eye</li>
+          <li><strong>Dilated pupil →</strong> more light, dim environment vision</li>
+          <li><strong>Constricted pupil →</strong>
+            <ul>
+              <li>Reduces optical aberrations</li>
+              <li>Increases <em>depth of field</em></li>
+            </ul>
+          </li>
+          <li>Pupil appears black because all underlying structures are clear; <em>retinal pigment epithelium</em> behind is dark</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c2" data-search="lens ciliary muscles accommodation focus refractive power">
+      <div class="box-title"><span class="box-icon">🔍</span> Lens</div>
+      <div class="box-body">
+        <ul>
+          <li>Focuses incoming light on the <em>retina</em></li>
+          <li><strong>Ciliary muscles</strong> change lens shape → changes refractive power</li>
+          <li>Thin lens → distant objects</li>
+          <li>Thick lens → close objects (more refractive power)</li>
+          <li>Process = <em>Accommodation</em></li>
+        </ul>
+        <div class="key-fact">Accommodation = ability to tune focal plane</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box c2" data-search="retina neural tissue light sensing photoreceptors">
+      <div class="box-title"><span class="box-icon">🧠</span> Retina</div>
+      <div class="box-body">
+        <ul>
+          <li><em>Light-sensing neural tissue</em> at the back of the eye</li>
+          <li>Parses incoming light into different <strong>visual channels</strong> (color, movement, edges, etc.)</li>
+          <li>Light passes through entire retina before hitting photoreceptors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c2" data-search="retinal pigment epithelium RPE dark choroid sclera">
+      <div class="box-title"><span class="box-icon">🟤</span> Retinal Pigment Epithelium & Other Layers</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>RPE</strong> — dark layer behind retina (makes pupil look black)</li>
+          <li><strong>Choroid</strong> — vascular layer beneath retina</li>
+          <li><strong>Sclera</strong> — outer white coat of the eye</li>
+          <li><strong>Vitreous humor</strong> — gel-filled posterior chamber</li>
+          <li><strong>Aqueous humor</strong> — fluid in anterior chamber</li>
+          <li>RPE <em>phagocytoses</em> shed photoreceptor outer segments</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c2" data-search="fovea macula optic nerve ganglion cells optic disk">
+      <div class="box-title"><span class="box-icon">🎯</span> Fovea & Optic Nerve</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>Fovea</strong> = highest resolution vision region</li>
+          <li><strong>Macula</strong> = central retina responsible for high-res vision; contains the fovea</li>
+          <li><strong>Optic disk</strong> = nerve fibers leaving the eye → <em>blind spot</em></li>
+          <li><strong>Optic nerve</strong> = bundle of <em>retinal ganglion cell axons</em></li>
+          <li>Carries retinal signals to rest of brain</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 3: OPTICS, ACCOMMODATION, DISORDERS
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-optics">
+  <div class="section-label">03 — Optics & Accommodation</div>
+
+  <div class="row">
+    <div class="box c3 wide" data-search="depth of field aperture large small pupil blur bokeh">
+      <div class="box-title"><span class="box-icon">📷</span> Pupil Size & Depth of Field</div>
+      <div class="box-body">
+        <div class="row" style="margin-bottom:0;">
+          <div style="flex:1; min-width:140px;">
+            <div style="font-size:12px; font-weight:600; color:var(--accent2); margin-bottom:6px;">Large Aperture / Dilated Pupil</div>
+            <ul>
+              <li>More light enters</li>
+              <li>Narrow depth of field</li>
+              <li>Foreground/background blurry</li>
+              <li>Used in dim environments</li>
+            </ul>
+          </div>
+          <div style="width:1px; background:var(--border); margin:0 8px; flex-shrink:0;"></div>
+          <div style="flex:1; min-width:140px;">
+            <div style="font-size:12px; font-weight:600; color:var(--accent3); margin-bottom:6px;">Small Aperture / Constricted Pupil</div>
+            <ul>
+              <li>Less light enters</li>
+              <li>Good depth of field</li>
+              <li>Sharp focus extends widely</li>
+              <li>Fewer optical aberrations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box c3" data-search="accommodation presbyopia aging elasticity reading glasses">
+      <div class="box-title"><span class="box-icon">📅</span> Accommodation & Aging</div>
+      <div class="box-body">
+        <ul>
+          <li>As we age, <strong>lens loses elasticity</strong></li>
+          <li>Far objects → relax eye muscles → thin lens</li>
+          <li>Near objects → contract muscles → thick lens</li>
+          <li>With age, near objects can't be focused well</li>
+          <li><strong>Presbyopia</strong> = age-related loss of near focus</li>
+          <li>May require <em>reading glasses</em> to compensate</li>
+        </ul>
+        <div class="key-fact yellow">Accommodation amplitude declines steadily from age 15–70+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 4: VISION DISORDERS
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-disorders">
+  <div class="section-label">04 — Vision Disorders</div>
+
+  <div class="row">
+    <div class="box c4" data-search="emmetropia normal vision">
+      <div class="box-title"><span class="box-icon">✅</span> Emmetropia (Normal)</div>
+      <div class="box-body">
+        <ul>
+          <li>Image focused <em>directly on retina</em></li>
+          <li>Lens accommodation works correctly</li>
+          <li>Clear vision at all distances</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c4" data-search="myopia nearsightedness short sighted 50% blurry far">
+      <div class="box-title"><span class="box-icon">👓</span> Myopia (Nearsightedness)</div>
+      <div class="box-body">
+        <ul>
+          <li>Images focused <em>in front of the retina</em></li>
+          <li>Far away objects appear blurry</li>
+          <li>Near objects seen clearly</li>
+          <li>Affects <strong>~50% of people</strong></li>
+          <li>Corrected with <em>concave lenses</em></li>
+        </ul>
+        <div class="key-fact yellow">Most common refractive error globally</div>
+      </div>
+    </div>
+
+    <div class="box c4" data-search="hyperopia farsightedness long sighted close blurry">
+      <div class="box-title"><span class="box-icon">🔭</span> Hyperopia (Farsightedness)</div>
+      <div class="box-body">
+        <ul>
+          <li>Images focused <em>(virtually) behind the retina</em></li>
+          <li>Close objects appear blurry</li>
+          <li>Distant objects seen more clearly</li>
+          <li>Corrected with <em>convex lenses</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c4" data-search="astigmatism spherical aberrations different focal points">
+      <div class="box-title"><span class="box-icon">🌀</span> Astigmatism</div>
+      <div class="box-body">
+        <ul>
+          <li>Arises from <em>spherical aberrations</em> of the eye</li>
+          <li>Different focal points for different parts of visual field</li>
+          <li>Vision blurry at multiple distances/orientations</li>
+          <li>Usually corrected with <em>glasses or contact lenses</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 5: RETINAL ANATOMY & BLIND SPOT
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-retina">
+  <div class="section-label">05 — Retinal Anatomy</div>
+
+  <div class="row">
+    <div class="box c5 wide" data-search="retina layers cell types photoreceptors bipolar amacrine horizontal ganglion">
+      <div class="box-title"><span class="box-icon">🔬</span> Retinal Cell Types (5 Main Types)</div>
+      <div class="box-body">
+        <div class="info-row">
+          <div class="info-badge"><span class="val">①</span>Photoreceptors</div>
+          <div class="info-badge"><span class="val">②</span>Horizontal cells</div>
+          <div class="info-badge"><span class="val">③</span>Bipolar cells</div>
+          <div class="info-badge"><span class="val">④</span>Amacrine cells</div>
+          <div class="info-badge"><span class="val">⑤</span>Ganglion cells</div>
+        </div>
+        <div class="divider"></div>
+        <ul>
+          <li>Light passes <em>through all layers</em> before reaching photoreceptor outer segments</li>
+          <li>Rod &amp; cone photoreceptors <strong>convert light → neural signal</strong></li>
+          <li>Retina parses visual channels: <em>color, movement, edges, etc.</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c5" data-search="blind spot optic disk scotoma fill-in photoreceptors">
+      <div class="box-title"><span class="box-icon">⭕</span> The Blind Spot</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>Optic disk</strong> has <em>no photoreceptors</em> → blind spot (scotoma)</li>
+          <li>Visual system <strong>"fills in" the scotoma</strong> automatically</li>
+          <li>Mechanism not completely understood</li>
+          <li>You don't normally perceive the blind spot</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box c5" data-search="fovea cones density packed high resolution visual acuity avascular">
+      <div class="box-title"><span class="box-icon">🎯</span> Fovea Structure & Visual Acuity</div>
+      <div class="box-body">
+        <ul>
+          <li>Exclusively contains densely packed <strong>cone photoreceptors</strong></li>
+          <li>~<strong>200-fold</strong> increase in cone density vs. periphery</li>
+          <li>High acuity achieved by:
+            <ul>
+              <li>Foveal cones are <em>skinnier and more densely packed</em></li>
+              <li>Other retinal cells pushed to the side</li>
+              <li>Fovea is <em>avascular</em> (no blood vessels obstructing)</li>
+            </ul>
+          </li>
+          <li>Outside fovea: <strong>rods vastly outnumber cones</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c5" data-search="rods cones numbers 90 million 4.5 million periphery central">
+      <div class="box-title"><span class="box-icon">📊</span> Photoreceptor Numbers</div>
+      <div class="box-body">
+        <div class="info-row">
+          <div class="info-badge"><span class="val" style="color:var(--text-dim)">~90M</span>Rods (total)</div>
+          <div class="info-badge"><span class="val" style="color:var(--accent4)">~4.5M</span>Cones (total)</div>
+        </div>
+        <div class="divider"></div>
+        <ul>
+          <li>Rods = periphery, low-light, monochromatic</li>
+          <li>Cones = foveal center, bright light, colour</li>
+          <li>Eye movements direct fovea to objects of interest</li>
+          <li>Eye tracking experiments reveal fixation patterns</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c5" data-search="photoreceptor outer segment lifespan 12 days disk shedding RPE phagocytosis">
+      <div class="box-title"><span class="box-icon">🔄</span> Outer Segment Renewal</div>
+      <div class="box-body">
+        <ul>
+          <li>Outer segment disks lifespan = <strong>~12 days</strong></li>
+          <li>New disks made at the <em>base</em></li>
+          <li>Old disks shed at the <em>tip</em></li>
+          <li>Shed disks <strong>phagocytosed by RPE</strong></li>
+          <li>Continuous renewal essential for function</li>
+        </ul>
+        <div class="key-fact purple">Process: disks curl → tip becomes spherical → separates → engulfed by RPE</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 6: PHOTORECEPTORS
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-photoreceptors">
+  <div class="section-label">06 — Photoreceptors: Rods vs. Cones</div>
+
+  <div class="row">
+    <div class="box c1" data-search="rods dark scotopic dim low light monochromatic single opsin low resolution">
+      <div class="box-title"><span class="box-icon">🌙</span> Rods</div>
+      <div class="box-body">
+        <ul>
+          <li>Function under <strong>dark (scotopic)</strong> conditions</li>
+          <li>Do <em>not</em> confer colour vision</li>
+          <li>Express a <strong>single opsin</strong> (rhodopsin)</li>
+          <li>More <em>sensitive</em> to light than cones</li>
+          <li>Relatively spread out → <em>low resolution</em> vision</li>
+          <li>Monochromatic only</li>
+          <li>Located mainly in <em>peripheral</em> retina</li>
+        </ul>
+        <div class="key-fact">Dominant at starlight/moonlight levels</div>
+      </div>
+    </div>
+
+    <div class="box c4" data-search="cones bright photopic light color high resolution fovea multiple opsins">
+      <div class="box-title"><span class="box-icon">☀️</span> Cones</div>
+      <div class="box-body">
+        <ul>
+          <li>Function under <strong>bright (photopic)</strong> conditions</li>
+          <li>Confer <strong>colour vision</strong> (multiple opsins)</li>
+          <li>Provide <em>high-resolution central vision</em></li>
+          <li>Make up the <em>fovea</em></li>
+          <li>Less sensitive to light than rods</li>
+        </ul>
+        <div class="key-fact yellow">Dominant from indoor lighting to sunlight levels</div>
+      </div>
+    </div>
+
+    <div class="box c1" data-search="graded potential action potential glutamate dark hyperpolarize light">
+      <div class="box-title"><span class="box-icon">⚡</span> Photoreceptor Signaling</div>
+      <div class="box-body">
+        <ul>
+          <li>Signal via <strong>graded membrane potentials</strong> (not action potentials)</li>
+          <li>Graded potentials signal intensity via <em>amplitude and length</em></li>
+          <li>Action potentials not needed (distances in retina are short)</li>
+          <li>Graded potentials enable <em>analog signaling</em></li>
+          <li><strong>In the dark:</strong> relatively <em>depolarized</em>, release <em>glutamate</em></li>
+          <li><strong>In the light:</strong> <em>hyperpolarize</em>, release <em>less glutamate</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box c1 full" data-search="scotopic mesopic photopic luminance visual function starlight sunlight rod saturation cone threshold">
+      <div class="box-title"><span class="box-icon">💡</span> Luminance Ranges & Visual Function</div>
+      <div class="box-body">
+        <div class="info-row" style="margin-bottom:12px;">
+          <div class="info-badge"><span class="val" style="color:#aaa">Scotopic</span>Starlight → Cone threshold<br><em>Rod-mediated, no color, poor acuity</em></div>
+          <div class="info-badge"><span class="val" style="color:#9bc2e6">Mesopic</span>Twilight range<br><em>Both rods & cones active</em></div>
+          <div class="info-badge"><span class="val" style="color:var(--accent4)">Photopic</span>Indoor → Sunlight<br><em>Cone-mediated, color, best acuity</em></div>
+        </div>
+        <ul style="font-size:12px;">
+          <li>Absolute threshold (rods) → Cone threshold → Rod saturation → Best acuity → Indirect ophthalmoscope → Damage possible</li>
+          <li>At 50% bleach level — most photopigment bleached by bright light</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 7: PHOTOTRANSDUCTION CASCADE
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-cascade">
+  <div class="section-label">07 — Phototransduction Cascade</div>
+
+  <div class="row">
+    <div class="box c6" data-search="cGMP channels dark current Na Ca depolarized membrane potential ion">
+      <div class="box-title"><span class="box-icon">🔓</span> Dark State: cGMP-Gated Channels</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>In the dark:</strong>
+            <ul>
+              <li>Na⁺ and Ca²⁺ <em>flow into outer segments</em></li>
+              <li>K⁺ ions flow <em>out</em> of inner segment</li>
+            </ul>
+          </li>
+          <li>Influx through <strong>cGMP-gated channels</strong> keeps photoreceptors <em>relatively depolarized</em></li>
+          <li>High [cGMP] = channels open = depolarized = glutamate released</li>
+        </ul>
+        <div class="key-fact">Dark current = steady Na⁺/Ca²⁺ influx maintaining depolarization</div>
+      </div>
+    </div>
+
+    <div class="box c6" data-search="light cGMP decrease close channels hyperpolarize less glutamate">
+      <div class="box-title"><span class="box-icon">🔒</span> Light State: Channel Closure</div>
+      <div class="box-body">
+        <ul>
+          <li>In the presence of light:</li>
+          <li>cGMP levels in outer segment <em>decrease</em></li>
+          <li>cGMP-gated channels <em>close</em></li>
+          <li>Na⁺ and Ca²⁺ influx stops</li>
+          <li>K⁺ efflux continues → <strong>hyperpolarization</strong></li>
+          <li>Less glutamate released at synapse</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box c6 full" data-search="phototransduction cascade retinal opsin rhodopsin transducin phosphodiesterase PDE cGMP amplification photon">
+      <div class="box-title"><span class="box-icon">⚙️</span> The Phototransduction Cascade — Step by Step</div>
+      <div class="box-body">
+        <div class="cascade">
+          <div class="cascade-step">Photon absorbed</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">11-<em>cis</em> retinal → all-<em>trans</em> retinal</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">Rhodopsin (opsin) activated</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">Transducin activated (~800 molecules)</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">PDE activated (1 per transducin)</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">cGMP hydrolyzed (~6 per PDE)</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">cGMP-gated channels close (~200)</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">Hyperpolarization (~1 mV)</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px;">
+          <div style="flex:1; min-width:200px;">
+            <div style="font-size:11px; font-family:var(--mono-font); color:var(--accent6); margin-bottom:6px;">KEY MOLECULES</div>
+            <ul>
+              <li><strong>Retinal</strong> — vitamin A derivative; the light-absorbing chromophore</li>
+              <li><strong>Opsin</strong> — protein component; determines wavelength specificity</li>
+              <li><strong>Photopigment</strong> = retinal + opsin</li>
+              <li><strong>Rhodopsin</strong> — the opsin in rods (peak ~498nm)</li>
+              <li><strong>Transducin</strong> — G-protein activated by rhodopsin</li>
+              <li><strong>PDE (Phosphodiesterase)</strong> — hydrolyzes cGMP</li>
+            </ul>
+          </div>
+          <div style="flex:1; min-width:200px;">
+            <div style="font-size:11px; font-family:var(--mono-font); color:var(--accent6); margin-bottom:6px;">AMPLIFICATION FACTS</div>
+            <ul>
+              <li>1 rhodopsin → <strong>~800 transducin</strong> molecules</li>
+              <li>1 transducin → 1 PDE</li>
+              <li>1 PDE → <strong>~6 cGMP</strong> hydrolyzed</li>
+              <li>1 photon → ~<strong>200 channels closed</strong></li>
+              <li>~<strong>2%</strong> of dark-open channels closed per photon</li>
+              <li>Result: <strong>1 mV hyperpolarization</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box c5" data-search="arrestin rhodopsin kinase phosphorylation stopping cascade inactivation">
+      <div class="box-title"><span class="box-icon">🛑</span> Stopping the Cascade</div>
+      <div class="box-body">
+        <ul>
+          <li>Activated rhodopsin is <strong>phosphorylated</strong> by <em>rhodopsin kinase</em></li>
+          <li><strong>Arrestin</strong> binds to phosphorylated rhodopsin</li>
+          <li>Arrestin prevents rhodopsin from activating more transducin</li>
+          <li>→ Cascade is <em>arrested</em> (terminated)</li>
+        </ul>
+        <div class="cascade" style="margin-top:8px;">
+          <div class="cascade-step">Active rhodopsin</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">Rhodopsin kinase phosphorylates</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">Arrestin binds</div>
+          <div class="cascade-arrow">→</div>
+          <div class="cascade-step">Cascade stopped</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box c5" data-search="retinoid cycle all-trans retinal retinol 11-cis IRBP RPE recycling vitamin A">
+      <div class="box-title"><span class="box-icon">🔁</span> The Retinoid Cycle (Chromophore Recycling)</div>
+      <div class="box-body">
+        <ul class="steps">
+          <li><strong>All-trans retinal</strong> dissociates from opsin → diffuses into outer segment cytosol</li>
+          <li><strong>All-trans retinal</strong> is converted to <strong>all-trans retinol</strong></li>
+          <li>All-trans retinol shuttled to <strong>RPE</strong> via <em>IRBP</em> (interphotoreceptor retinoid binding protein)</li>
+          <li>All-trans retinol converted back to <strong>11-cis retinal</strong> in RPE</li>
+          <li>11-cis retinal shuttled back to outer segment via IRBP → recombines with opsin → <em>active photopigment restored</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 8: COLOR VISION
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-color">
+  <div class="section-label">08 — Color Vision & Color Blindness</div>
+
+  <div class="row">
+    <div class="box c6 wide" data-search="cone types S M L short medium long wavelength blue green red opsins spectral">
+      <div class="box-title"><span class="box-icon">🌈</span> Three Cone Types & Spectral Sensitivity</div>
+      <div class="box-body">
+        <div class="spectrum-bar"></div>
+        <div class="spectrum-markers">
+          <span>400nm (Violet)</span>
+          <span>500nm (Cyan)</span>
+          <span>600nm (Yellow)</span>
+          <span>700nm (Red)</span>
+        </div>
+
+        <div class="cone-row" style="margin-top:12px;">
+          <div class="cone-badge cone-s">
+            <span class="nm">420nm</span>
+            <strong>S Cone</strong>
+            <span>Blue light</span>
+            <span style="font-size:10px;">~10% of cones</span>
+            <span style="font-size:10px;">Uncommon in foveal center</span>
+          </div>
+          <div class="cone-badge cone-r">
+            <span class="nm">498nm</span>
+            <strong>Rod</strong>
+            <span>Rhodopsin</span>
+            <span style="font-size:10px;">Single opsin</span>
+            <span style="font-size:10px;">Scotopic</span>
+          </div>
+          <div class="cone-badge cone-m">
+            <span class="nm">534nm</span>
+            <strong>M Cone</strong>
+            <span>Green light</span>
+            <span style="font-size:10px;">Medium wavelength</span>
+          </div>
+          <div class="cone-badge cone-l">
+            <span class="nm">564nm</span>
+            <strong>L Cone</strong>
+            <span>Red light</span>
+            <span style="font-size:10px;">Long wavelength</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <ul>
+          <li>M and L cone ratio varies person-to-person (<em>~1:1 to 4:1</em>) with no significant impact on colour vision</li>
+          <li>Specific wavelength-sensitive photoreceptors alone do <em>not</em> produce color vision</li>
+          <li>Color vision arises from <strong>comparing & contrasting</strong> responses across cone types</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c6" data-search="color contrast perception context colour constancy Rubik's cube">
+      <div class="box-title"><span class="box-icon">🎨</span> Colour Contrast & Context</div>
+      <div class="box-body">
+        <ul>
+          <li>Context and colour contrast <em>significantly affect</em> colour perception</li>
+          <li>Same physical wavelength can appear different colours depending on surrounding context</li>
+          <li>Classic demonstration: Rubik's cube illusion — same tile appears brown vs. orange depending on lighting/shadow context</li>
+        </ul>
+        <div class="key-fact">The brain uses surrounding information to infer object colour</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="box c2" data-search="color blind color blindness X chromosome red green opsin gene protanopia deuteranopia 8% male">
+      <div class="box-title"><span class="box-icon">🔴🟢</span> Red-Green Color Blindness</div>
+      <div class="box-body">
+        <ul>
+          <li>Genes for <strong>red and green opsins</strong> are on the <em>X chromosome</em></li>
+          <li>~<strong>8%</strong> of XY (male) population is color blind</li>
+          <li><strong>Protanopia</strong> — missing L (red) cone</li>
+          <li><strong>Deuteranopia</strong> — missing M (green) cone</li>
+          <li>Both types have difficulty distinguishing <em>red from green</em></li>
+          <li>Diagnosed using <em>Ishihara plates</em> (dot patterns with hidden numbers)</li>
+        </ul>
+        <div class="key-fact orange">Much rarer in XX (female) population — need defect on both X chromosomes</div>
+      </div>
+    </div>
+
+    <div class="box c2" data-search="achromatopsia complete colorblindness no cones Pingelap island Oliver Sacks 1 in 30000">
+      <div class="box-title"><span class="box-icon">⬛</span> Achromatopsia (Complete Color Blindness)</div>
+      <div class="box-body">
+        <ul>
+          <li>Complete colorblindness from <em>total lack of functioning cones</em></li>
+          <li>Can also arise from <em>brain damage</em> to color processing area</li>
+          <li>Prevalence: <strong>~1 in 30,000</strong> people</li>
+          <li><strong>Island of Pingelap</strong> (South Pacific):
+            <ul>
+              <li>~<strong>10%</strong> of population are achromatopes</li>
+              <li>1775: typhoon wiped out most inhabitants</li>
+              <li>Population rebuilt largely by king who <em>was himself an achromatope</em></li>
+              <li>→ Genetic bottleneck effect</li>
+            </ul>
+          </li>
+          <li><em>Oliver Sacks</em> wrote "The Island of the Colorblind" about this</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box c2" data-search="trichromat normal color vision three cone types compare contrast">
+      <div class="box-title"><span class="box-icon">👁️</span> Trichromacy vs. Dichromacy</div>
+      <div class="box-body">
+        <ul>
+          <li><strong>Trichromat (normal)</strong> — 3 functional cone types (S, M, L)</li>
+          <li><strong>Protanope</strong> — missing L cone; S + M only</li>
+          <li><strong>Deuteranope</strong> — missing M cone; S + L only</li>
+          <li>Color vision requires <em>comparison between at least 2 cone types</em></li>
+          <li>Single cone type alone → cannot distinguish wavelength from intensity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     QUICK REFERENCE SUMMARY
+═══════════════════════════════════════════════ -->
+<div class="section" id="sec-summary">
+  <div class="section-label">09 — Quick Reference: Key Numbers & Facts</div>
+
+  <div class="row">
+    <div class="box c3 full" data-search="summary key facts numbers statistics">
+      <div class="box-title"><span class="box-icon">📋</span> Key Numbers at a Glance</div>
+      <div class="box-body">
+        <div class="info-row" style="flex-wrap:wrap;">
+          <div class="info-badge"><span class="val">2/3</span>Eye's optical power<br>from cornea</div>
+          <div class="info-badge"><span class="val">~90M</span>Rods in human retina</div>
+          <div class="info-badge"><span class="val">~4.5M</span>Cones in human retina</div>
+          <div class="info-badge"><span class="val">200×</span>Cone density increase<br>in fovea</div>
+          <div class="info-badge"><span class="val">12 days</span>Outer segment<br>disk lifespan</div>
+          <div class="info-badge"><span class="val">~800</span>Transducin activated<br>per rhodopsin</div>
+          <div class="info-badge"><span class="val">~6</span>cGMP hydrolyzed<br>per PDE</div>
+          <div class="info-badge"><span class="val">~200</span>Channels closed<br>per photon</div>
+          <div class="info-badge"><span class="val">1 mV</span>Hyperpolarization<br>per photon</div>
+          <div class="info-badge"><span class="val">~2%</span>Channels closed<br>per photon (of dark-open)</div>
+          <div class="info-badge"><span class="val">~50%</span>People with myopia</div>
+          <div class="info-badge"><span class="val">~8%</span>Males with<br>color blindness</div>
+          <div class="info-badge"><span class="val">1/30,000</span>Achromatopsia<br>prevalence</div>
+          <div class="info-badge"><span class="val">~10%</span>Pingelap island<br>achromatopes</div>
+          <div class="info-badge"><span class="val">~10%</span>S cones<br>(of all cones)</div>
+          <div class="info-badge"><span class="val">420nm</span>S cone peak<br>(blue)</div>
+          <div class="info-badge"><span class="val">498nm</span>Rod / Rhodopsin<br>peak</div>
+          <div class="info-badge"><span class="val">534nm</span>M cone peak<br>(green)</div>
+          <div class="info-badge"><span class="val">564nm</span>L cone peak<br>(red)</div>
+          <div class="info-badge"><span class="val">1:1–4:1</span>M:L cone ratio<br>variation (no effect)</div>
+          <div class="info-badge"><span class="val">50%</span>Adults believing<br>extramission (2002)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// Scroll top button
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  btn.style.display = window.scrollY > 400 ? 'flex' : 'none';
+});
+
+// Collapse/expand boxes
+document.querySelectorAll('.box').forEach(box => {
+  const title = box.querySelector('.box-title');
+  const body = box.querySelector('.box-body');
+  if (!title || !body) return;
+
+  // Add toggle button
+  const btn = document.createElement('div');
+  btn.className = 'box-toggle';
+  btn.textContent = '−';
+  box.appendChild(btn);
+
+  body.style.maxHeight = body.scrollHeight + 'px';
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const collapsed = body.classList.toggle('collapsed');
+    btn.textContent = collapsed ? '+' : '−';
+    if (!collapsed) {
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+
+// Search filter
+function filterBoxes(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.box').forEach(box => {
+    if (!q) {
+      box.classList.remove('hidden');
+      return;
+    }
+    const searchText = (
+      (box.dataset.search || '') + ' ' +
+      box.innerText
+    ).toLowerCase();
+    box.classList.toggle('hidden', !searchText.includes(q));
+  });
+
+  // Show/hide sections based on visible boxes
+  document.querySelectorAll('.section').forEach(sec => {
+    const visibleBoxes = sec.querySelectorAll('.box:not(.hidden)');
+    sec.style.display = visibleBoxes.length === 0 && q ? 'none' : '';
+  });
+}
+
+// Smooth scroll for toc links
+document.querySelectorAll('a.toc-item').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

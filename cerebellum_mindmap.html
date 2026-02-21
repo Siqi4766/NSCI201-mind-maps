@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cerebellum — Complete Mindmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07090f;
+    --surface: #0d1120;
+    --surface2: #121828;
+    --border: rgba(255,255,255,0.07);
+    --accent1: #4af0c8;    /* teal */
+    --accent2: #f06b4a;    /* orange */
+    --accent3: #a78bfa;    /* purple */
+    --accent4: #facc15;    /* yellow */
+    --accent5: #60a5fa;    /* blue */
+    --accent6: #f472b6;    /* pink */
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-bright: #f8fafc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 80px 0;
+  }
+
+  /* HEADER */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .site-header h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: var(--accent1);
+  }
+  .site-header .meta {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* SEARCH */
+  .search-wrap {
+    padding: 28px 40px 0;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  #search {
+    width: 100%;
+    padding: 10px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #search:focus { border-color: var(--accent1); }
+  #search::placeholder { color: var(--text-dim); }
+
+  /* MAIN LAYOUT */
+  .map-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* SECTION */
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    padding-left: 4px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  /* BOXES */
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    flex: 1;
+    min-width: 240px;
+    max-width: 100%;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 12px 0 0 12px;
+  }
+  .box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .box.highlight { background: var(--surface2); }
+
+  /* Color variants */
+  .c1::before { background: var(--accent1); }
+  .c1:hover { border-color: rgba(74,240,200,0.35); box-shadow: 0 8px 32px rgba(74,240,200,0.08); }
+  .c2::before { background: var(--accent2); }
+  .c2:hover { border-color: rgba(240,107,74,0.35); box-shadow: 0 8px 32px rgba(240,107,74,0.08); }
+  .c3::before { background: var(--accent3); }
+  .c3:hover { border-color: rgba(167,139,250,0.35); box-shadow: 0 8px 32px rgba(167,139,250,0.08); }
+  .c4::before { background: var(--accent4); }
+  .c4:hover { border-color: rgba(250,204,21,0.35); box-shadow: 0 8px 32px rgba(250,204,21,0.08); }
+  .c5::before { background: var(--accent5); }
+  .c5:hover { border-color: rgba(96,165,250,0.35); box-shadow: 0 8px 32px rgba(96,165,250,0.08); }
+  .c6::before { background: var(--accent6); }
+  .c6:hover { border-color: rgba(244,114,182,0.35); box-shadow: 0 8px 32px rgba(244,114,182,0.08); }
+
+  .box-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .c1 .box-title { color: var(--accent1); }
+  .c2 .box-title { color: var(--accent2); }
+  .c3 .box-title { color: var(--accent3); }
+  .c4 .box-title { color: var(--accent4); }
+  .c5 .box-title { color: var(--accent5); }
+  .c6 .box-title { color: var(--accent6); }
+
+  .box ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .box ul li {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+  .box ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    font-size: 0.65rem;
+    top: 2px;
+    opacity: 0.5;
+  }
+  .box ul li strong { color: var(--text-bright); font-weight: 600; }
+  .box ul li em { color: var(--text-dim); font-style: normal; font-size: 0.82rem; }
+
+  /* Sub-list */
+  .box ul li ul {
+    margin-top: 5px;
+    padding-left: 12px;
+    gap: 4px;
+  }
+  .box ul li ul li {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    padding-left: 12px;
+  }
+  .box ul li ul li::before { content: '–'; opacity: 0.4; }
+
+  /* Tag chips */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag {
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .tag.t1 { background: rgba(74,240,200,0.12); color: var(--accent1); border: 1px solid rgba(74,240,200,0.25); }
+  .tag.t2 { background: rgba(240,107,74,0.12); color: var(--accent2); border: 1px solid rgba(240,107,74,0.25); }
+  .tag.t3 { background: rgba(167,139,250,0.12); color: var(--accent3); border: 1px solid rgba(167,139,250,0.25); }
+  .tag.t4 { background: rgba(250,204,21,0.12); color: var(--accent4); border: 1px solid rgba(250,204,21,0.25); }
+  .tag.t5 { background: rgba(96,165,250,0.12); color: var(--accent5); border: 1px solid rgba(96,165,250,0.25); }
+  .tag.t6 { background: rgba(244,114,182,0.12); color: var(--accent6); border: 1px solid rgba(244,114,182,0.25); }
+
+  /* Wide box */
+  .box.wide { min-width: min(500px, 100%); }
+  .box.full { min-width: 100%; flex: unset; width: 100%; }
+
+  /* Connector line between section-rows */
+  .connector {
+    width: 2px;
+    height: 20px;
+    background: var(--border);
+    margin: 0 auto;
+    border-radius: 1px;
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    padding: 12px 0 4px;
+  }
+  .flow-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .flow-arrow { color: var(--text-dim); font-size: 1rem; }
+
+  /* Table */
+  .mini-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
+  .mini-table th {
+    text-align: left;
+    padding: 6px 10px;
+    color: var(--text-dim);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .mini-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+  .mini-table td:first-child { color: var(--text-bright); font-weight: 500; }
+
+  /* Highlight text */
+  .hl1 { color: var(--accent1); font-weight: 600; }
+  .hl2 { color: var(--accent2); font-weight: 600; }
+  .hl3 { color: var(--accent3); font-weight: 600; }
+  .hl4 { color: var(--accent4); font-weight: 600; }
+  .hl5 { color: var(--accent5); font-weight: 600; }
+  .hl6 { color: var(--accent6); font-weight: 600; }
+
+  /* Hidden for search */
+  .box.hidden { display: none; }
+
+  /* Divider */
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 4px 0;
+  }
+
+  /* Scroll indicator */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent3));
+    z-index: 200;
+    transition: width 0.1s;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="site-header">
+  <h1>🧠 CEREBELLUM — Modulation of Movement</h1>
+  <span class="meta">Week 8, Lecture 2 · Mohammad Darainy · Introduction to Neuroscience</span>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="🔍  Search any concept, term, or detail…" oninput="filterBoxes(this.value)" />
+</div>
+
+<div class="map-container">
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 1: OVERVIEW + HIERARCHY -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">01 — Neural Hierarchy for Movement Control</div>
+    <div class="section-title">Organization of Neural Structures Involved in Movement</div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Descending Systems (Upper Motor Neurons)</div>
+        <ul>
+          <li><strong>Motor Cortex</strong>
+            <ul>
+              <li>Planning voluntary movements</li>
+              <li>Initiating voluntary movements</li>
+              <li>Directing voluntary movements</li>
+            </ul>
+          </li>
+          <li><strong>Brainstem Centers</strong>
+            <ul>
+              <li>Rhythmic, stereotyped movements</li>
+              <li>Postural control</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">Basal Ganglia</div>
+        <ul>
+          <li>Initiation of <strong>intended movement</strong></li>
+          <li>Suppression of <strong>unwanted movement</strong></li>
+          <li>Projects to: Motor Cortex</li>
+        </ul>
+      </div>
+
+      <div class="box c3">
+        <div class="box-title">Cerebellum</div>
+        <ul>
+          <li><strong>Coordination</strong> of ongoing movement</li>
+          <li>Predicting and correcting <strong>motor error</strong></li>
+          <li>Acts as a <strong>feed-forward controller</strong></li>
+          <li>Projects to: Brainstem Centers</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c5">
+        <div class="box-title">Spinal Cord & Brainstem Circuits</div>
+        <ul>
+          <li><strong>Local Circuit Neurons</strong>
+            <ul>
+              <li>Sensorimotor integration</li>
+              <li>Central pattern generation</li>
+            </ul>
+          </li>
+          <li><strong>Motor Neuron Pools</strong>
+            <ul>
+              <li>Lower motor neurons</li>
+              <li>Output to: Skeletal muscles</li>
+            </ul>
+          </li>
+          <li>Receives: Sensory inputs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 2: CEREBELLUM INTRODUCTION -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">02 — Cerebellum Fundamentals</div>
+    <div class="section-title">Cerebellum Introduction</div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">What the Cerebellum Does NOT Do</div>
+        <ul>
+          <li><span class="hl2">Does NOT</span> project directly to the motoneurons of the spinal cord</li>
+        </ul>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">How it Influences Movement</div>
+        <ul>
+          <li>Modifies movement by <strong>regulating upper motoneurons</strong></li>
+          <li>Key region: <strong>Motor Cortex</strong></li>
+        </ul>
+      </div>
+
+      <div class="box c3">
+        <div class="box-title">Structural Composition</div>
+        <ul>
+          <li><strong>Cerebellar Cortex</strong></li>
+          <li><strong>Deep Cerebellar Nuclei</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c4 wide">
+        <div class="box-title">Primary Functions</div>
+        <ul>
+          <li>Detect <strong>'motor error'</strong> — difference between intended & actual movement</li>
+          <li><strong>Error correction</strong> in real time</li>
+          <li><strong>Motor learning</strong></li>
+          <li><strong>Sensory-motor integration</strong></li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag t1">Motor Error Detection</span>
+          <span class="tag t4">Real-time Correction</span>
+          <span class="tag t3">Motor Learning</span>
+          <span class="tag t5">Sensorimotor Integration</span>
+          <span class="tag t2">Feed-Forward Controller</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 3: THREE MAIN PARTS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">03 — Anatomical Regions</div>
+    <div class="section-title">Three Main Parts of the Cerebellum (defined by source of input)</div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Cerebrocerebellum</div>
+        <ul>
+          <li>Receives <strong>indirect input</strong> from many areas of cerebral cortex</li>
+          <li>Particularly well developed in <strong>humans and other primates</strong></li>
+          <li>Regulates <strong>highly skilled movement</strong></li>
+          <li>Planning & execution of <strong>complex spatial & temporal sequences</strong></li>
+          <li>Example: <strong>Speech</strong></li>
+        </ul>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">Spinocerebellum</div>
+        <ul>
+          <li>Receives <strong>direct input</strong> from spinal cord</li>
+          <li><strong>Lateral part</strong> → regulates movement of <strong>distal muscles</strong></li>
+          <li><strong>Central part ('Vermis')</strong> → regulates movement of <strong>proximal muscles</strong> & some eye movements</li>
+        </ul>
+      </div>
+
+      <div class="box c3">
+        <div class="box-title">Vestibulocerebellum</div>
+        <ul>
+          <li><strong>Oldest part</strong> of the cerebellum</li>
+          <li>Located in <strong>caudal-inferior lobes</strong></li>
+          <li>Components: <strong>Flocculus</strong> & <strong>Nodulus</strong></li>
+          <li>Receives input from <strong>vestibular nuclei</strong> in brainstem</li>
+          <li>Maintains <strong>posture & balance</strong></li>
+          <li>Controls <strong>vestibulo-ocular reflex</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 4: MAJOR COMPONENTS TABLE -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">04 — Major Components Summary</div>
+    <div class="section-title">Major Components of the Cerebellum (Table 19.1)</div>
+
+    <div class="row">
+      <div class="box c5 full">
+        <div class="box-title">Three-Column Classification</div>
+        <table class="mini-table">
+          <tr>
+            <th>Cerebellar Cortex</th>
+            <th>Deep Cerebellar Nuclei</th>
+            <th>Cerebellar Peduncles</th>
+          </tr>
+          <tr>
+            <td>Cerebrocerebellum</td>
+            <td>Dentate nucleus</td>
+            <td>Superior peduncle</td>
+          </tr>
+          <tr>
+            <td>Spinocerebellum</td>
+            <td>Interposed nuclei</td>
+            <td>Middle peduncle</td>
+          </tr>
+          <tr>
+            <td>Vestibulocerebellum</td>
+            <td>Fastigial nucleus</td>
+            <td>Inferior peduncle</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c4">
+        <div class="box-title">Deep Cerebellar Nuclei — 4 Major</div>
+        <ul>
+          <li><strong>Dentate nucleus</strong> — largest; associated with cerebrocerebellum</li>
+          <li><strong>Interposed nuclei</strong> (×2) — associated with spinocerebellum</li>
+          <li><strong>Fastigial nucleus</strong> — associated with spinocerebellum</li>
+          <li><em>Note: Vestibular nuclei may also be considered part of deep cerebellar nuclei → associated with vestibulocerebellum</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 5: CEREBELLAR PEDUNCLES -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">05 — Connectivity Pathways</div>
+    <div class="section-title">Three Cerebellar Peduncles (Communication with Nervous System)</div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Superior Cerebellar Peduncle</div>
+        <ul>
+          <li>Almost entirely an <strong>efferent pathway</strong></li>
+          <li>Neurons located in <strong>deep cerebellar nuclei</strong></li>
+          <li>Projects to:
+            <ul>
+              <li>Upper motor neurons in <strong>primary motor cortex</strong></li>
+              <li>Upper motor neurons in <strong>premotor cortex</strong></li>
+              <li>Upper motor neurons in <strong>superior colliculus</strong> → controls orienting movements</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="tag-row"><span class="tag t1">Efferent</span><span class="tag t1">Output pathway</span></div>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">Middle Cerebellar Peduncle</div>
+        <ul>
+          <li><strong>Afferent pathway</strong> to the cerebellum</li>
+          <li>Cell bodies located in <strong>contralateral pontine nuclei</strong></li>
+          <li><strong>Largest pathway in the brain</strong></li>
+          <li>Contains <strong>more than 20 million axons</strong></li>
+        </ul>
+        <div class="tag-row"><span class="tag t2">Afferent</span><span class="tag t2">Largest in brain</span><span class="tag t2">&gt;20M axons</span></div>
+      </div>
+
+      <div class="box c3">
+        <div class="box-title">Inferior Cerebellar Peduncle</div>
+        <ul>
+          <li>Contains <strong>multiple afferent & efferent pathways</strong></li>
+          <li><strong>Afferents from:</strong>
+            <ul>
+              <li>Vestibular nuclei</li>
+              <li>Spinal cord</li>
+              <li>Brainstem tegmentum</li>
+            </ul>
+          </li>
+          <li><strong>Efferents to:</strong>
+            <ul>
+              <li>Vestibular nuclei</li>
+              <li>Reticular formation</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="tag-row"><span class="tag t3">Afferent + Efferent</span><span class="tag t3">Mixed</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 6: INPUTS TO CEREBELLUM -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">06 — Input Pathways</div>
+    <div class="section-title">Functional Organization of Inputs to the Cerebellum</div>
+
+    <div class="row">
+      <div class="box c5 wide">
+        <div class="box-title">Cerebral Cortex → Cerebellum (Largest Input)</div>
+        <ul>
+          <li><strong>Indirect projection</strong> via the <em>ipsilateral</em> pontine nuclei</li>
+          <li>Pontine axons called <strong>'transverse pontine fibres'</strong></li>
+          <li>These fibres <strong>cross the midline</strong></li>
+          <li>Enter the <strong>contralateral cerebrocerebellum</strong></li>
+          <li>Route: via <strong>middle cerebellar peduncle</strong></li>
+        </ul>
+        <div class="flow">
+          <div class="flow-node">Frontal/Parietal Cortex</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Pontine Nuclei (ipsilateral)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Cross midline</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Middle Cerebellar Peduncle</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Cerebrocerebellum (contralateral)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Motor & Premotor Cortex Input</div>
+        <ul>
+          <li>Function: <strong>Motor control</strong></li>
+          <li>Projects to: <strong>Pontine nuclei</strong></li>
+        </ul>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">Somatic Sensory Cortex Input</div>
+        <ul>
+          <li>Function: <strong>Sensory-motor integration</strong></li>
+          <li>Projects to: <strong>Pontine nuclei</strong></li>
+        </ul>
+      </div>
+
+      <div class="box c3">
+        <div class="box-title">Visual Motion Input</div>
+        <ul>
+          <li>Region: <strong>Posterior parietal cortex</strong></li>
+          <li>Stream: <strong>Magnocellular processing stream</strong></li>
+          <li>Function: <strong>Visuomotor coordination</strong></li>
+          <li>Projects to: <strong>Pontine nuclei</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c4">
+        <div class="box-title">Vestibular Input → Vestibulocerebellum</div>
+        <ul>
+          <li>Carried by <strong>vestibular axons in the 8th cranial nerve</strong></li>
+          <li>Also from <strong>axons from vestibular nuclei</strong> in pons & medulla</li>
+          <li>Route: via <strong>inferior cerebellar peduncle</strong></li>
+          <li>Target: <strong>Vestibulocerebellum</strong></li>
+        </ul>
+      </div>
+
+      <div class="box c5">
+        <div class="box-title">Somatosensory Input → Spinocerebellum</div>
+        <ul>
+          <li>From <strong>dorsal nucleus of Clarke</strong> (spinal cord)</li>
+          <li>From <strong>external cuneate nucleus</strong> of caudal medulla</li>
+          <li>Route: via <strong>inferior peduncle</strong></li>
+          <li>Target: <strong>Spinocerebellum</strong></li>
+          <li>Proprioceptive info from <strong>face</strong> travels via <strong>mesencephalic trigeminal nucleus</strong> → spinocerebellum</li>
+        </ul>
+      </div>
+
+      <div class="box c6">
+        <div class="box-title">Inferior Olive Input</div>
+        <ul>
+          <li>Sends <strong>modulatory inputs</strong></li>
+          <li>Projects to <strong>contralateral cerebellum</strong></li>
+          <li>Route: via <strong>inferior peduncle</strong></li>
+          <li>Role: <strong>Cerebellar learning and memory</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 7: SOMATOTOPIC REPRESENTATION -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">07 — Body Mapping</div>
+    <div class="section-title">Somatotopic Representation in the Cerebellum</div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Organization of Sensory Maps</div>
+        <ul>
+          <li>Somatosensory input is organised in <strong>topographic maps</strong></li>
+          <li>Located in the <strong>spinocerebellum</strong></li>
+          <li>Maps are <strong>'fractured'</strong> — each body area is represented <strong>multiple times</strong> by spatially separated groups of cells</li>
+        </ul>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">Laterality</div>
+        <ul>
+          <li>Brainstem & spinal inputs <strong>remain ipsilateral</strong></li>
+          <li>Therefore representations are of the <strong>ipsilateral side</strong> of the body</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 8: OUTPUTS FROM CEREBELLUM -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">08 — Output Pathways</div>
+    <div class="section-title">Functional Organization of Cerebellar Outputs</div>
+
+    <div class="row">
+      <div class="box c5 full">
+        <div class="box-title">General Output Principle</div>
+        <ul>
+          <li><strong>Most of the cerebellar cortex</strong> projects to deep cerebellar nuclei <em>prior to reaching the target</em></li>
+          <li><strong>Thalamus</strong> is a major relay target from cerebellum → motor cortex</li>
+          <li>Thalamic relay: <strong>VA/VL complex (ventral anterior/ventrolateral)</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Cerebrocerebellum Output</div>
+        <ul>
+          <li>Deep nucleus: <strong>Dentate nucleus</strong></li>
+          <li>Target: <strong>Premotor cortex</strong></li>
+          <li>Function: <strong>Motor planning</strong></li>
+        </ul>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">Spinocerebellum Output</div>
+        <ul>
+          <li>Deep nuclei: <strong>Interposed nuclei + Fastigial nuclei</strong></li>
+          <li>Target: <strong>Motor cortex and brainstem</strong></li>
+          <li>Function: <strong>Motor execution</strong></li>
+        </ul>
+      </div>
+
+      <div class="box c3">
+        <div class="box-title">Vestibulocerebellum Output</div>
+        <ul>
+          <li>Deep nuclei: <strong>Vestibular nuclei</strong></li>
+          <li>Target: <strong>Lower motor neurons in spinal cord and brainstem</strong></li>
+          <li>Functions: <strong>Balance</strong>, <strong>vestibulo-ocular regulation</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c4 wide">
+        <div class="box-title">Mediolateral Organization of Deep Nuclei</div>
+        <ul>
+          <li><strong>Mediolateral organisation</strong> mirrors that of the spinal cord</li>
+          <li><strong>Fastigial nuclei</strong> are more <em>medial</em> → mediate <strong>axial & proximal muscles</strong></li>
+          <li><strong>Interposed nuclei</strong> are more <em>lateral</em> → mediate <strong>limbs</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c6 full">
+        <div class="box-title">Output to Cortical Motor Systems — Pathway Detail</div>
+        <div class="flow">
+          <div class="flow-node">Deep Cerebellar Nuclei</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Superior Cerebellar Peduncle</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Ventral Lateral Complex (Thalamus)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Primary Motor Cortex + Premotor Cortex</div>
+        </div>
+        <ul style="margin-top:10px">
+          <li>Also: Deep nuclei → <strong>Parvocellular Red Nucleus</strong> (brainstem)</li>
+          <li>Also: Inferior Olive sends modulatory inputs back to cerebellar cortex (learning loop)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 9: CELLULAR CIRCUIT -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">09 — Cellular Level</div>
+    <div class="section-title">Neurons and Circuits of the Cerebellum</div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Cortical Layers (3 Layers)</div>
+        <ul>
+          <li><strong>Molecular layer</strong> — outermost
+            <ul>
+              <li>Contains: Stellate cells, Basket cells, Parallel fiber synapses</li>
+            </ul>
+          </li>
+          <li><strong>Purkinje cell layer</strong> — middle
+            <ul>
+              <li>Single row of Purkinje cells</li>
+            </ul>
+          </li>
+          <li><strong>Granule cell layer</strong> — innermost
+            <ul>
+              <li>Contains: Granule cells, Golgi cells</li>
+              <li>Also: Mossy fiber inputs arrive here</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="box c2">
+        <div class="box-title">Two Types of Inputs to Cerebellum</div>
+        <ul>
+          <li><strong>Mossy Fibers</strong>
+            <ul>
+              <li>Arise from <strong>many areas in cortex & brainstem</strong></li>
+              <li>Synapse onto <strong>granule cells</strong> (highly abundant)</li>
+              <li>Granule cells give rise to <strong>parallel fibers</strong></li>
+              <li>Parallel fibers have <strong>excitatory synapses</strong> onto <strong>dendritic spines of Purkinje cells</strong></li>
+            </ul>
+          </li>
+          <li><strong>Climbing Fibers</strong>
+            <ul>
+              <li>Arise from <strong>inferior olive</strong></li>
+              <li>Contact <strong>Purkinje cells directly</strong></li>
+              <li><strong>Excitatory synapses</strong> onto Purkinje cells</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c3">
+        <div class="box-title">Purkinje Cells — The Output Cells</div>
+        <ul>
+          <li><strong>Only output cells</strong> of the cerebellar cortex</li>
+          <li>Project to the <strong>deep cerebellar nuclei</strong></li>
+          <li>Output is <strong>GABAergic inhibitory</strong></li>
+          <li>This inhibition <strong>modulates the excitation</strong> from mossy fibers and climbing fibers that branch to deep cerebellar nuclei</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag t3">GABAergic</span>
+          <span class="tag t3">Inhibitory</span>
+          <span class="tag t3">Only cortical output</span>
+        </div>
+      </div>
+
+      <div class="box c4">
+        <div class="box-title">Other Cell Types</div>
+        <ul>
+          <li><strong>Basket cells</strong> — inhibitory interneurons in molecular layer; synapse onto Purkinje cell soma</li>
+          <li><strong>Stellate cells</strong> — inhibitory interneurons in molecular layer; synapse onto Purkinje dendrites</li>
+          <li><strong>Golgi cells</strong> — inhibitory interneurons in granule cell layer; regulate granule cell activity</li>
+          <li><strong>Granule cells</strong> — excitatory; most numerous neurons in the brain</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c5 full">
+        <div class="box-title">Two Feedback Loops in the Circuit</div>
+        <ul>
+          <li><strong>Cortical Inhibitory Loop:</strong> Mossy/Climbing fibers → Deep cerebellar nuclei → Cerebellar cortex (Purkinje cells) → [inhibitory] → Deep cerebellar nuclei</li>
+          <li><strong>Deep Excitatory Loop:</strong> Mossy/Climbing fibers → [excitatory] → Deep cerebellar nuclei → Thalamus (motor cortex)</li>
+        </ul>
+        <div class="flow" style="margin-top:10px">
+          <div class="flow-node">From: Inferior Olive / Pontine Nuclei / Spinal Cord / Vestibular System</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Cerebellar Cortex + Deep Nuclei</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Thalamus (motor cortex)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 10: DAMAGE -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">10 — Clinical Implications</div>
+    <div class="section-title">Damage to the Cerebellum</div>
+
+    <div class="row">
+      <div class="box c2">
+        <div class="box-title">General Consequences of Damage</div>
+        <ul>
+          <li>Causes <strong>persistent errors in movement</strong></li>
+          <li>Errors are on the <strong>same side of the body</strong> as the cerebellar deficit (<em>ipsilateral</em>)</li>
+          <li>Somatotopic organization means <strong>only some muscle groups</strong> may be affected</li>
+          <li><strong>Alcohol abuse</strong> can cause cerebellar damage — particularly in the <strong>anterior portion</strong></li>
+          <li><strong>Ataxia</strong>: difficulty producing smooth, well-coordinated movement</li>
+        </ul>
+      </div>
+
+      <div class="box c6">
+        <div class="box-title">Region-Specific Deficits</div>
+        <table class="mini-table">
+          <tr>
+            <th>Region Damaged</th>
+            <th>Clinical Deficit</th>
+          </tr>
+          <tr>
+            <td>Cerebrocerebellum</td>
+            <td>Deficits in coordination and visuomotor integration</td>
+          </tr>
+          <tr>
+            <td>Vestibulocerebellum</td>
+            <td>Impairs ability to stand upright and maintain direction of gaze</td>
+          </tr>
+          <tr>
+            <td>Spinocerebellum</td>
+            <td>Difficulty walking</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c4">
+        <div class="box-title">Other Clinical Signs</div>
+        <ul>
+          <li><strong>Dysmetria</strong> — over or under reaching a target</li>
+          <li><strong>Action / Intention tremors</strong> — tremors during voluntary movement</li>
+          <li><strong>Speech deficits</strong> — due to impaired coordination of speech muscles</li>
+          <li><strong>Impaired tandem walking</strong> — difficulty with heel-to-toe walking</li>
+        </ul>
+      </div>
+
+      <div class="box c1">
+        <div class="box-title">Clinical Context: Inferior Olive Hypertrophy</div>
+        <ul>
+          <li>Patient with <strong>inferior olive hypertrophy</strong> shows <strong>impaired motor adaptation</strong></li>
+          <li>Cannot properly adapt to prismatic displacement during throwing task</li>
+          <li>After-effects are absent (no de-adaptation), showing <strong>failure of cerebellar learning</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 11: MOTOR LEARNING -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">11 — Plasticity & Adaptation</div>
+    <div class="section-title">The Cerebellum and Motor Learning</div>
+
+    <div class="row">
+      <div class="box c3 wide">
+        <div class="box-title">Prism Adaptation Experiment</div>
+        <ul>
+          <li>Task: <strong>Throwing darts</strong> at a target while wearing <strong>prism glasses</strong></li>
+          <li>Prisms shift visual field → causes initial errors in horizontal displacement</li>
+          <li><strong>Normal adaptation:</strong>
+            <ul>
+              <li>Gradual correction of throw direction during prism exposure</li>
+              <li>After-effect when prisms removed: errors in opposite direction before re-adapting</li>
+            </ul>
+          </li>
+          <li><strong>Impaired adaptation (inferior olive hypertrophy):</strong>
+            <ul>
+              <li>No correction during prism exposure</li>
+              <li>No after-effect when prisms removed</li>
+              <li>Confirms inferior olive input is essential for <strong>cerebellar learning</strong></li>
+            </ul>
+          </li>
+          <li>Axes: Horizontal displacement (cm) vs. Time (phases: Before → Prisms → After)</li>
+          <li>Gaze direction vs. Throw direction analysed separately</li>
+        </ul>
+      </div>
+
+      <div class="box c5">
+        <div class="box-title">Neural Basis of Motor Learning</div>
+        <ul>
+          <li>Inferior olive inputs = <strong>teaching signals / error signals</strong></li>
+          <li>Climbing fiber activation → <strong>long-term depression (LTD)</strong> at parallel fiber–Purkinje cell synapses</li>
+          <li>This synaptic plasticity underlies <strong>motor memory storage</strong></li>
+          <li>Deep cerebellar nuclei are also involved in storage of learned motor patterns</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag t5">LTD</span>
+          <span class="tag t5">Error Signal</span>
+          <span class="tag t5">Inferior Olive</span>
+          <span class="tag t5">Synaptic Plasticity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 12: FULL SUMMARY / KEY CONCEPTS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">12 — Master Summary</div>
+    <div class="section-title">Key Concepts at a Glance</div>
+
+    <div class="row">
+      <div class="box c1">
+        <div class="box-title">Inputs Summary</div>
+        <table class="mini-table">
+          <tr><th>Source</th><th>Target Region</th><th>Route</th></tr>
+          <tr><td>Cerebral Cortex (motor, somatosensory, visual motion)</td><td>Cerebrocerebellum</td><td>Middle peduncle via pontine nuclei</td></tr>
+          <tr><td>Vestibular nuclei / 8th CN</td><td>Vestibulocerebellum</td><td>Inferior peduncle</td></tr>
+          <tr><td>Spinal cord (Clarke's nucleus / ext. cuneate)</td><td>Spinocerebellum</td><td>Inferior peduncle</td></tr>
+          <tr><td>Inferior olive</td><td>All cerebellar cortex</td><td>Inferior peduncle (climbing fibers)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c2">
+        <div class="box-title">Outputs Summary</div>
+        <table class="mini-table">
+          <tr><th>Region</th><th>Deep Nucleus</th><th>Target</th><th>Role</th></tr>
+          <tr><td>Cerebrocerebellum</td><td>Dentate</td><td>Premotor cortex (via thalamus)</td><td>Motor planning</td></tr>
+          <tr><td>Spinocerebellum (lateral)</td><td>Interposed</td><td>Motor cortex + brainstem</td><td>Limb execution</td></tr>
+          <tr><td>Spinocerebellum (vermis)</td><td>Fastigial</td><td>Motor cortex + brainstem</td><td>Axial/proximal execution</td></tr>
+          <tr><td>Vestibulocerebellum</td><td>Vestibular nuclei</td><td>Spinal cord + brainstem</td><td>Balance + VOR</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c3">
+        <div class="box-title">Cell Types Quick Reference</div>
+        <table class="mini-table">
+          <tr><th>Cell</th><th>Layer</th><th>Type</th><th>Key Role</th></tr>
+          <tr><td>Purkinje cell</td><td>Purkinje layer</td><td>GABAergic (inhibitory)</td><td>ONLY output of cerebellar cortex</td></tr>
+          <tr><td>Granule cell</td><td>Granule layer</td><td>Glutamatergic (excitatory)</td><td>Relay mossy fibers → parallel fibers</td></tr>
+          <tr><td>Basket cell</td><td>Molecular layer</td><td>GABAergic (inhibitory)</td><td>Inhibit Purkinje cell soma</td></tr>
+          <tr><td>Stellate cell</td><td>Molecular layer</td><td>GABAergic (inhibitory)</td><td>Inhibit Purkinje dendrites</td></tr>
+          <tr><td>Golgi cell</td><td>Granule layer</td><td>GABAergic (inhibitory)</td><td>Regulate granule cell activity</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box c4">
+        <div class="box-title">Fiber Types Quick Reference</div>
+        <table class="mini-table">
+          <tr><th>Fiber</th><th>Origin</th><th>Synapse Target</th><th>Effect</th></tr>
+          <tr><td>Mossy fiber</td><td>Cortex, brainstem, spinal cord</td><td>Granule cells (→ parallel fibers → Purkinje)</td><td>Excitatory (indirect)</td></tr>
+          <tr><td>Climbing fiber</td><td>Inferior olive</td><td>Purkinje cells (direct)</td><td>Excitatory; error/learning signal</td></tr>
+          <tr><td>Parallel fiber</td><td>Granule cells</td><td>Purkinje cell dendritic spines</td><td>Excitatory</td></tr>
+        </table>
+      </div>
+
+      <div class="box c5">
+        <div class="box-title">Critical "DON'T FORGET" Points</div>
+        <ul>
+          <li>Cerebellum is <span class="hl1">ipsilateral</span> — controls same side of body</li>
+          <li>Cerebellar damage causes errors on <span class="hl2">same side</span> as lesion</li>
+          <li>Cerebellar cortex output = <span class="hl3">only inhibitory (GABA)</span> via Purkinje cells</li>
+          <li>Middle peduncle = <span class="hl4">largest pathway in the brain (&gt;20M axons)</span></li>
+          <li>Superior peduncle = <span class="hl5">almost entirely efferent</span></li>
+          <li>Vestibulocerebellum = <span class="hl6">oldest part of cerebellum</span></li>
+          <li>Inferior olive = critical for <span class="hl1">learning and memory</span></li>
+          <li>Cerebrocerebellum = most developed in <span class="hl2">humans & primates</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end map-container -->
+
+<script>
+  // Search filter
+  function filterBoxes(query) {
+    const q = query.toLowerCase().trim();
+    const boxes = document.querySelectorAll('.box');
+    boxes.forEach(box => {
+      if (!q) {
+        box.classList.remove('hidden');
+        return;
+      }
+      const text = box.textContent.toLowerCase();
+      if (text.includes(q)) {
+        box.classList.remove('hidden');
+        box.style.borderColor = 'rgba(74,240,200,0.4)';
+      } else {
+        box.classList.add('hidden');
+        box.style.borderColor = '';
+      }
+    });
+  }
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (scrollTop / docHeight) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  });
+
+  // Hover pulse on boxes
+  document.querySelectorAll('.box').forEach(box => {
+    box.addEventListener('mouseleave', () => {
+      box.style.borderColor = '';
+    });
+  });
+</script>
+</body>
+</html>

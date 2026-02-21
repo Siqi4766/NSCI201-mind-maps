@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuroscience Methods & Anatomy — Mindmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+
+    --c1: #58a6ff; /* blue - neurons/building blocks */
+    --c2: #3fb950; /* green - systems */
+    --c3: #d2a8ff; /* purple - anatomy */
+    --c4: #ffa657; /* orange - methods */
+    --c5: #ff7b72; /* red - structural */
+    --c6: #79c0ff; /* light blue - functional */
+    --c7: #f0c040; /* gold - terminology */
+    --c8: #56d364; /* bright green - CNS */
+    --c9: #e57be5; /* magenta - forebrain */
+    --c10: #ff9940; /* peach - vascular */
+    --c11: #3fc1c9; /* teal - meninges */
+    --c12: #a5d6ff; /* pale blue - CSF */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 48px 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, #58a6ff, #d2a8ff, #3fb950);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  header p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN CANVAS ── */
+  main {
+    padding: 32px 24px 64px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── ROW ── */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* ── BOX ── */
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    flex: 1;
+    min-width: 200px;
+    max-width: 500px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    border-color: var(--accent);
+  }
+
+  .box.wide { max-width: 100%; flex-basis: 100%; }
+  .box.half { flex-basis: calc(50% - 6px); min-width: 280px; }
+  .box.third { flex-basis: calc(33.33% - 8px); min-width: 220px; }
+  .box.quarter { flex-basis: calc(25% - 9px); min-width: 180px; }
+
+  .box-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    letter-spacing: 0.01em;
+  }
+
+  .box-title .emoji {
+    margin-right: 6px;
+    font-style: normal;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.68rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--text);
+    letter-spacing: 0.03em;
+  }
+
+  .tag.highlight {
+    background: rgba(var(--accent-rgb), 0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  ul.detail-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 4px;
+  }
+
+  ul.detail-list li {
+    font-size: 0.78rem;
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2px 0;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  ul.detail-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  ul.detail-list li strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  ul.detail-list li em {
+    color: #b0b8c4;
+    font-style: italic;
+  }
+
+  .sub-section {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .sub-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 5px;
+    opacity: 0.8;
+  }
+
+  /* color themes */
+  .blue  { --accent: var(--c1); --accent-rgb: 88,166,255; }
+  .green { --accent: var(--c2); --accent-rgb: 63,185,80; }
+  .purple{ --accent: var(--c3); --accent-rgb: 210,168,255; }
+  .orange{ --accent: var(--c4); --accent-rgb: 255,166,87; }
+  .red   { --accent: var(--c5); --accent-rgb: 255,123,114; }
+  .lblue { --accent: var(--c6); --accent-rgb: 121,192,255; }
+  .gold  { --accent: var(--c7); --accent-rgb: 240,192,64; }
+  .bgreen{ --accent: var(--c8); --accent-rgb: 86,211,100; }
+  .mag   { --accent: var(--c9); --accent-rgb: 229,123,229; }
+  .peach { --accent: var(--c10); --accent-rgb: 255,153,64; }
+  .teal  { --accent: var(--c11); --accent-rgb: 63,193,201; }
+  .pale  { --accent: var(--c12); --accent-rgb: 165,214,255; }
+
+  /* collapsible body */
+  .box-body {
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+    max-height: 2000px;
+    opacity: 1;
+  }
+
+  .box.collapsed .box-body {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .collapse-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+  .collapse-btn:hover { color: var(--accent); background: rgba(255,255,255,0.05); }
+
+  /* connector lines between rows */
+  .connector {
+    display: flex;
+    justify-content: center;
+    margin: 2px 0;
+  }
+  .connector-line {
+    width: 2px;
+    height: 16px;
+    background: var(--border);
+  }
+
+  /* search bar */
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #search {
+    background: #1c2230;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    width: 200px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #search:focus { border-color: var(--c1); }
+  #search::placeholder { color: var(--muted); }
+
+  .box.hidden { display: none; }
+  .box.dimmed { opacity: 0.25; }
+
+  .expand-all-btn {
+    background: #1c2230;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .expand-all-btn:hover { border-color: var(--c1); color: var(--c1); }
+
+  /* fade in animation */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section { animation: fadeInUp 0.5s ease both; }
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.10s; }
+  .section:nth-child(4) { animation-delay: 0.15s; }
+  .section:nth-child(5) { animation-delay: 0.20s; }
+  .section:nth-child(6) { animation-delay: 0.25s; }
+  .section:nth-child(7) { animation-delay: 0.30s; }
+  .section:nth-child(8) { animation-delay: 0.35s; }
+
+  /* ── scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Neuroscience — Methods &amp; Anatomy</h1>
+    <p>Week 1 · Lecture 2 · Mohammad Darainy, PhD</p>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="Search topics…" oninput="filterBoxes(this.value)">
+      <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+    </div>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c1)"></span>Building Blocks</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c2)"></span>Neural Systems</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c4)"></span>Methods</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c7)"></span>Terminology</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c3)"></span>Anatomy</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c8)"></span>CNS Regions</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c10)"></span>Vascular / CSF</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════
+     SECTION 1: BUILDING BLOCKS
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">01 — Building Blocks of the Nervous System</div>
+  <div class="row">
+    <div class="box third blue">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🧠</span>Neuron</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Cell body (soma)</strong> — contains nucleus, metabolic hub</li>
+          <li><strong>Dendrites</strong> — receive messages from other cells</li>
+          <li><strong>Axon</strong> — passes messages away from soma to other neurons, muscles, or glands</li>
+          <li><strong>Myelin sheath</strong> — covers axon of some neurons; speeds neural impulses</li>
+          <li><strong>Action potential</strong> — electrical signal traveling down the axon</li>
+          <li><strong>Terminal buttons</strong> — form junctions (synapses) with other cells</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third blue">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🔗</span>Neural Circuit</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Diverse subsets of neurons form <strong>ensembles</strong> called neural circuits</li>
+          <li>Circuits are the <em>primary components</em> of neural systems</li>
+          <li>Each circuit processes a <strong>specific type of information</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third blue">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">⚙️</span>Neural System</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Collections of circuits dedicated to a <strong>unified function</strong></li>
+          <li>Components distributed throughout <strong>body and brain</strong></li>
+          <li>Includes both peripheral specializations <em>and</em> central structures</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 2: NEURAL SYSTEMS
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">02 — Neural Systems: Purposes &amp; Principles</div>
+  <div class="row">
+    <div class="box third green">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">👁️</span>Sensory Systems</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Acquire &amp; process information from <strong>internal &amp; external</strong> environments</li>
+          <li>Include peripheral specializations: <strong>eye, ear, skin, nose</strong></li>
+          <li>Use <strong>topographic maps</strong> (vision, touch) or <strong>computational maps</strong> (smell, taste)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third green">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🦾</span>Motor Systems</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Respond to information (esp. sensory) by <strong>generating movements</strong></li>
+          <li>Include peripheral motor nerves and <strong>target muscles</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third green">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🔀</span>Association Systems</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Lie <strong>between</strong> input (sensory) and output (motor) systems</li>
+          <li>Include higher-order systems: <em>language, emotion</em></li>
+          <li>Less well understood; may not follow neat sensory/motor organization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="box half green">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🗺️</span>Topographic Maps</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Systems distinguishing <strong>neighboring points</strong> (vision in visual field; touch on body surface) represent info topographically</li>
+          <li>Reflect a <strong>point-to-point correspondence</strong> between sensory periphery and CNS neurons</li>
+          <li>Example: <strong>somatosensory homunculus</strong> — face, lips, tongue, jaw, hand, fingers, thumb occupy more cortex than trunk/limbs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box half green">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">💡</span>Core Principles of Neural Systems</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Unity of function</strong> — system = all neurons &amp; connections dedicated to one function</li>
+          <li><strong>Distributed components</strong> — spread across body and brain</li>
+          <li><strong>Orderly representation</strong> — specific info represented at various levels</li>
+          <li><strong>Parallel processing</strong> — sub-modalities processed separately but simultaneously (e.g., frequency &amp; volume of sound; color &amp; motion of visual stimulus)</li>
+          <li><strong>Computational maps</strong> — smell &amp; taste compare/integrate multiple stimulus attributes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 3: CNS / PNS ORGANIZATION
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">03 — Anatomical Organization of the Nervous System</div>
+  <div class="row">
+    <div class="box half purple">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🏛️</span>Central Nervous System (CNS)</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Brain</strong></li>
+          <li><strong>Spinal cord</strong></li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">7 Basic Parts</div>
+          <ul class="detail-list">
+            <li>Spinal cord</li>
+            <li>Medulla</li>
+            <li>Pons</li>
+            <li>Midbrain</li>
+            <li>Cerebellum</li>
+            <li>Diencephalon</li>
+            <li>Cerebrum</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Groupings</div>
+          <ul class="detail-list">
+            <li><strong>Brainstem</strong> = medulla + pons + midbrain</li>
+            <li><strong>Forebrain</strong> = diencephalon + cerebral hemispheres (cerebrum)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box half purple">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🌿</span>Peripheral Nervous System (PNS)</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Sensory neurons</strong> — carry info toward CNS</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Somatic Motor Division</div>
+          <ul class="detail-list">
+            <li>Innervates <strong>skeletal muscles</strong></li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Visceral / Autonomic Motor Division</div>
+          <ul class="detail-list">
+            <li>Innervates <strong>smooth muscles, cardiac muscles, glands</strong></li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">PNS Components</div>
+          <ul class="detail-list">
+            <li>Cranial nerves</li>
+            <li>Spinal nerves</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 4: TERMINOLOGY
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">04 — Neuroanatomical Terminology</div>
+  <div class="row">
+    <div class="box half gold">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🔬</span>Collections of Neurons</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Gray matter</strong> — cell bodies in the brain; appear grey in freshly dissected brain</li>
+          <li><strong>Cortex</strong> — thin sheet of neurons, usually at brain's surface</li>
+          <li><strong>Nucleus</strong> — clearly distinguishable mass of neurons, usually deep in brain <em>(Latin: "nut")</em></li>
+          <li><strong>Substantia</strong> — related neurons, less distinct boundaries than a nucleus</li>
+          <li><strong>Locus</strong> <em>(pl: loci)</em> — small, well-defined group of cells</li>
+          <li><strong>Ganglion</strong> <em>(pl: ganglia)</em> — collection of neurons in the PNS <em>(Greek: "knot")</em>; only the <em>basal ganglia</em> in CNS</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box half gold">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">📡</span>Collections of Axons</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Nerve</strong> — bundle of axons in PNS; only CNS nerve = <em>optic nerve</em></li>
+          <li><strong>White matter</strong> — generic term for axon collections; appear white from myelination</li>
+          <li><strong>Tract</strong> — CNS axons with common origin AND destination</li>
+          <li><strong>Bundle</strong> — axons running together but NOT necessarily common origin/destination</li>
+          <li><strong>Capsule</strong> — axon collection connecting cerebrum with brainstem</li>
+          <li><strong>Commissure</strong> — axon collection connecting one side of brain to the other</li>
+          <li><strong>Lemniscus</strong> — tract that meanders through the brain like a ribbon</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 5: METHODS
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">05 — Methods to Study Neural Systems</div>
+
+  <!-- GENETIC -->
+  <div class="row">
+    <div class="box third orange">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🧬</span>Genetic Analysis</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Genetic variation shapes <strong>structure &amp; function</strong> of the nervous system</li>
+          <li>Human studies: <em>genetic analysis in families with inherited diseases</em></li>
+          <li>Look for variation between affected &amp; unaffected individuals</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">GWAS — Genome Wide Association Studies</div>
+          <ul class="detail-list">
+            <li>Large-scale population studies</li>
+            <li>Assesses <strong>statistical correlation</strong> between genetic variation &amp; frequency of clinically diagnosed conditions</li>
+            <li>Identifies <strong>'risk loci'</strong> for a particular condition</li>
+            <li>Example: <em>Alzheimer's GWAS</em> (Lambert et al. 2013)</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Gene Expression</div>
+          <ul class="detail-list">
+            <li>~6,000 genes expressed exclusively in <strong>nervous system</strong></li>
+            <li>~8,000 genes expressed <strong>ubiquitously</strong> in all cell/tissue types</li>
+            <li>~6,000 genes <strong>not expressed</strong> in nervous system</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Animal Models</div>
+          <ul class="detail-list">
+            <li>Candidate genes found in humans → studied in <em>Drosophila, zebrafish, C. elegans, mouse</em></li>
+            <li>Candidate genes → cell models or animal models to understand biological function</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box third orange">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🛠️</span>Genetic Engineering</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Introduce a new gene, or <strong>modify/disable</strong> existing gene in mouse embryonic stem cells <em>in vitro</em></li>
+          <li>Gene → incorporated into inner cell mass → surgical transfer of embryos into foster mother</li>
+          <li>→ <strong>Mosaic (chimera)</strong> × wild type</li>
+          <li>If some manipulated cells produce egg/sperm → <strong>Heterozygous (F₁)</strong> carrying one copy of manipulated gene</li>
+          <li>Mating two F₁ → <strong>Homozygous carrier (F₂)</strong></li>
+          <li>Uses: drug/genetic screens, transplantation studies <em>(in vivo)</em>, cellular studies <em>(in vitro)</em></li>
+          <li>Also: iPS cells from patient cells → neural, cardiac, beta cells, hepatocytes</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third orange">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🗂️</span>Structural Analysis</div>
+      <div class="box-body">
+        <div class="sub-section">
+          <div class="sub-title">Lesion Studies</div>
+          <ul class="detail-list">
+            <li>Inferences of functional location by correlating <strong>post-mortem brain damage</strong> with functional deficits observed in life</li>
+            <li>Classic example: <strong>Henry Molaison (HM)</strong> — bilateral hippocampectomy → lost ability to form new lasting autobiographical memory</li>
+            <li>Limitations: <em>biased recall of functional changes; uncontrolled damage</em></li>
+            <li>Animal studies: <strong>experimentally induced lesions</strong> — still limited</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Tract Tracing</div>
+          <ul class="detail-list">
+            <li>Permits detailed assessment of <strong>connections between brain regions</strong></li>
+            <li><strong>Retrograde tracer</strong> — injected at destination; travels backward to show which cells send connections TO the injection site</li>
+            <li><strong>Anterograde tracer</strong> — injected at origin; travels forward to show which regions RECEIVE connections from injection site</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUNCTIONAL -->
+  <div class="row">
+    <div class="box half lblue">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">⚡</span>Functional Analysis — Invasive</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Electrophysiological recording</strong> — historically the most widely used method</li>
+          <li>Implant electrodes to record from single neurons or populations</li>
+          <li>Example: somatic sensory cortex — touch in <em>center of receptive field</em> increases cell firing; touch in <em>surround</em> decreases cell firing; touch <em>outside</em> receptive field has no effect</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box half lblue">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">📡</span>Functional Analysis — Non-Invasive</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>EEG</strong> (Electroencephalography) — scalp electrodes; measures electrical activity of populations of neurons</li>
+          <li><strong>TMS</strong> (Transcranial Magnetic Stimulation) — magnetic pulses temporarily disrupt or stimulate cortical areas</li>
+          <li><strong>CT</strong> (Computed Tomography) — structural X-ray imaging of brain</li>
+          <li><strong>fMRI</strong> (Functional MRI) — measures blood-oxygenation-level dependent (BOLD) signal as proxy for neural activity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 6: ANATOMICAL REFERENCES
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">06 — Anatomical References &amp; Planes</div>
+  <div class="row">
+    <div class="box third purple">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🐭</span>Directions — Quadruped</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>In animals walking on all fours, body and brain directions are <strong>the same</strong></li>
+          <li><strong>Anterior / Rostral</strong> — toward head/front</li>
+          <li><strong>Posterior / Caudal</strong> — toward tail/back</li>
+          <li><strong>Dorsal</strong> — toward back (spine)</li>
+          <li><strong>Ventral</strong> — toward belly</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third purple">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🧍</span>Directions — Human</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Humans walk upright → head at angle to body</li>
+          <li><strong>Anterior, Posterior, Superior, Inferior</strong> — refer to long axis of body (same for forebrain AND brainstem)</li>
+          <li><strong>Forebrain</strong>: Dorsal = top of head; Rostral = toward face</li>
+          <li><strong>Brainstem &amp; Spinal cord</strong>: Dorsal = to the back; Rostral = toward top of head</li>
+          <li>Dorsal/ventral/rostral/caudal refer to <em>long axis of CNS</em></li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third purple">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">✂️</span>Planes &amp; Symmetry</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Sagittal</strong> — left/right division (vertical, front-to-back)</li>
+          <li><strong>Horizontal / Axial</strong> — top/bottom division</li>
+          <li><strong>Coronal / Frontal</strong> — front/back division</li>
+          <li>Cutting along midline reveals <strong>bilateral symmetry</strong> of the brain</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Ipsilateral vs Contralateral</div>
+          <ul class="detail-list">
+            <li><strong>Contralateral</strong> — on opposite sides of midline</li>
+            <li><strong>Ipsilateral</strong> — on same side of midline</li>
+            <li>Ex: Left visual cortex receives <em>ipsilateral</em> projections from left eye AND <em>contralateral</em> projections from right eye (via optic chiasm)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 7: CNS REGIONS
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">07 — CNS Regions: Spinal Cord, Brainstem &amp; Cerebellum</div>
+  <div class="row">
+    <div class="box third bgreen">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🦴</span>Spinal Cord — External Anatomy</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Peripheral nerves innervating the body arise from <strong>spinal nerves</strong></li>
+          <li><strong>Dorsal roots</strong> — carry <em>afferent</em> (sensory) axons INTO cord</li>
+          <li><strong>Ventral roots</strong> — carry <em>efferent</em> (motor) axons OUT of cord</li>
+          <li>Once dorsal &amp; ventral roots join, sensory &amp; motor axons travel together in <strong>spinal nerves</strong></li>
+          <li>Segments: <strong>Cervical (C1–C8), Thoracic (T1–T12), Lumbar (L1–L5), Sacral (S1–S5), Coccygeal</strong></li>
+          <li><strong>Cervical enlargement</strong> — upper limb control</li>
+          <li><strong>Lumbosacral enlargement</strong> — lower limb control</li>
+          <li><strong>Cauda equina</strong> — nerve roots below spinal cord end</li>
+          <li>Also: dorsal root ganglion, layers of meninges, sympathetic chain</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third bgreen">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">⬛</span>Spinal Cord — Internal Anatomy</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Interior = <strong>gray matter</strong> (butterfly shape), surrounded by <strong>white matter</strong></li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Gray Matter Horns</div>
+          <ul class="detail-list">
+            <li><strong>Dorsal horns</strong> — receive sensory info entering via dorsal roots</li>
+            <li><strong>Ventral horns</strong> — contain cell bodies of motor neurons → axons → ventral roots → skeletal muscles</li>
+            <li><em>Interneurons</em> bridge sensory and motor circuits</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">White Matter Columns</div>
+          <ul class="detail-list">
+            <li><strong>Dorsal columns</strong> — ascending sensory info from somatic mechanoreceptors → medulla</li>
+            <li><strong>Lateral columns</strong> — axons from cerebral cortex to interneurons/motor neurons in ventral horns (<em>lateral corticospinal tract</em>)</li>
+            <li><strong>Ventral columns</strong> — ascending pain &amp; temperature info; descending motor info from brainstem &amp; motor cortex</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box third bgreen">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🌉</span>Brainstem &amp; Cranial Nerves</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>= <strong>Midbrain + Pons + Medulla</strong></li>
+          <li>Located between diencephalon and spinal cord</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">3 Fundamental Functions</div>
+          <ul class="detail-list">
+            <li>① Target &amp; source for <strong>cranial nerves</strong> (sensory &amp; motor of head &amp; neck)</li>
+            <li>② <strong>"Throughway"</strong>: ascending sensory tracts from spinal cord; sensory tracts for head &amp; neck; descending motor tracts from forebrain; local pathways linking eye movement centers</li>
+            <li>③ Regulates <strong>levels of consciousness</strong> through extensive forebrain projections</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Organization</div>
+          <ul class="detail-list">
+            <li>Brainstem structures are <strong>tightly packed</strong></li>
+            <li>Cranial nerve nuclei = target of cranial sensory nerves AND source of cranial motor nerves</li>
+            <li>Sensory nuclei found <strong>laterally</strong></li>
+            <li>Motor nuclei found <strong>more medially</strong></li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Cerebellum</div>
+          <ul class="detail-list">
+            <li><em>"Tiny brain"</em> (Latin)</li>
+            <li>Contains as many neurons as the <strong>cerebrum</strong></li>
+            <li>Primary role: <strong>movement control</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 8: FOREBRAIN & CORTEX
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">08 — Forebrain: Cortical &amp; Surface Anatomy</div>
+  <div class="row">
+    <div class="box half mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🌐</span>Cerebral Hemispheres — Overview</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Generally receives &amp; sends information to the <strong>contralateral</strong> side of the body</li>
+          <li>Surface = folds: <strong>Gyri</strong> (ridges) and <strong>Sulci</strong> (grooves/fissures)</li>
+          <li><strong>Bilateral symmetry</strong> — left and right hemispheres roughly mirror each other</li>
+          <li><strong>Corpus callosum</strong> bridges the two hemispheres — carries axons from cortical neurons to contact <em>target neurons in the opposite cortical region</em></li>
+        </ul>
+      </div>
+    </div>
+    <div class="box half mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🗺️</span>Cortical Lobes</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Frontal lobe</strong> — motor, executive function, planning</li>
+          <li><strong>Parietal lobe</strong> — somatosensory, spatial processing</li>
+          <li><strong>Temporal lobe</strong> — auditory, language, memory (hippocampus)</li>
+          <li><strong>Occipital lobe</strong> — primary visual cortex</li>
+          <li><strong>Insula</strong> — hidden beneath frontal &amp; temporal lobes</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Key Sulci as Boundaries</div>
+          <ul class="detail-list">
+            <li><strong>Lateral (Sylvian) fissure</strong> — separates temporal from frontal &amp; parietal lobes</li>
+            <li><strong>Central sulcus</strong> — separates frontal and parietal lobes</li>
+            <li><strong>Parieto-occipital sulcus</strong> — separates parietal &amp; occipital lobes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="box third mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">📍</span>Key Gyri</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Precentral gyrus</strong> — motor cortex (in front of central sulcus)</li>
+          <li><strong>Postcentral gyrus</strong> — somatosensory cortex (behind central sulcus)</li>
+          <li><strong>Cingulate gyrus</strong> — part of limbic system</li>
+          <li><strong>Superior / Middle / Inferior frontal gyri</strong></li>
+          <li><strong>Superior / Middle / Inferior temporal gyri</strong></li>
+          <li><strong>Intraparietal sulcus</strong></li>
+          <li><strong>Paracentral lobule</strong></li>
+          <li><strong>Precuneus gyrus</strong></li>
+          <li><strong>Cuneus gyrus</strong> &amp; <strong>Lingual gyrus</strong> (occipital)</li>
+          <li><strong>Calcarine sulcus</strong> — locates primary visual cortex</li>
+          <li><strong>Preoccipital notch</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🧭</span>Midsagittal Surface</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Calcarine sulcus</strong> → primary visual cortex</li>
+          <li><strong>Cingulate gyrus &amp; sulcus</strong> → limbic system</li>
+          <li><strong>Corpus callosum</strong> → inter-hemispheric commissure</li>
+          <li><strong>Anterior commissure</strong> → connects two hemispheres</li>
+          <li><strong>Parieto-occipital sulcus</strong></li>
+          <li>Visible: Diencephalon, Brainstem structures (midbrain, pons, medulla), Cerebellum, Spinal cord</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🔭</span>Dorsal &amp; Ventral Views</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Dorsal view</strong> — frontal, parietal, occipital lobes visible; bilateral symmetry evident</li>
+          <li><strong>Ventral view</strong> — temporal lobe, optic chiasma, olfactory bulb visible</li>
+          <li><strong>Dorsal view with cortex removed</strong> — corpus callosum and cerebellum visible</li>
+          <li><strong>Optic chiasma</strong> — where optic nerve fibers partially cross; located on ventral surface</li>
+          <li><strong>Olfactory bulb</strong> — anterior, ventral surface</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 9: DIENCEPHALON
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">09 — Diencephalon, Thalamus &amp; Internal Forebrain</div>
+  <div class="row">
+    <div class="box third mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🎯</span>Diencephalon</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Part of the <strong>forebrain</strong></li>
+          <li>Components: <strong>Thalamus</strong> and <strong>Hypothalamus</strong></li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Thalamus</div>
+          <ul class="detail-list">
+            <li>Relay of sensory &amp; motor signals to relevant <strong>primary cortical areas</strong></li>
+            <li>Distributer of high-order signals from one cortical area to another</li>
+            <li>Sensory pathways from <strong>eye, ear, skin</strong> all relay in thalamus before terminating in cortex</li>
+            <li>~<strong>50 nuclear subdivisions</strong> each with distinct inputs &amp; outputs</li>
+            <li>Receives input from throughout brain &amp; spinal cord</li>
+            <li>Sends info to different cortical areas via <strong>internal capsule</strong></li>
+            <li>Key nuclei: Anterior nuclear group, Thalamic reticular nucleus, Ventral anterior, Lateral dorsal, Ventral lateral, Lateral posterior, Ventral posterior lateral, Ventral posterior medial, Pulvinar, Medial geniculate complex, Lateral geniculate nucleus, Mediodorsal nucleus, Intralaminar nuclei, Internal medullary lamina, Midline thalamic nuclei</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Hypothalamus</div>
+          <ul class="detail-list">
+            <li><strong>Homeostatic and reproductive functions</strong></li>
+            <li>Visible on midsagittal section</li>
+            <li>Associated structures: mammillary body, optic chiasm</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box third mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🏺</span>Internal Forebrain Anatomy</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Amygdala</strong> — located in front of hippocampus; temporal lobe; emotional processing</li>
+          <li><strong>Hippocampus</strong> — temporal horn of lateral ventricle; memory</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Basal Ganglia</div>
+          <ul class="detail-list">
+            <li><strong>Caudate nucleus</strong></li>
+            <li><strong>Putamen</strong></li>
+            <li><strong>Globus pallidus</strong></li>
+            <li>Role in movement control, reward, learning</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">White Matter Tracts</div>
+          <ul class="detail-list">
+            <li><strong>Internal capsule</strong> — major pathway linking cerebral cortex to brainstem &amp; spinal cord</li>
+            <li><strong>Anterior commissure</strong> — axon tract connecting two hemispheres</li>
+            <li><strong>Fornix</strong> — fiber tract connecting hippocampus to hypothalamus</li>
+            <li><strong>Corpus callosum</strong></li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Ventricles</div>
+          <ul class="detail-list">
+            <li>Lateral ventricles (temporal horn visible)</li>
+            <li>Third ventricle</li>
+            <li>Tail of caudate nucleus</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box third mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🔗</span>Cerebrum — Key Facts</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Generally receives &amp; sends information to <strong>contralateral</strong> side of body</li>
+          <li>Surface: gray matter (cortex); depth: white matter</li>
+          <li>Connected to brainstem via <strong>internal capsule</strong></li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Other Midsagittal Structures</div>
+          <ul class="detail-list">
+            <li><strong>Pineal gland</strong></li>
+            <li><strong>Posterior commissure</strong></li>
+            <li><strong>Superior colliculus</strong> (midbrain; visual)</li>
+            <li><strong>Inferior colliculus</strong> (midbrain; auditory)</li>
+            <li><strong>Cerebral aqueduct</strong> — connects 3rd &amp; 4th ventricles</li>
+            <li><strong>Fourth ventricle</strong></li>
+            <li><strong>Foramen of Monro</strong> — connects lateral &amp; 3rd ventricles</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 10: VASCULAR & PROTECTIVE
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">10 — Vascular System, Blood-Brain Barrier &amp; Protection</div>
+  <div class="row">
+    <div class="box third peach">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🩸</span>Blood Supply</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Damage to major blood vessels by <strong>trauma or stroke</strong> → combinations of functional deficits</li>
+          <li>Deficits caused by: <em>local cell death</em> AND <em>disruption of axons passing through damaged area</em></li>
+          <li>Neurons are <strong>highly sensitive</strong> to oxygen (&amp; glucose) deprivation → high metabolic rate</li>
+          <li><strong>Ischemia</strong> — even brief loss of blood supply can cause cellular changes ending in cell death</li>
+          <li><strong>Prolonged loss</strong> → cell death &amp; degeneration</li>
+          <li><strong>Stroke</strong> — death or dysfunction of brain tissue following compromised blood supply</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box third peach">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🛡️</span>Blood-Brain Barrier (BBB)</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>Protects the brain from <strong>toxins &amp; fluctuations in ionic milieu</strong></li>
+          <li>Interface between capillary walls and surrounding tissue — present throughout body</li>
+          <li>In brain: <strong>tight junctions</strong> form between capillary endothelial cells — NOT seen elsewhere in body</li>
+          <li><strong>Astrocyte foot processes</strong> envelop capillaries and reinforce BBB</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Crossing the BBB</div>
+          <ul class="detail-list">
+            <li>Molecules must move <em>through</em> endothelial membranes (not between)</li>
+            <li>Must be <strong>lipid soluble</strong></li>
+            <li>OR <strong>actively transported</strong> (e.g., glucose)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box third teal">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🧅</span>The Meninges</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><em>Greek: "covering"</em></li>
+          <li>Membranes protecting brain &amp; spinal cord from direct contact with skull or bone</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">3 Layers (outer → inner)</div>
+          <ul class="detail-list">
+            <li><strong>Dura mater</strong> — outermost; Latin <em>"hard mother"</em></li>
+            <li><strong>Arachnoid membrane</strong> — middle; web-like; Greek <em>"spider"</em>; blood vessels pass between dura &amp; arachnoid → ruptures cause <em>subdural hematomas</em>; fluid build-up = dangerous (pressure on CNS)</li>
+            <li><strong>Pia mater</strong> — innermost; adheres closely to brain; includes many blood vessels; Latin <em>"gentle mother"</em></li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">Subarachnoid Space</div>
+          <ul class="detail-list">
+            <li>Between pia and arachnoid</li>
+            <li>Contains <strong>cerebrospinal fluid (CSF)</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 11: CSF & VENTRICULAR
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">11 — Ventricular System, CSF &amp; Glymphatic System</div>
+  <div class="row">
+    <div class="box half pale">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">💧</span>Ventricular System &amp; CSF</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li><strong>Ventricles</strong> — canals through the brain filled with CSF; provide useful anatomical landmarks</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Ventricle Anatomy</div>
+          <ul class="detail-list">
+            <li><strong>Lateral ventricles</strong> (left &amp; right) — in cerebral hemispheres</li>
+            <li><strong>Foramen of Monro</strong> — connects lateral ventricles to 3rd ventricle</li>
+            <li><strong>Third ventricle</strong> — in diencephalon</li>
+            <li><strong>Cerebral aqueduct</strong> — connects 3rd to 4th ventricle</li>
+            <li><strong>Fourth ventricle</strong> — in brainstem/cerebellum</li>
+            <li><strong>Foramen of Magendie</strong> — exit of 4th ventricle to subarachnoid space</li>
+          </ul>
+        </div>
+        <div class="sub-section">
+          <div class="sub-title">CSF Production &amp; Flow</div>
+          <ul class="detail-list">
+            <li>CSF produced by <strong>choroid plexus</strong> — special tissue lining ventricles</li>
+            <li>Produces <strong>500 ml CSF/day</strong></li>
+            <li>Normal ventricular volume: <strong>150 ml</strong></li>
+            <li>CSF turns over <strong>multiple times daily</strong></li>
+            <li>CSF flows through ventricles → exits CNS via small openings along dorsal midline of forebrain → <strong>subarachnoid space</strong></li>
+            <li>Absorbed by <strong>arachnoid villi / subarachnoid villi</strong> into blood</li>
+            <li>Also visible: superior sagittal sinus, dura mater</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box half pale">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title"><span class="emoji">🔄</span>Glymphatic System</div>
+      <div class="box-body">
+        <ul class="detail-list">
+          <li>The brain's <strong>waste clearance system</strong></li>
+          <li>CSF passes from <strong>arterial perivascular space</strong> through substance of the brain (via astrocyte channels)</li>
+          <li>CSF <strong>rinses metabolic waste</strong> and discarded proteins (e.g., amyloid-beta)</li>
+          <li>Waste-carrying CSF passes out of brain via <strong>perivenous space</strong> surrounding veins</li>
+          <li><strong>CSF flow increases during sleep</strong> when extracellular spaces expand</li>
+          <li>Structures involved: astrocyte end feet, convective flow channels, perivenous space, periarterial space</li>
+        </ul>
+        <div class="sub-section">
+          <div class="sub-title">Significance</div>
+          <ul class="detail-list">
+            <li>Links sleep quality to brain health — poor sleep impairs waste clearance</li>
+            <li>Potentially important in <strong>neurodegenerative diseases</strong> (Alzheimer's)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 12: QUICK REFERENCE
+═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">12 — Quick Reference Summary</div>
+  <div class="row">
+    <div class="box quarter blue">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">Neuron Parts</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">Soma</span>
+          <span class="tag highlight">Dendrites</span>
+          <span class="tag highlight">Axon</span>
+          <span class="tag highlight">Myelin</span>
+          <span class="tag highlight">Terminal buttons</span>
+          <span class="tag highlight">Action potential</span>
+        </div>
+      </div>
+    </div>
+    <div class="box quarter gold">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">Neuron Collections</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">Gray matter</span>
+          <span class="tag highlight">Cortex</span>
+          <span class="tag highlight">Nucleus</span>
+          <span class="tag highlight">Substantia</span>
+          <span class="tag highlight">Locus</span>
+          <span class="tag highlight">Ganglion</span>
+        </div>
+      </div>
+    </div>
+    <div class="box quarter gold">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">Axon Collections</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">Nerve</span>
+          <span class="tag highlight">White matter</span>
+          <span class="tag highlight">Tract</span>
+          <span class="tag highlight">Bundle</span>
+          <span class="tag highlight">Capsule</span>
+          <span class="tag highlight">Commissure</span>
+          <span class="tag highlight">Lemniscus</span>
+        </div>
+      </div>
+    </div>
+    <div class="box quarter bgreen">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">CNS 7 Parts</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">Spinal cord</span>
+          <span class="tag highlight">Medulla</span>
+          <span class="tag highlight">Pons</span>
+          <span class="tag highlight">Midbrain</span>
+          <span class="tag highlight">Cerebellum</span>
+          <span class="tag highlight">Diencephalon</span>
+          <span class="tag highlight">Cerebrum</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="box quarter orange">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">Methods</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">GWAS</span>
+          <span class="tag highlight">Genetic engineering</span>
+          <span class="tag highlight">Lesion studies</span>
+          <span class="tag highlight">Tract tracing</span>
+          <span class="tag highlight">Electrophysiology</span>
+          <span class="tag highlight">EEG</span>
+          <span class="tag highlight">TMS</span>
+          <span class="tag highlight">CT</span>
+          <span class="tag highlight">fMRI</span>
+        </div>
+      </div>
+    </div>
+    <div class="box quarter purple">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">Anatomical Directions</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">Anterior/Rostral</span>
+          <span class="tag highlight">Posterior/Caudal</span>
+          <span class="tag highlight">Dorsal</span>
+          <span class="tag highlight">Ventral</span>
+          <span class="tag highlight">Superior</span>
+          <span class="tag highlight">Inferior</span>
+          <span class="tag highlight">Ipsilateral</span>
+          <span class="tag highlight">Contralateral</span>
+        </div>
+      </div>
+    </div>
+    <div class="box quarter teal">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">Meninges Layers</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">Dura mater</span>
+          <span class="tag highlight">Arachnoid</span>
+          <span class="tag highlight">Subarachnoid space</span>
+          <span class="tag highlight">Pia mater</span>
+          <span class="tag highlight">CSF</span>
+          <span class="tag highlight">Subdural hematoma</span>
+        </div>
+      </div>
+    </div>
+    <div class="box quarter mag">
+      <button class="collapse-btn" onclick="toggleBox(this)">−</button>
+      <div class="box-title">Cortical Lobes</div>
+      <div class="box-body">
+        <div class="tags">
+          <span class="tag highlight">Frontal</span>
+          <span class="tag highlight">Parietal</span>
+          <span class="tag highlight">Temporal</span>
+          <span class="tag highlight">Occipital</span>
+          <span class="tag highlight">Insula</span>
+          <span class="tag highlight">Precentral</span>
+          <span class="tag highlight">Postcentral</span>
+          <span class="tag highlight">Calcarine</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+  // Toggle single box collapse
+  function toggleBox(btn) {
+    const box = btn.closest('.box');
+    box.classList.toggle('collapsed');
+    btn.textContent = box.classList.contains('collapsed') ? '+' : '−';
+  }
+
+  // Toggle all boxes
+  let allCollapsed = false;
+  function toggleAll() {
+    const boxes = document.querySelectorAll('.box');
+    allCollapsed = !allCollapsed;
+    boxes.forEach(box => {
+      const btn = box.querySelector('.collapse-btn');
+      if (allCollapsed) {
+        box.classList.add('collapsed');
+        if (btn) btn.textContent = '+';
+      } else {
+        box.classList.remove('collapsed');
+        if (btn) btn.textContent = '−';
+      }
+    });
+    document.querySelector('.expand-all-btn').textContent = allCollapsed ? 'Expand All' : 'Collapse All';
+  }
+
+  // Search / filter
+  function filterBoxes(query) {
+    const q = query.toLowerCase().trim();
+    const boxes = document.querySelectorAll('.box');
+    if (!q) {
+      boxes.forEach(b => { b.classList.remove('hidden', 'dimmed'); });
+      return;
+    }
+    boxes.forEach(box => {
+      const text = box.textContent.toLowerCase();
+      if (text.includes(q)) {
+        box.classList.remove('hidden', 'dimmed');
+        box.classList.remove('collapsed');
+        const btn = box.querySelector('.collapse-btn');
+        if (btn) btn.textContent = '−';
+      } else {
+        box.classList.add('dimmed');
+      }
+    });
+  }
+</script>
+</body>
+</html>

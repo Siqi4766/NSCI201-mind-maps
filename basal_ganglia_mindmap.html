@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basal Ganglia – Modulation of Movement</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --surface: #13162b;
+    --surface2: #1a1e38;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8eaf6;
+    --dim: #8890b8;
+
+    --c1: #5c6bc0;   /* indigo – overview */
+    --c2: #26a69a;   /* teal – components */
+    --c3: #ab47bc;   /* purple – inputs */
+    --c4: #ef5350;   /* red – circuits */
+    --c5: #ffa726;   /* amber – MSN */
+    --c6: #42a5f5;   /* blue – pathways */
+    --c7: #66bb6a;   /* green – dopamine */
+    --c8: #ec407a;   /* pink – disease */
+    --c9: #26c6da;   /* cyan – non-motor */
+
+    --radius: 10px;
+    --transition: 0.3s cubic-bezier(.4,0,.2,1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 0 0 80px;
+  }
+
+  /* ─── HEADER ─────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, #0d0f1a 0%, #1a1040 60%, #0a1628 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(92,107,192,.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--c1);
+    margin-bottom: 10px;
+    opacity: .8;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3.5vw, 38px);
+    font-weight: 900;
+    line-height: 1.15;
+    background: linear-gradient(120deg, #fff 30%, #9fa8da);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+  .header-meta {
+    color: var(--dim);
+    font-size: 13px;
+    display: flex; gap: 20px; flex-wrap: wrap;
+  }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* ─── CONTROLS ───────────────────────────────── */
+  .controls {
+    position: sticky;
+    top: 0; z-index: 100;
+    background: rgba(13,15,26,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 40px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .ctrl-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: .5px;
+  }
+  .ctrl-btn:hover { background: var(--surface); border-color: rgba(255,255,255,.2); }
+  .ctrl-sep { width: 1px; height: 24px; background: var(--border); }
+  .search-wrap {
+    flex: 1; min-width: 200px; max-width: 380px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 12px 7px 36px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: var(--transition);
+  }
+  .search-wrap input:focus { border-color: rgba(255,255,255,.25); background: var(--surface); }
+  .search-wrap::before {
+    content: '⌕';
+    position: absolute; left: 11px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--dim); font-size: 16px;
+    pointer-events: none;
+  }
+  .legend { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .leg-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    display: inline-block; margin-right: 4px;
+  }
+
+  /* ─── MAIN LAYOUT ────────────────────────────── */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ─── SECTION BLOCK ──────────────────────────── */
+  .section-block {
+    margin-bottom: 32px;
+    opacity: 1;
+    transition: opacity .2s;
+  }
+  .section-block.hidden { display: none; }
+  .section-block.dimmed { opacity: .25; pointer-events: none; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-accent {
+    width: 4px; height: 38px; border-radius: 2px; flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    flex: 1;
+  }
+  .section-count {
+    font-size: 11px;
+    color: var(--dim);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .toggle-icon {
+    color: var(--dim);
+    font-size: 18px;
+    transition: transform .3s;
+    flex-shrink: 0;
+  }
+  .section-block.collapsed .toggle-icon { transform: rotate(-90deg); }
+  .section-body {
+    transition: var(--transition);
+    overflow: hidden;
+  }
+  .section-block.collapsed .section-body {
+    height: 0 !important;
+    overflow: hidden;
+  }
+
+  /* ─── ROW & CARD GRID ────────────────────────── */
+  .card-row {
+    display: flex; gap: 14px;
+    margin-bottom: 14px;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  /* ─── CARD ───────────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    flex: 1 1 260px;
+    min-width: 230px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    cursor: pointer;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.5); }
+  .card:hover::before { opacity: 1; }
+  .card.card--wide { flex: 2 1 500px; }
+  .card.card--full { flex: 1 0 100%; }
+
+  /* color variants */
+  .card[data-color="c1"] { border-left: 3px solid var(--c1); }
+  .card[data-color="c1"]::before { background: var(--c1); }
+  .card[data-color="c1"]:hover { border-color: var(--c1); }
+  .card[data-color="c2"] { border-left: 3px solid var(--c2); }
+  .card[data-color="c2"]::before { background: var(--c2); }
+  .card[data-color="c2"]:hover { border-color: var(--c2); }
+  .card[data-color="c3"] { border-left: 3px solid var(--c3); }
+  .card[data-color="c3"]::before { background: var(--c3); }
+  .card[data-color="c3"]:hover { border-color: var(--c3); }
+  .card[data-color="c4"] { border-left: 3px solid var(--c4); }
+  .card[data-color="c4"]::before { background: var(--c4); }
+  .card[data-color="c4"]:hover { border-color: var(--c4); }
+  .card[data-color="c5"] { border-left: 3px solid var(--c5); }
+  .card[data-color="c5"]::before { background: var(--c5); }
+  .card[data-color="c5"]:hover { border-color: var(--c5); }
+  .card[data-color="c6"] { border-left: 3px solid var(--c6); }
+  .card[data-color="c6"]::before { background: var(--c6); }
+  .card[data-color="c6"]:hover { border-color: var(--c6); }
+  .card[data-color="c7"] { border-left: 3px solid var(--c7); }
+  .card[data-color="c7"]::before { background: var(--c7); }
+  .card[data-color="c7"]:hover { border-color: var(--c7); }
+  .card[data-color="c8"] { border-left: 3px solid var(--c8); }
+  .card[data-color="c8"]::before { background: var(--c8); }
+  .card[data-color="c8"]:hover { border-color: var(--c8); }
+  .card[data-color="c9"] { border-left: 3px solid var(--c9); }
+  .card[data-color="c9"]::before { background: var(--c9); }
+  .card[data-color="c9"]:hover { border-color: var(--c9); }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: .6;
+    font-weight: 600;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .card-body { color: var(--dim); font-size: 13px; }
+
+  /* ─── LIST STYLES ────────────────────────────── */
+  ul.dot-list { padding-left: 0; list-style: none; }
+  ul.dot-list li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: var(--dim);
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+  }
+  ul.dot-list li:last-child { border-bottom: none; }
+  ul.dot-list li::before {
+    content: '▸';
+    position: absolute; left: 0; top: 4px;
+    font-size: 11px;
+    opacity: .5;
+  }
+  ul.dot-list li strong { color: var(--text); font-weight: 600; }
+  ul.dot-list li em { color: var(--c5); font-style: normal; font-weight: 600; }
+  ul.dot-list li .hl-red { color: var(--c4); font-weight: 600; }
+  ul.dot-list li .hl-green { color: var(--c7); font-weight: 600; }
+  ul.dot-list li .hl-blue { color: var(--c6); font-weight: 600; }
+  ul.dot-list li .hl-purple { color: var(--c3); font-weight: 600; }
+  ul.dot-list li .hl-cyan { color: var(--c9); font-weight: 600; }
+  ul.dot-list li .hl-amber { color: var(--c5); font-weight: 600; }
+
+  .nested-list { padding-left: 14px; margin-top: 4px; }
+  .nested-list li::before { content: '·'; }
+
+  /* ─── FLOW DIAGRAM ───────────────────────────── */
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 14px 0 4px;
+    font-size: 12px;
+    overflow-x: auto;
+  }
+  .flow-node {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    white-space: nowrap;
+    border: 1px solid rgba(255,255,255,.15);
+    background: var(--surface2);
+  }
+  .flow-arrow {
+    padding: 0 6px;
+    color: var(--dim);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .flow-arrow.inhibit { color: var(--c4); }
+  .flow-arrow.excite  { color: var(--c7); }
+  .flow-label {
+    font-size: 10px;
+    color: var(--dim);
+    display: block;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .flow-wrap { display: flex; flex-direction: column; align-items: center; }
+
+  /* ─── BADGE ROW ──────────────────────────────── */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    border: 1px solid;
+  }
+
+  /* ─── CONNECTOR LINE ─────────────────────────── */
+  .connector {
+    width: 2px;
+    min-height: 20px;
+    margin: 0 auto -6px;
+    background: linear-gradient(to bottom, var(--border), transparent);
+    opacity: .5;
+  }
+
+  /* ─── COMPARE TABLE ──────────────────────────── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .compare-table th {
+    background: var(--surface2);
+    padding: 8px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .5px;
+    border-bottom: 2px solid var(--border);
+  }
+  .compare-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--dim);
+    vertical-align: top;
+  }
+  .compare-table tr:hover td { background: var(--surface2); color: var(--text); }
+  .compare-table .col-head { color: var(--text); font-weight: 600; }
+
+  /* ─── HIGHLIGHT SEARCH ───────────────────────── */
+  mark { background: rgba(255,213,79,.25); color: #ffe082; border-radius: 2px; padding: 0 1px; }
+
+  /* ─── SCROLL ANIM ────────────────────────────── */
+  .section-block {
+    animation: fadeUp .5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section-block:nth-child(2) { animation-delay: .05s; }
+  .section-block:nth-child(3) { animation-delay: .10s; }
+  .section-block:nth-child(4) { animation-delay: .15s; }
+  .section-block:nth-child(5) { animation-delay: .20s; }
+  .section-block:nth-child(6) { animation-delay: .25s; }
+  .section-block:nth-child(7) { animation-delay: .30s; }
+  .section-block:nth-child(8) { animation-delay: .35s; }
+
+  @media (max-width: 720px) {
+    header { padding: 30px 20px; }
+    .controls { padding: 10px 16px; }
+    main { padding: 24px 16px 0; }
+    .card { min-width: 100%; flex: 1 1 100%; }
+    .legend { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HEADER -->
+<header>
+  <div class="header-tag">Introduction to Neuroscience · Week 8, Lecture 1</div>
+  <h1>Modulation of Movement<br>by the Basal Ganglia</h1>
+  <div class="header-meta">
+    <span>🧠 Mohammad Darainy</span>
+    <span>📖 9 Topic Sections</span>
+    <span>📍 Comprehensive Interactive Mind Map</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════ CONTROLS -->
+<div class="controls">
+  <button class="ctrl-btn" onclick="expandAll()">Expand All</button>
+  <button class="ctrl-btn" onclick="collapseAll()">Collapse All</button>
+  <div class="ctrl-sep"></div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Search any concept…" oninput="doSearch(this.value)">
+  </div>
+  <div class="legend">
+    <span style="font-size:11px;color:var(--dim);margin-right:4px;">Sections:</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c1)"></span>Overview</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c2)"></span>Components</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c3)"></span>Inputs</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c4)"></span>Circuits</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c5)"></span>MSNs</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c6)"></span>Pathways</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c7)"></span>Dopamine</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c8)"></span>Disease</span>
+    <span style="font-size:11px;"><span class="leg-dot" style="background:var(--c9)"></span>Non-Motor</span>
+  </div>
+</div>
+
+<main id="mindmap">
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 1 – OVERVIEW & NEURAL ORGANIZATION
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-1">
+  <div class="section-header" onclick="toggleSection('sec-1')">
+    <div class="section-accent" style="background:var(--c1)"></div>
+    <div class="section-title" style="color:var(--c1)">① Overview &amp; Neural Organization of Movement</div>
+    <span class="section-count">6 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <!-- Row 1 -->
+    <div class="card-row">
+      <div class="card card--wide" data-color="c1">
+        <div class="card-label">Review Slide</div>
+        <div class="card-title">Hierarchical Control of Movement</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Descending Systems:</strong> Upper motor neurons at the top</li>
+            <li><strong>Motor Cortex →</strong> Planning, initiating, and directing voluntary movements</li>
+            <li><strong>Brainstem Centers →</strong> Rhythmic, stereotyped movements and postural control</li>
+            <li><strong>Basal Ganglia →</strong> Initiation of intended movement &amp; suppression of unwanted movement</li>
+            <li><strong>Cerebellum →</strong> Coordination of ongoing movement</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c1">
+        <div class="card-label">Spinal Level</div>
+        <div class="card-title">Lower Circuits</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Local Circuit Neurons →</strong> Sensorimotor integration &amp; central pattern generation</li>
+            <li><strong>Motor Neuron Pools →</strong> Lower motor neurons</li>
+            <li><strong>Spinal Cord &amp; Brainstem Circuits</strong></li>
+            <li><strong>Inputs:</strong> Sensory inputs → Skeletal muscles</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Row 2 -->
+    <div class="card-row">
+      <div class="card" data-color="c1">
+        <div class="card-label">Key Functions</div>
+        <div class="card-title">Basal Ganglia Role (Summary)</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><em>Initiation</em> and <em>termination</em> of movement</li>
+            <li><span class="hl-green">Facilitate desired movement</span></li>
+            <li><span class="hl-red">Inhibit unwanted movements</span></li>
+            <li>Relevant to Parkinson's and Huntington's Disease</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c1">
+        <div class="card-label">Definition</div>
+        <div class="card-title">What is the Basal Ganglia?</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>A <strong>group of nuclei</strong> playing a major role in normal voluntary movement</li>
+            <li><span class="hl-red">No direct input or output</span> connections to the spinal cord</li>
+            <li>Receive <span class="hl-blue">primary input from cortical structures</span></li>
+            <li>Send output back to <strong>prefrontal, premotor, and motor cortices</strong></li>
+            <li>Motor functions mediated by <strong>frontal areas of frontal cortex</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c1">
+        <div class="card-label">Circuit Diagram Key</div>
+        <div class="card-title">Information Flow</div>
+        <div class="card-body">
+          <div class="flow">
+            <div class="flow-wrap">
+              <div class="flow-node" style="background:rgba(92,107,192,.2);border-color:var(--c1)">Cortex</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-wrap">
+              <div class="flow-node" style="background:rgba(38,166,154,.2);border-color:var(--c2)">BG / Cerebellum</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-wrap">
+              <div class="flow-node" style="background:rgba(239,83,80,.2);border-color:var(--c4)">Motor Cortex</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-wrap">
+              <div class="flow-node" style="background:rgba(102,187,106,.2);border-color:var(--c7)">Muscles</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--dim)">BG &amp; Cerebellum both feed back to upper motor neurons in Motor Cortex / Brainstem</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 2 – MOTOR COMPONENTS
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-2">
+  <div class="section-header" onclick="toggleSection('sec-2')">
+    <div class="section-accent" style="background:var(--c2)"></div>
+    <div class="section-title" style="color:var(--c2)">② Motor Components of the Basal Ganglia</div>
+    <span class="section-count">5 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <div class="card-row">
+      <div class="card" data-color="c2">
+        <div class="card-label">Input Structure</div>
+        <div class="card-title">Striatum</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Caudate nucleus</strong> — receives from association &amp; frontal eye fields</li>
+            <li><strong>Putamen</strong> — receives from somatosensory, motor, visual, auditory cortices</li>
+          </ul>
+          <div class="badge-row">
+            <span class="badge" style="color:var(--c2);border-color:var(--c2)">Main INPUT zone</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-color="c2">
+        <div class="card-label">Output Structure</div>
+        <div class="card-title">Pallidum</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Globus Pallidus</strong>
+              <ul class="nested-list dot-list">
+                <li>External segment (GPe)</li>
+                <li>Internal segment (GPi)</li>
+              </ul>
+            </li>
+            <li><strong>Substantia Nigra pars reticulata (SNpr)</strong> — functionally similar to GPi</li>
+          </ul>
+          <div class="badge-row">
+            <span class="badge" style="color:var(--c4);border-color:var(--c4)">Main OUTPUT zone</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-color="c2">
+        <div class="card-label">Modulatory Structure</div>
+        <div class="card-title">Substantia Nigra pars compacta (SNpc)</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Source of <strong>dopaminergic</strong> inputs to striatum</li>
+            <li>Degenerates in <span class="hl-red">Parkinson's disease</span></li>
+            <li>Located in the <strong>midbrain</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c2">
+        <div class="card-label">Relay Nucleus</div>
+        <div class="card-title">Subthalamic Nucleus (STN)</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Key node in the <strong>indirect pathway</strong></li>
+            <li>Provides <span class="hl-green">excitatory</span> drive to GPi</li>
+            <li>Damage → <span class="hl-red">hemiballismus</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card card--wide" data-color="c2">
+        <div class="card-label">Anatomical Landmarks (from diagram)</div>
+        <div class="card-title">Key Structures in Context</div>
+        <div class="card-body">
+          <ul class="dot-list" style="columns: 2; column-gap: 20px;">
+            <li>Cerebrum</li>
+            <li>Frontal cortex</li>
+            <li>Internal capsule (separates caudate from putamen)</li>
+            <li>VA/VL complex of thalamus (output relay)</li>
+            <li>Superior colliculus (eye movement target)</li>
+            <li>Cerebral peduncles</li>
+            <li>Midbrain (site of substantia nigra)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 3 – INPUTS TO BG
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-3">
+  <div class="section-header" onclick="toggleSection('sec-3')">
+    <div class="section-accent" style="background:var(--c3)"></div>
+    <div class="section-title" style="color:var(--c3)">③ Inputs to the Basal Ganglia Nuclei</div>
+    <span class="section-count">6 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <div class="card-row">
+      <div class="card" data-color="c3">
+        <div class="card-label">Caudate Inputs</div>
+        <div class="card-title">Cortical → Caudate</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Multimodal association cortices</strong></li>
+            <li><strong>Frontal lobe motor areas</strong> that control eye movement</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c3">
+        <div class="card-label">Putamen Inputs</div>
+        <div class="card-title">Cortical → Putamen</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Primary &amp; secondary <strong>somatosensory cortices</strong> (parietal lobe)</li>
+            <li><strong>Extrastriate visual cortices</strong></li>
+            <li><strong>Premotor and motor cortices</strong></li>
+            <li><strong>Auditory association cortices</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c3">
+        <div class="card-label">Corticostriatal Pathway</div>
+        <div class="card-title">Subcortical Loop</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>BG forms a <strong>subcortical loop</strong> linking most areas of cerebral cortex with upper motor neurons</li>
+            <li>Called the <em>"corticostriatal pathway"</em></li>
+            <li><strong>Parallel corticostriatal pathways</strong> within striatum mirror functional organization of cortex</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card" data-color="c3">
+        <div class="card-label">Topographic Mapping</div>
+        <div class="card-title">Functional Organization in Striatum</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Visual &amp; somatosensory cortical projections are <strong>topographically mapped</strong> in different regions of the putamen</li>
+            <li>Functionally interconnected cortical areas <strong>overlap in striatum</strong></li>
+            <li>Striatal <em>'functional units'</em> reflect specialization of their cortical inputs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c3">
+        <div class="card-label">Signal Flow Summary</div>
+        <div class="card-title">Cortex → BG → Output</div>
+        <div class="card-body">
+          <div class="flow" style="flex-direction:column;align-items:flex-start;gap:4px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="flow-node" style="border-color:var(--c3)">Cortex (many areas)</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-node" style="border-color:var(--c3)">Striatum (input)</div>
+            </div>
+            <div style="padding-left:20px;font-size:12px;color:var(--dim)">↓ via MSN axons</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="flow-node" style="border-color:var(--c4)">GPi &amp; SNpr (output)</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-node" style="border-color:var(--c6)">Thalamus → Cortex</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-color="c3">
+        <div class="card-label">Output Pathways</div>
+        <div class="card-title">Main BG Output Structures</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Globus pallidus (GPi)</strong> — major output to thalamus</li>
+            <li><strong>Substantia nigra pars reticulata</strong> — output to superior colliculus &amp; thalamus</li>
+            <li>Both are <span class="hl-red">GABAergic</span> → BG output is <strong>inhibitory</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 4 – NEURONS & CIRCUITS
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-4">
+  <div class="section-header" onclick="toggleSection('sec-4')">
+    <div class="section-accent" style="background:var(--c4)"></div>
+    <div class="section-title" style="color:var(--c4)">④ Neurons &amp; Circuits of the Basal Ganglia</div>
+    <span class="section-count">7 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <div class="card-row">
+      <div class="card card--wide" data-color="c4">
+        <div class="card-label">Key Cell Type</div>
+        <div class="card-title">Medium Spiny Neurons (MSNs) — Overview</div>
+        <div class="card-body">
+          <ul class="dot-list" style="columns:2;column-gap:20px;">
+            <li>Found in <strong>caudate &amp; putamen</strong></li>
+            <li>Target of incoming cortical axons</li>
+            <li><strong>Large dendritic trees</strong> integrate info from cortex, thalamus, brainstem</li>
+            <li>Axons converge on <strong>SNpr and GPi</strong></li>
+            <li>Give rise to <span class="hl-red">inhibitory GABAergic projections</span></li>
+            <li>At rest: <span class="hl-amber">hyperpolarized</span>, very little spontaneous activity</li>
+            <li>Need <em>many excitatory inputs</em> to fire</li>
+            <li>Activity may signal <em>decision to move</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c4">
+        <div class="card-label">MSN Inputs</div>
+        <div class="card-title">What Drives MSNs?</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Cortical neurons</strong></li>
+            <li><strong>Local circuit neurons</strong></li>
+            <li><strong>Dopaminergic neurons</strong> from substantia nigra</li>
+            <li><strong>Other MSNs</strong></li>
+            <li><strong>Raphe nuclei</strong> &amp; brainstem</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card" data-color="c4">
+        <div class="card-label">Synaptic Locations</div>
+        <div class="card-title">Where Inputs Contact MSNs</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Cortical inputs</strong> → synapse on <em>dendritic spines</em></li>
+            <li><strong>Local circuit &amp; thalamic neurons</strong> → synapse on <em>dendritic shafts &amp; close to soma</em> → modulate cortical effects</li>
+            <li><strong>Dopaminergic inputs (SNpc)</strong> → contact MSNs at <em>base of dendritic spines</em>, close to cortical inputs → modulate cortical effects</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c4">
+        <div class="card-label">Integration Scale</div>
+        <div class="card-title">MSN Convergence</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Each MSN receives <span class="hl-amber">very few inputs</span> from each cortical axon</li>
+            <li>Each cortical axon contacts <strong>many MSNs</strong></li>
+            <li>Single MSN integrates from <span class="hl-amber">thousands of cortical neurons</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c4">
+        <div class="card-label">Output Neurons</div>
+        <div class="card-title">GPi &amp; SNpr — Output Zones</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>GPi and SNpr have <strong>similar output functions</strong></li>
+            <li>Efferent neurons are <span class="hl-red">GABAergic</span></li>
+            <li>Have <em>high levels of spontaneous discharge</em> (contrast to quiet MSNs)</li>
+            <li>Tonic inhibition suppresses unwanted movements via <strong>superior colliculus &amp; thalamus</strong></li>
+            <li>Link BG back to <strong>motor cortex</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card card--full" data-color="c4">
+        <div class="card-label">Disinhibitory Circuit (Figure 18.5)</div>
+        <div class="card-title">Chain of Nerve Cells — A → B → C → D</div>
+        <div class="card-body">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Striatum (A)</th>
+                <th>Globus Pallidus (B)</th>
+                <th>VA/VL Thalamus (C)</th>
+                <th>Upper Motor Neuron in Cortex (D)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-head">At Rest</td>
+                <td>Silent</td>
+                <td>Tonically active (inhibits C)</td>
+                <td>Inhibited</td>
+                <td>No excitation</td>
+              </tr>
+              <tr>
+                <td class="col-head">A Excited (by cortex)</td>
+                <td>Transient burst (GABAergic)</td>
+                <td>Transiently inhibited</td>
+                <td>Disinhibited — other inputs can excite it</td>
+                <td>Excitation → movement</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;font-size:12px;color:var(--dim)">
+            Key principle: <strong>BG facilitates movement by REDUCING inhibition</strong> (disinhibition), not by direct excitation
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 5 – DIRECT & INDIRECT PATHWAYS
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-5">
+  <div class="section-header" onclick="toggleSection('sec-5')">
+    <div class="section-accent" style="background:var(--c6)"></div>
+    <div class="section-title" style="color:var(--c6)">⑤ Direct &amp; Indirect Pathways</div>
+    <span class="section-count">8 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <div class="card-row">
+      <div class="card" data-color="c6">
+        <div class="card-label">Overview</div>
+        <div class="card-title">Two Sets of Circuits</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Direct pathway</strong> → releases upper motoneurons from tonic inhibition → <span class="hl-green">FACILITATES movement</span></li>
+            <li><strong>Indirect pathway</strong> → increases tonic level of inhibition → <span class="hl-red">INHIBITS movement</span></li>
+            <li>Both pathways <strong>function in opposition</strong></li>
+            <li><em>Balance</em> between them determines if BG facilitates or suppresses movement</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c6">
+        <div class="card-label">Direct Pathway</div>
+        <div class="card-title">Step-by-Step: Direct (D1)</div>
+        <div class="card-body">
+          <div class="flow" style="flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <div class="flow-node" style="border-color:var(--c6)">Cerebral cortex</div>
+              <span class="flow-arrow excite">+→</span>
+              <div class="flow-node" style="border-color:var(--c6)">Caudate/putamen (D1 MSNs)</div>
+            </div>
+            <div style="padding-left:10px;color:var(--dim);font-size:12px">↓ transient inhibition (GABA)</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div class="flow-node" style="border-color:var(--c4)">GPi (inhibited)</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-node" style="border-color:var(--c4)">VA/VL thalamus (released)</div>
+            </div>
+            <div style="padding-left:10px;color:var(--dim);font-size:12px">↓ excitatory (tonic)</div>
+            <div class="flow-node" style="border-color:var(--c7)">Frontal cortex activated → Movement</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-color="c6">
+        <div class="card-label">Indirect Pathway</div>
+        <div class="card-title">Step-by-Step: Indirect (D2)</div>
+        <div class="card-body">
+          <div class="flow" style="flex-direction:column;gap:4px;font-size:12px;">
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+              <div class="flow-node" style="border-color:var(--c3)">Cortex</div>
+              <span class="flow-arrow excite">+→</span>
+              <div class="flow-node" style="border-color:var(--c3)">Striatum D2 MSNs</div>
+              <span class="flow-arrow inhibit">–→</span>
+              <div class="flow-node" style="border-color:var(--c4)">GPe inhibited</div>
+            </div>
+            <div style="color:var(--dim);font-size:11px;padding-left:10px;">↓ GPe normally inhibits STN → STN now released</div>
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+              <div class="flow-node" style="border-color:var(--c5)">STN activated</div>
+              <span class="flow-arrow excite">+→</span>
+              <div class="flow-node" style="border-color:var(--c4)">GPi activated</div>
+              <span class="flow-arrow inhibit">–→</span>
+              <div class="flow-node" style="border-color:var(--c4)">VA/VL thalamus inhibited</div>
+            </div>
+            <div style="color:var(--dim);font-size:11px;padding-left:10px;">↓ reduced excitation</div>
+            <div class="flow-node" style="border-color:var(--c4)">Frontal cortex inhibited → Movement suppressed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card" data-color="c6">
+        <div class="card-label">Eye Movement Evidence</div>
+        <div class="card-title">SNpr, Saccades &amp; Disinhibition</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>SNpr = part of <strong>output circuitry of BG</strong></li>
+            <li>Sends axons to <em>deep layers of superior colliculus</em></li>
+            <li>Upper motoneurons in SC <em>command saccades</em></li>
+            <li>Eyes not scanning → upper motoneurons <span class="hl-red">tonically inhibited</span> by reticulata cells → <strong>prevent unwanted saccades</strong></li>
+            <li>Prior to saccade → cortex activates caudate MSNs (GABAergic) → <span class="hl-red">reduce reticulata discharge</span> → <span class="hl-green">disinhibit SC</span> → burst of APs → saccade</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c6">
+        <div class="card-label">Centre-Surround Model</div>
+        <div class="card-title">Focused Selection Theory</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>BG circuits also <strong>suppress competing motor programs</strong> for goal-directed behaviour</li>
+            <li><em>"Focused selection"</em>: direct &amp; indirect pathways in <strong>center-surround organization</strong></li>
+            <li><strong>Direct pathway axons</strong> → focused activation of a <em>functional unit</em></li>
+            <li><strong>Indirect pathway</strong> → suppress activity of <em>surrounding functional units</em></li>
+            <li><em>Co-activation</em> of both important for smooth motor execution</li>
+          </ul>
+          <div class="badge-row">
+            <span class="badge" style="color:var(--c7);border-color:var(--c7)">Direct = center (activate)</span>
+            <span class="badge" style="color:var(--c4);border-color:var(--c4)">Indirect = surround (suppress)</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-color="c6">
+        <div class="card-label">Pathway Anatomy</div>
+        <div class="card-title">Routes Through Structures</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Direct pathway:</strong> via caudate/putamen (D1 MSNs)</li>
+            <li><strong>Indirect pathway:</strong> via subthalamic nucleus (D2 MSNs → GPe → STN → GPi)</li>
+            <li>Both converge on <strong>GPi → VA/VL thalamus → Frontal cortex</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 6 – DOPAMINERGIC MODULATION
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-6">
+  <div class="section-header" onclick="toggleSection('sec-6')">
+    <div class="section-accent" style="background:var(--c7)"></div>
+    <div class="section-title" style="color:var(--c7)">⑥ Dopaminergic Modulation</div>
+    <span class="section-count">4 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <div class="card-row">
+      <div class="card" data-color="c7">
+        <div class="card-label">D1 Receptors</div>
+        <div class="card-title">Dopamine on Direct Pathway</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Dopamine acting at <em>D1 receptors</em> <span class="hl-green">enhances activity</span> of the direct pathway</li>
+            <li>Promotes movement facilitation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c7">
+        <div class="card-label">D2 Receptors</div>
+        <div class="card-title">Dopamine on Indirect Pathway</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Dopamine acting at <em>D2 receptors</em> <span class="hl-red">suppresses activity</span> of the indirect pathway</li>
+            <li>Reduces movement inhibition</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c7">
+        <div class="card-label">Net Effect</div>
+        <div class="card-title">Overall Dopamine Action</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Because indirect pathway <strong>opposes</strong> direct pathway:</li>
+            <li>Net effect of dopamine = <span class="hl-green">decrease inhibitory outflow</span> from BG</li>
+            <li>Promotes movement execution</li>
+            <li>Source: <strong>Substantia Nigra pars compacta (SNpc)</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c7">
+        <div class="card-label">Healthy vs Diseased</div>
+        <div class="card-title">Dopamine in Health</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Healthy brain: dopamine at D1 &amp; D2 → <span class="hl-green">decrease inhibitory outflow</span> → <strong>allows excitation of upper motor neurons</strong></li>
+            <li>Parkinson's: dopamine from SNpc <span class="hl-red">reduced</span> → harder to initiate &amp; terminate movement → <strong>more tonic inhibition</strong> → decreased excitation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 7 – NEUROPATHOLOGIES
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-7">
+  <div class="section-header" onclick="toggleSection('sec-7')">
+    <div class="section-accent" style="background:var(--c8)"></div>
+    <div class="section-title" style="color:var(--c8)">⑦ Neuropathologies — Parkinson's &amp; Huntington's Disease</div>
+    <span class="section-count">10 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+
+    <!-- Parkinson's -->
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--c8);margin-bottom:10px;padding-left:4px;">PARKINSON'S DISEASE (Hypokinetic)</div>
+    <div class="card-row">
+      <div class="card" data-color="c8">
+        <div class="card-label">Key Facts</div>
+        <div class="card-title">Parkinson's — Overview</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Major degeneration</strong> of the nervous system</li>
+            <li>Described in <em>1817 by Dr. James Parkinson</em></li>
+            <li><span class="hl-amber">Hypokinetic</span> movement disorder</li>
+            <li>Progressive loss of <strong>dopamine</strong> in neurons of <em>substantia nigra pars compacta</em></li>
+            <li>Cause of degeneration <strong>not known</strong></li>
+            <li><strong>Substantia nigra degenerates</strong> (visible on autopsy)</li>
+            <li>Can be associated with <strong>Dementia</strong></li>
+            <li>Also associated with <em>dyskinesias</em></li>
+            <li>Localized degeneration → <em>rich opportunity for therapeutic intervention</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c8">
+        <div class="card-label">Cardinal Signs</div>
+        <div class="card-title">Three Cardinal Signs</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Tremor at rest</strong> — <em>3–6 Hz frequency</em></li>
+            <li><strong>Rigidity</strong></li>
+            <li><strong>Bradykinesia</strong> (slowness of movement)</li>
+          </ul>
+          <div class="badge-row">
+            <span class="badge" style="color:var(--c8);border-color:var(--c8)">Tremor</span>
+            <span class="badge" style="color:var(--c8);border-color:var(--c8)">Rigidity</span>
+            <span class="badge" style="color:var(--c8);border-color:var(--c8)">Bradykinesia</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-color="c8">
+        <div class="card-label">Other Motor Symptoms</div>
+        <div class="card-title">Additional Motor Problems</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Abnormal <strong>postural reflexes</strong></li>
+            <li>Minimal facial expression (<em>masked face</em>)</li>
+            <li>Short-step walking (<em>festination</em>)</li>
+            <li><strong>Stooped posture</strong></li>
+            <li>Limited arm movements in gait (<em>paucity of associated movements</em>)</li>
+            <li><strong>Micrographia</strong> (small handwriting)</li>
+            <li>Saccades <em>diminished</em> in frequency &amp; amplitude</li>
+            <li>Speech — <strong>hypophonia</strong> (quiet voice)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card" data-color="c8">
+        <div class="card-label">Circuit Changes</div>
+        <div class="card-title">Parkinson's Pathophysiology</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>SNpc degenerated → <span class="hl-red">reduced dopamine</span></li>
+            <li>Direct pathway <span class="hl-red">less activated</span> (D1)</li>
+            <li>Indirect pathway <span class="hl-red">less suppressed</span> (D2)</li>
+            <li>GPe receives <em>increased inhibition</em> from striatum</li>
+            <li>STN becomes <em>more active</em> (less GPe inhibition)</li>
+            <li>GPi receives <em>more excitation</em> from STN → <em>increased inhibitory outflow</em></li>
+            <li>VA/VL thalamus = <span class="hl-red">more tonic inhibition</span></li>
+            <li>Frontal cortex = <span class="hl-red">decreased excitation</span> → difficulty initiating movement</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c8">
+        <div class="card-label">Treatment</div>
+        <div class="card-title">Parkinson's Therapy</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Most effective: <strong>combined pharmacology &amp; DBS</strong></li>
+            <li><strong>Levodopa</strong> — dopamine precursor (pharmacological)</li>
+            <li><strong>Deep Brain Stimulation (DBS)</strong>
+              <ul class="nested-list dot-list">
+                <li>Electrode brain implant</li>
+                <li>Generators implanted in chest</li>
+                <li>Neural activity changes: prestimulation → during → poststimulation</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="badge-row">
+            <span class="badge" style="color:var(--c7);border-color:var(--c7)">Levodopa</span>
+            <span class="badge" style="color:var(--c6);border-color:var(--c6)">DBS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Huntington's -->
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--c5);margin:18px 0 10px 4px;">HUNTINGTON'S DISEASE (Hyperkinetic)</div>
+    <div class="card-row">
+      <div class="card" data-color="c5">
+        <div class="card-label">Key Facts</div>
+        <div class="card-title">Huntington's — Overview</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Neurons from the <span class="hl-red">caudate degenerate</span></li>
+            <li><span class="hl-amber">Hyperkinetic</span> movement disorder</li>
+            <li><strong>Caudate and putamen shrink</strong> (visible on autopsy)</li>
+            <li>Leads to <em>ballistic, choreic movements</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c5">
+        <div class="card-label">Circuit Changes</div>
+        <div class="card-title">Huntington's Pathophysiology (Indirect Pathway)</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Caudate MSNs (D2) degenerate → <span class="hl-red">absence of normal inhibitory input</span> to GPe</li>
+            <li>GPe cells become <em>more active</em></li>
+            <li>GPe over-inhibits STN → <span class="hl-red">reduces excitatory output of STN</span> to GPi</li>
+            <li>GPi = <em>less inhibitory output</em></li>
+            <li>VA/VL thalamus = <span class="hl-green">less tonic inhibition</span></li>
+            <li>Upper motoneurons activated by <em>inappropriate signals</em></li>
+            <li>Frontal cortex = <span class="hl-amber">increased excitation</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c5">
+        <div class="card-label">Hemiballismus (Related)</div>
+        <div class="card-title">STN Damage Syndrome</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Indirect pathway = mechanism to <em>"brake"</em> or <em>"focus"</em> direct pathway</li>
+            <li>STN disorders → <span class="hl-red">remove excitatory input</span> to GPi &amp; reticulata → abnormally reduce inhibitory outflow</li>
+            <li><strong>Hemiballismus:</strong> violent, involuntary limb movements from STN damage</li>
+            <li>Involuntary movements from <em>abnormal discharges</em> of upper motoneurons receiving <span class="hl-red">less tonic inhibition</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card" data-color="c5">
+        <div class="card-label">Experimental Evidence</div>
+        <div class="card-title">Muscimol Injection (GABA Agonist)</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><strong>Muscimol</strong> (GABA agonist) injected into <em>substantia nigra pars reticulata</em></li>
+            <li>SNpr is inhibitory onto superior colliculus</li>
+            <li>Muscimol → <span class="hl-red">decreases tonic inhibition</span> of superior colliculus</li>
+            <li>Result: monkeys generate <em>spontaneous, irrepressible saccades</em></li>
+            <li>Resembles involuntary movements of <strong>hemiballismus and Huntington's</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c5">
+        <div class="card-label">Comparison</div>
+        <div class="card-title">Parkinson's vs Huntington's</div>
+        <div class="card-body">
+          <table class="compare-table">
+            <thead><tr><th>Feature</th><th style="color:var(--c8)">Parkinson's</th><th style="color:var(--c5)">Huntington's</th></tr></thead>
+            <tbody>
+              <tr><td>Type</td><td>Hypokinetic</td><td>Hyperkinetic</td></tr>
+              <tr><td>Structure lost</td><td>SNpc (dopamine)</td><td>Caudate MSNs (D2)</td></tr>
+              <tr><td>BG outflow</td><td>↑ Increased inhibition</td><td>↓ Decreased inhibition</td></tr>
+              <tr><td>Movements</td><td>Bradykinesia, rigidity</td><td>Ballistic, choreic</td></tr>
+              <tr><td>Visible change</td><td>SN degenerates</td><td>Caudate/putamen shrink</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 8 – NON-MOTOR FUNCTIONS
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-8">
+  <div class="section-header" onclick="toggleSection('sec-8')">
+    <div class="section-accent" style="background:var(--c9)"></div>
+    <div class="section-title" style="color:var(--c9)">⑧ Non-Motor Functions of the Basal Ganglia</div>
+    <span class="section-count">5 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <div class="card-row">
+      <div class="card" data-color="c9">
+        <div class="card-label">Introduction</div>
+        <div class="card-title">Beyond Motor Control</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Both Parkinson's &amp; HD associated with <strong>cognitive &amp; emotional dysregulation</strong> → hints at broader BG roles</li>
+            <li>BG plays key role in <em>cognitive &amp; affective behaviors</em></li>
+            <li><strong>Parallel loops</strong> originate in different regions of cerebral cortex</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c9">
+        <div class="card-label">Body Movement Loop</div>
+        <div class="card-title">Motor Loop</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Cortical input: <strong>Primary motor, premotor, supplementary motor cortex</strong></li>
+            <li>Striatum: <strong>Putamen</strong></li>
+            <li>Pallidum: <strong>Lateral globus pallidus, internal segment</strong></li>
+            <li>Thalamus: <strong>Ventral lateral and ventral anterior nuclei</strong></li>
+            <li>Output: <strong>Frontal cortex (motor areas)</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c9">
+        <div class="card-label">Prefrontal Loop</div>
+        <div class="card-title">Cognitive Loop</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Cortical input: <strong>Dorsolateral prefrontal cortex</strong></li>
+            <li>Striatum: <strong>Anterior caudate</strong></li>
+            <li>Pallidum: <strong>GPi, substantia nigra pars reticulata</strong></li>
+            <li>Thalamus: <strong>Mediodorsal and ventral anterior nuclei</strong></li>
+            <li>Output: <strong>Dorsolateral prefrontal cortex</strong></li>
+            <li>Function: May regulate <em>initiation &amp; termination of cognitive processes</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card card--wide" data-color="c9">
+        <div class="card-label">Limbic Loop</div>
+        <div class="card-title">Emotional &amp; Motivational Loop</div>
+        <div class="card-body">
+          <ul class="dot-list" style="columns:2;column-gap:20px;">
+            <li>Cortical input: <strong>Anterior cingulate, orbitofrontal cortex</strong></li>
+            <li>Also receives from: <em>Amygdala, hippocampus, orbitofrontal, anterior cingulate, temporal cortex</em></li>
+            <li>Striatum: <strong>Ventral striatum (nucleus accumbens)</strong></li>
+            <li>Pallidum: <strong>Ventral pallidum</strong></li>
+            <li>Thalamus: <strong>Mediodorsal nucleus</strong></li>
+            <li>Output: <strong>Cortical targets</strong></li>
+            <li>Function: May regulate <em>emotional &amp; motivated behaviour &amp; transitions between mood states</em></li>
+            <li>Ventral striatum particularly implicated in <em>reward, motivation and emotion</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c9">
+        <div class="card-label">Three Parallel Loops Summary</div>
+        <div class="card-title">Loop Comparison</div>
+        <div class="card-body">
+          <table class="compare-table">
+            <thead><tr><th>Loop</th><th>Striatum Node</th><th>Function</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--c7)">Body Movement</td><td>Putamen</td><td>Motor control</td></tr>
+              <tr><td style="color:var(--c6)">Prefrontal</td><td>Anterior caudate</td><td>Cognitive regulation</td></tr>
+              <tr><td style="color:var(--c9)">Limbic</td><td>Nucleus accumbens</td><td>Emotion/reward/motivation</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 9 – QUICK REFERENCE
+═══════════════════════════════════════════════════════════════ -->
+<div class="section-block" id="sec-9">
+  <div class="section-header" onclick="toggleSection('sec-9')">
+    <div class="section-accent" style="background:var(--dim)"></div>
+    <div class="section-title" style="color:var(--dim)">⑨ Quick Reference — Key Concepts &amp; Terminology</div>
+    <span class="section-count">3 cards</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body">
+    <div class="card-row">
+      <div class="card card--full" data-color="c1">
+        <div class="card-label">Glossary</div>
+        <div class="card-title">Essential Terms</div>
+        <div class="card-body">
+          <table class="compare-table">
+            <thead><tr><th style="width:22%">Term</th><th>Definition / Role</th></tr></thead>
+            <tbody>
+              <tr><td class="col-head">MSN (Medium Spiny Neuron)</td><td>Main neuron type of striatum; GABAergic; input integrator; at rest hyperpolarized; activity may signal decision to move</td></tr>
+              <tr><td class="col-head">Disinhibition</td><td>Movement facilitation mechanism: cortex activates striatum → striatum inhibits GPi → GPi stops inhibiting thalamus → thalamus activates cortex</td></tr>
+              <tr><td class="col-head">Corticostriatal pathway</td><td>Subcortical loop linking cerebral cortex areas to upper motor neurons via striatum</td></tr>
+              <tr><td class="col-head">Saccade</td><td>Rapid eye movement commanded by upper motoneurons in deep layers of superior colliculus; gated by SNpr</td></tr>
+              <tr><td class="col-head">Bradykinesia</td><td>Slowness of movement — cardinal sign of Parkinson's</td></tr>
+              <tr><td class="col-head">Hemiballismus</td><td>Violent involuntary limb movements; caused by STN damage; reduced inhibitory BG outflow</td></tr>
+              <tr><td class="col-head">Festination</td><td>Short-stepped shuffling gait in Parkinson's</td></tr>
+              <tr><td class="col-head">Hypophonia</td><td>Quiet/soft speech; Parkinson's symptom</td></tr>
+              <tr><td class="col-head">Micrographia</td><td>Abnormally small handwriting; Parkinson's symptom</td></tr>
+              <tr><td class="col-head">Muscimol</td><td>GABA agonist; used experimentally to silence SNpr → produces irrepressible saccades</td></tr>
+              <tr><td class="col-head">D1 receptor</td><td>Dopamine receptor on direct-pathway MSNs; activation → enhances direct pathway → more movement</td></tr>
+              <tr><td class="col-head">D2 receptor</td><td>Dopamine receptor on indirect-pathway MSNs; activation → suppresses indirect pathway → more movement</td></tr>
+              <tr><td class="col-head">Levodopa</td><td>Dopamine precursor; pharmacological treatment for Parkinson's</td></tr>
+              <tr><td class="col-head">DBS (Deep Brain Stimulation)</td><td>Electrode brain implant with external generator; most effective treatment combined with pharmacology</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="card" data-color="c4">
+        <div class="card-label">Signal Signs</div>
+        <div class="card-title">Excitatory (+) vs Inhibitory (–) Connections</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li><span class="hl-green">(+)</span> Cortex → Striatum (glutamatergic)</li>
+            <li><span class="hl-red">(–)</span> Striatum → GPi &amp; SNpr (GABAergic)</li>
+            <li><span class="hl-red">(–)</span> GPi/SNpr → Thalamus (GABAergic tonic)</li>
+            <li><span class="hl-green">(+)</span> Thalamus → Frontal cortex (excitatory)</li>
+            <li><span class="hl-red">(–)</span> GPe → STN (GABAergic)</li>
+            <li><span class="hl-green">(+)</span> STN → GPi (glutamatergic)</li>
+            <li><span class="hl-red">(–)</span> SNpr → Superior colliculus (GABAergic)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" data-color="c8">
+        <div class="card-label">Next Lecture</div>
+        <div class="card-title">Coming Up</div>
+        <div class="card-body">
+          <ul class="dot-list">
+            <li>Topic: <strong>Modulation of Movement by the Cerebellum</strong></li>
+            <li>Cerebellum coordinates <em>ongoing movement</em> (contrast to BG which initiates/suppresses)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+  // ─── Section collapse ───────────────────────────────────
+  function toggleSection(id) {
+    const block = document.getElementById(id);
+    const body = block.querySelector('.section-body');
+    const collapsed = block.classList.contains('collapsed');
+
+    if (collapsed) {
+      block.classList.remove('collapsed');
+      body.style.height = body.scrollHeight + 'px';
+      body.addEventListener('transitionend', () => { body.style.height = ''; }, { once: true });
+    } else {
+      body.style.height = body.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        block.classList.add('collapsed');
+        body.style.height = '0';
+      });
+    }
+  }
+
+  function expandAll() {
+    document.querySelectorAll('.section-block').forEach(block => {
+      block.classList.remove('collapsed');
+      block.querySelector('.section-body').style.height = '';
+    });
+  }
+
+  function collapseAll() {
+    document.querySelectorAll('.section-block').forEach(block => {
+      block.classList.add('collapsed');
+      block.querySelector('.section-body').style.height = '0';
+    });
+  }
+
+  // ─── Search ─────────────────────────────────────────────
+  let lastQuery = '';
+
+  function doSearch(q) {
+    q = q.trim().toLowerCase();
+    if (q === lastQuery) return;
+    lastQuery = q;
+
+    // Remove existing marks
+    document.querySelectorAll('mark').forEach(m => {
+      const parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+
+    document.querySelectorAll('.section-block').forEach(block => {
+      block.classList.remove('dimmed');
+    });
+
+    if (!q) return;
+
+    const sections = document.querySelectorAll('.section-block');
+    sections.forEach(block => {
+      const text = block.textContent.toLowerCase();
+      if (!text.includes(q)) {
+        block.classList.add('dimmed');
+      } else {
+        block.classList.remove('collapsed');
+        block.querySelector('.section-body').style.height = '';
+        // Highlight
+        highlightText(block, q);
+      }
+    });
+  }
+
+  function highlightText(el, q) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    const nodes = [];
+    let n;
+    while ((n = walker.nextNode())) nodes.push(n);
+
+    nodes.forEach(node => {
+      const val = node.nodeValue;
+      const idx = val.toLowerCase().indexOf(q);
+      if (idx >= 0) {
+        const span = document.createDocumentFragment();
+        span.appendChild(document.createTextNode(val.slice(0, idx)));
+        const mark = document.createElement('mark');
+        mark.textContent = val.slice(idx, idx + q.length);
+        span.appendChild(mark);
+        span.appendChild(document.createTextNode(val.slice(idx + q.length)));
+        node.parentNode.replaceChild(span, node);
+      }
+    });
+  }
+</script>
+</body>
+</html>

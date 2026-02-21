@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vestibular System — Complete Mind Map</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06070d;
+    --surface: #0d1020;
+    --surface2: #121628;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8eaf0;
+    --muted: #7880a0;
+    --accent1: #4f9cf9;   /* blue */
+    --accent2: #7c5cbf;   /* purple */
+    --accent3: #2ec4a0;   /* teal */
+    --accent4: #f4a945;   /* amber */
+    --accent5: #e05c7a;   /* rose */
+    --accent6: #5ec768;   /* green */
+    --glow1: rgba(79,156,249,0.15);
+    --glow2: rgba(124,92,191,0.15);
+    --glow3: rgba(46,196,160,0.15);
+    --glow4: rgba(244,169,69,0.15);
+    --glow5: rgba(224,92,122,0.15);
+    --glow6: rgba(94,199,104,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated neural background */
+  body::before {
+    content:'';
+    position:fixed; top:0; left:0; right:0; bottom:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(79,156,249,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(124,92,191,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46,196,160,0.02) 0%, transparent 70%);
+    pointer-events:none; z-index:0;
+  }
+
+  .page-wrapper {
+    position: relative; z-index:1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    text-align: center;
+    margin-bottom: 56px;
+    padding: 48px 24px;
+    background: linear-gradient(135deg, rgba(79,156,249,0.08), rgba(124,92,191,0.08));
+    border: 1px solid rgba(79,156,249,0.2);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content:'';
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(79,156,249,0.015) 30px,
+      rgba(79,156,249,0.015) 31px
+    );
+  }
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .page-header h1 span { color: var(--accent1); }
+  .page-header .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 16px;
+    padding: 6px 14px;
+    background: rgba(79,156,249,0.12);
+    border: 1px solid rgba(79,156,249,0.3);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--accent1);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-label .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .section-label h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .section-label .line {
+    flex: 1; height: 1px; background: var(--border);
+  }
+  .section-label .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  /* ── ROW ── */
+  .row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .row.single .box { flex: 1 1 100%; }
+  .row.two .box { flex: 1 1 calc(50% - 8px); min-width: 240px; }
+  .row.three .box { flex: 1 1 calc(33.333% - 11px); min-width: 220px; }
+  .row.four .box { flex: 1 1 calc(25% - 12px); min-width: 200px; }
+
+  /* ── BOX ── */
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+  .box::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:3px;
+    border-radius: 14px 14px 0 0;
+  }
+  .box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  /* Color themes per accent */
+  .box.c1 { border-color: rgba(79,156,249,0.2); }
+  .box.c1::before { background: var(--accent1); }
+  .box.c1:hover { border-color: rgba(79,156,249,0.5); box-shadow: 0 12px 40px rgba(79,156,249,0.1); }
+  .box.c1 .box-icon, .box.c1 .box-title { color: var(--accent1); }
+
+  .box.c2 { border-color: rgba(124,92,191,0.2); }
+  .box.c2::before { background: var(--accent2); }
+  .box.c2:hover { border-color: rgba(124,92,191,0.5); box-shadow: 0 12px 40px rgba(124,92,191,0.1); }
+  .box.c2 .box-icon, .box.c2 .box-title { color: var(--accent2); }
+
+  .box.c3 { border-color: rgba(46,196,160,0.2); }
+  .box.c3::before { background: var(--accent3); }
+  .box.c3:hover { border-color: rgba(46,196,160,0.5); box-shadow: 0 12px 40px rgba(46,196,160,0.1); }
+  .box.c3 .box-icon, .box.c3 .box-title { color: var(--accent3); }
+
+  .box.c4 { border-color: rgba(244,169,69,0.2); }
+  .box.c4::before { background: var(--accent4); }
+  .box.c4:hover { border-color: rgba(244,169,69,0.5); box-shadow: 0 12px 40px rgba(244,169,69,0.1); }
+  .box.c4 .box-icon, .box.c4 .box-title { color: var(--accent4); }
+
+  .box.c5 { border-color: rgba(224,92,122,0.2); }
+  .box.c5::before { background: var(--accent5); }
+  .box.c5:hover { border-color: rgba(224,92,122,0.5); box-shadow: 0 12px 40px rgba(224,92,122,0.1); }
+  .box.c5 .box-icon, .box.c5 .box-title { color: var(--accent5); }
+
+  .box.c6 { border-color: rgba(94,199,104,0.2); }
+  .box.c6::before { background: var(--accent6); }
+  .box.c6:hover { border-color: rgba(94,199,104,0.5); box-shadow: 0 12px 40px rgba(94,199,104,0.1); }
+  .box.c6 .box-icon, .box.c6 .box-title { color: var(--accent6); }
+
+  .box-icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+  .box-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── LIST ITEMS ── */
+  ul.facts {
+    list-style: none;
+    padding: 0;
+  }
+  ul.facts li {
+    font-size: 0.82rem;
+    color: #c0c4d8;
+    padding: 5px 0 5px 18px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.5;
+  }
+  ul.facts li:last-child { border-bottom: none; }
+  ul.facts li::before {
+    content: '›';
+    position: absolute; left: 0;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  ul.facts li strong {
+    color: #e8eaf0;
+    font-weight: 500;
+  }
+  ul.facts li .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .tag.blue { background: rgba(79,156,249,0.15); color: var(--accent1); }
+  .tag.purple { background: rgba(124,92,191,0.15); color: var(--accent2); }
+  .tag.teal { background: rgba(46,196,160,0.15); color: var(--accent3); }
+  .tag.amber { background: rgba(244,169,69,0.15); color: var(--accent4); }
+  .tag.rose { background: rgba(224,92,122,0.15); color: var(--accent5); }
+  .tag.green { background: rgba(94,199,104,0.15); color: var(--accent6); }
+
+  /* ── PATHWAY ARROW BOX ── */
+  .pathway-chain {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    padding: 16px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+  .pathway-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+  }
+  .pathway-arrow { color: var(--muted); font-size: 1rem; }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .compare-table th {
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table td {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #c0c4d8;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td:first-child { font-weight: 500; color: #e8eaf0; }
+
+  /* ── VOLTAGE DIAGRAM ── */
+  .voltage-diagram {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+  }
+  .v-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .v-label { flex-shrink: 0; width: 90px; color: var(--muted); }
+  .v-bar { height: 20px; border-radius: 4px; display: flex; align-items: center; padding: 0 8px; font-size: 0.7rem; }
+
+  /* ── SIGNAL FLOW ── */
+  .signal-flow {
+    display: flex; flex-direction: column; gap: 4px; margin-top: 10px;
+  }
+  .sf-step {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 10px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 7px;
+    font-size: 0.78rem;
+    color: #c0c4d8;
+  }
+  .sf-step .sf-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    min-width: 20px;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 40px 0;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 2px;
+    border: 1px solid;
+  }
+
+  /* ── BIG CONCEPT BOX ── */
+  .concept-banner {
+    background: linear-gradient(135deg, var(--surface), var(--surface2));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .concept-banner::after {
+    content: '';
+    position: absolute; bottom: -30px; right: -30px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    border: 30px solid rgba(255,255,255,0.02);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #2a2d40; border-radius: 3px; }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .row.two .box, .row.three .box, .row.four .box { flex: 1 1 100%; }
+  }
+
+  /* Toggle collapse */
+  .box.collapsible .box-title { cursor: pointer; user-select: none; }
+  .box.collapsible .box-title::after {
+    content: ' ▾';
+    font-size: 0.7rem;
+    opacity: 0.5;
+  }
+  .box.collapsed .box-body { display: none; }
+  .box.collapsed .box-title::after { content: ' ▸'; }
+
+  /* Animate in */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .section { animation: fadeUp 0.4s ease both; }
+  .section:nth-child(2)  { animation-delay:0.05s; }
+  .section:nth-child(3)  { animation-delay:0.1s; }
+  .section:nth-child(4)  { animation-delay:0.15s; }
+  .section:nth-child(5)  { animation-delay:0.2s; }
+  .section:nth-child(6)  { animation-delay:0.25s; }
+  .section:nth-child(7)  { animation-delay:0.3s; }
+  .section:nth-child(8)  { animation-delay:0.35s; }
+
+  .mini-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+
+  .two-col-list {
+    column-count: 2;
+    column-gap: 16px;
+  }
+  @media (max-width: 500px) { .two-col-list { column-count: 1; } }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <h1>🧠 The <span>Vestibular</span> System</h1>
+    <div class="subtitle">Week 5, Lecture 2 · Introduction to Neuroscience · Mohammad Darainy</div>
+    <div class="header-badge">🗺 Complete Concept Map · All Topics Covered</div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 1: OVERVIEW -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent1)"></div>
+      <h2 style="color:var(--accent1)">1 — Overview & Functions</h2>
+      <div class="line"></div>
+      <div class="num">01</div>
+    </div>
+
+    <div class="row single">
+      <div class="box c1">
+        <span class="box-icon">🛰</span>
+        <div class="box-title">What is the Vestibular System?</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>The body's internal GPS</strong> — senses motion and orientation in space</li>
+            <li>Processes sensory information underlying <strong>motor responses</strong> and <strong>perception</strong></li>
+          </ul>
+          <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:8px;">
+            <span class="highlight-pill" style="background:rgba(79,156,249,0.1);color:var(--accent1);border-color:rgba(79,156,249,0.3)">🏃 Self-motion perception</span>
+            <span class="highlight-pill" style="background:rgba(124,92,191,0.1);color:var(--accent2);border-color:rgba(124,92,191,0.3)">📐 Head position</span>
+            <span class="highlight-pill" style="background:rgba(46,196,160,0.1);color:var(--accent3);border-color:rgba(46,196,160,0.3)">🌍 Spatial orientation vs. gravity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row four">
+      <div class="box c1">
+        <span class="box-icon">⚖️</span>
+        <div class="box-title">Balance</div>
+        <div class="box-body">
+          <ul class="facts"><li>Maintains equilibrium during standing, walking, motion</li></ul>
+        </div>
+      </div>
+      <div class="box c1">
+        <span class="box-icon">👁</span>
+        <div class="box-title">Gaze Stabilization</div>
+        <div class="box-body">
+          <ul class="facts"><li>Keeps visual field stable as head moves</li></ul>
+        </div>
+      </div>
+      <div class="box c1">
+        <span class="box-icon">🔄</span>
+        <div class="box-title">Head Movement Sensing</div>
+        <div class="box-body">
+          <ul class="facts"><li>Detects rotational &amp; translational head movements</li></ul>
+        </div>
+      </div>
+      <div class="box c1">
+        <span class="box-icon">🧭</span>
+        <div class="box-title">Sense of Orientation</div>
+        <div class="box-body">
+          <ul class="facts"><li>Spatial awareness relative to gravity and environment</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 2: ANATOMY — LABYRINTH -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent2)"></div>
+      <h2 style="color:var(--accent2)">2 — The Vestibular Labyrinth (Peripheral Anatomy)</h2>
+      <div class="line"></div>
+      <div class="num">02</div>
+    </div>
+
+    <div class="row two">
+      <div class="box c2">
+        <span class="box-icon">🦻</span>
+        <div class="box-title">Structure & Composition</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Peripheral vestibular system</strong> = vestibular labyrinth</li>
+            <li>Continuous with the <strong>cochlea</strong></li>
+            <li>Uses <strong>hair cells</strong> (same sensory cell type as cochlea)</li>
+            <li>Distributed across <strong>5 sensory organs</strong></li>
+            <li>Measures <strong>linear acceleration</strong> AND <strong>angular velocity</strong></li>
+            <li>Cochlea → processes <strong>airborne sound</strong></li>
+            <li>Labyrinth → processes <strong>gravity effects from head movements</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c2">
+        <span class="box-icon">📍</span>
+        <div class="box-title">Hair Cell Locations (5 Sensory Organs)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Utricle</strong> <span class="tag purple">otolith</span></li>
+            <li><strong>Saccule</strong> <span class="tag purple">otolith</span></li>
+            <li><strong>Ampulla of Superior Canal</strong> <span class="tag blue">semicircular</span></li>
+            <li><strong>Ampulla of Posterior Canal</strong> <span class="tag blue">semicircular</span></li>
+            <li><strong>Ampulla of Horizontal Canal</strong> <span class="tag blue">semicircular</span></li>
+          </ul>
+          <div style="margin-top:10px; padding:10px; background:rgba(255,255,255,0.02); border-radius:8px; font-size:0.78rem;">
+            Also labeled: <strong>Scarpa's ganglion</strong> (vestibular nerve ganglion), <strong>Canal reuniens</strong>, <strong>Endolymphatic duct</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c2">
+        <span class="box-icon">💧</span>
+        <div class="box-title">Ionic Environments: Endolymph vs. Perilymph</div>
+        <div class="box-body">
+          <div class="voltage-diagram">
+            <div class="v-row">
+              <div class="v-label">Endolymph</div>
+              <div class="v-bar" style="background:rgba(79,156,249,0.2);color:var(--accent1);width:70%">High K⁺ · Low Na⁺ · +80 mV</div>
+            </div>
+            <div class="v-row">
+              <div class="v-label">Perilymph</div>
+              <div class="v-bar" style="background:rgba(124,92,191,0.2);color:var(--accent2);width:50%">Low K⁺ · High Na⁺ · 0 mV</div>
+            </div>
+            <div class="v-row">
+              <div class="v-label">Hair cell interior</div>
+              <div class="v-bar" style="background:rgba(224,92,122,0.2);color:var(--accent5);width:35%">−45 mV</div>
+            </div>
+          </div>
+          <ul class="facts" style="margin-top:10px;">
+            <li><strong>Endocochlear potential:</strong> endolymph is <strong>+80 mV</strong> relative to perilymph</li>
+            <li>Hair cell inside is <strong>−45 mV</strong> vs. perilymph → <strong>−125 mV</strong> vs. endolymph</li>
+            <li>Tight junctions seal apical surfaces → endolymph bathes <strong>hair cell bundle</strong></li>
+            <li>Perilymph surrounds the <strong>basal portion</strong> of hair cell</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c2">
+        <span class="box-icon">🔬</span>
+        <div class="box-title">Cochlear Reference Structures</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Scala vestibuli</strong> — perilymph</li>
+            <li><strong>Scala media</strong> — endolymph (Endolymph High K⁺ + 80mV)</li>
+            <li><strong>Scala tympani</strong> — perilymph (low K⁺, 0 mV)</li>
+            <li><strong>Stria vascularis</strong> — generates endolymph</li>
+            <li><strong>Basilar membrane</strong> — supports hair cells</li>
+            <li><strong>Tectorial membrane</strong> — overlies outer hair cells</li>
+            <li><strong>Inner hair cells</strong> = −45 mV (primary sensory neurons)</li>
+            <li><strong>Outer hair cells</strong> — amplification</li>
+            <li><strong>Tunnel of Corti</strong>, <strong>Spiral ganglion</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 3: HAIR CELLS -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent3)"></div>
+      <h2 style="color:var(--accent3)">3 — Vestibular Hair Cells (Mechanotransduction)</h2>
+      <div class="line"></div>
+      <div class="num">03</div>
+    </div>
+
+    <div class="row three">
+      <div class="box c3">
+        <span class="box-icon">⚡</span>
+        <div class="box-title">How Hair Cells Work</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Transduces</strong> minute mechanical displacements into <strong>receptor potentials</strong></li>
+            <li>Identical mechanism to <strong>auditory hair cells</strong></li>
+            <li>Mechanically gated transduction channels at <strong>tips of stereocilia</strong></li>
+            <li>Produces <strong>biphasic potentials</strong> (both depolarization and hyperpolarization)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c3">
+        <span class="box-icon">↑</span>
+        <div class="box-title">Depolarization (Excitation)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Stereocilia deflect <strong>toward kinocilium</strong></li>
+            <li>Mechanically gated channels <strong>open</strong></li>
+            <li>K⁺ flows in (from endolymph)</li>
+            <li>Cell <strong>depolarizes</strong></li>
+            <li>Neurotransmitter released onto <strong>vestibular nerve fibers (CN VIII)</strong></li>
+            <li>Increased firing of vestibular afferents</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c3">
+        <span class="box-icon">↓</span>
+        <div class="box-title">Hyperpolarization (Inhibition)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Stereocilia deflect <strong>away from kinocilium</strong></li>
+            <li>Channels <strong>close</strong></li>
+            <li>Cell <strong>hyperpolarizes</strong></li>
+            <li><strong>Reduced</strong> vestibular nerve activity</li>
+            <li>Below resting baseline firing rate</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c3">
+        <span class="box-icon">🧩</span>
+        <div class="box-title">Hair Cell Structure</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Kinocilium</strong> — single tall cilium, defines polarity axis</li>
+            <li><strong>Stereocilia</strong> — graded height bundle; connected by tip links</li>
+            <li><strong>Supporting cells</strong> — structural support around hair cells</li>
+            <li><strong>Nerve fibers</strong> — afferent axons at base</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c3">
+        <span class="box-icon">📊</span>
+        <div class="box-title">Hair Cell Arrangement in Each Organ</div>
+        <div class="box-body">
+          <table class="compare-table">
+            <thead><tr><th>Organ</th><th>Arrangement</th></tr></thead>
+            <tbody>
+              <tr><td>Ampulla (each canal)</td><td>All hair cells polarized <strong>same direction</strong></td></tr>
+              <tr><td>Utricle</td><td>Striola divides into <strong>2 opposite polarities</strong></td></tr>
+              <tr><td>Saccule</td><td>Striola divides into <strong>2 opposite polarities</strong></td></tr>
+            </tbody>
+          </table>
+          <ul class="facts" style="margin-top:8px;">
+            <li>Between both sides of body: <strong>continuous representation</strong> of all head movement directions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 4: OTOLITH ORGANS -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent4)"></div>
+      <h2 style="color:var(--accent4)">4 — Otolith Organs: Utricle & Saccule</h2>
+      <div class="line"></div>
+      <div class="num">04</div>
+    </div>
+
+    <div class="row two">
+      <div class="box c4">
+        <span class="box-icon">💎</span>
+        <div class="box-title">Otolith Basics</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><em>Otolith</em> = <strong>"ear stones"</strong></li>
+            <li>Named for <strong>otoconia</strong> — embedded crystals of <strong>calcium carbonate</strong></li>
+            <li>Detect <strong>displacements</strong> and <strong>linear accelerations</strong></li>
+            <li>Also sense <strong>static head position</strong> relative to gravitational axis (tilts)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">🏗</span>
+        <div class="box-title">Macula Structure (cross-section)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Macula</strong> = sensory epithelium in utricle &amp; saccule</li>
+            <li>Hair bundles project into a <strong>gelatinous layer</strong></li>
+            <li>Above: <strong>otolithic membrane</strong> (gelatinous)</li>
+            <li><strong>Otoconia</strong> embedded in otolithic membrane (makes it <strong>heavier than surrounding fluid</strong>)</li>
+            <li>Reticular membrane, Supporting cells, Hair cells (base)</li>
+            <li><strong>Striola</strong> — dividing line visible at top</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c4">
+        <span class="box-icon">📐</span>
+        <div class="box-title">Mechanism: Static Head Tilt</div>
+        <div class="box-body">
+          <div class="signal-flow">
+            <div class="sf-step"><span class="sf-num">1.</span>Head tilts → gravity acts on heavy otolithic membrane</div>
+            <div class="sf-step"><span class="sf-num">2.</span>Membrane <strong>shifts</strong> relative to sensory epithelium</div>
+            <div class="sf-step"><span class="sf-num">3.</span><strong>Shearing motion</strong> between membrane and macula</div>
+            <div class="sf-step"><span class="sf-num">4.</span>Hair bundles displaced</div>
+            <div class="sf-step"><span class="sf-num">5.</span><strong>Receptor potential</strong> generated</div>
+          </div>
+          <ul class="facts" style="margin-top:8px;">
+            <li>Response is <strong>tonic (sustained)</strong> as long as tilt is maintained</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">🚀</span>
+        <div class="box-title">Mechanism: Linear Acceleration</div>
+        <div class="box-body">
+          <div class="signal-flow">
+            <div class="sf-step"><span class="sf-num">1.</span>Head undergoes linear acceleration</div>
+            <div class="sf-step"><span class="sf-num">2.</span>Greater mass of otolithic membrane causes it to <strong>lag behind the macula</strong></div>
+            <div class="sf-step"><span class="sf-num">3.</span>Transient relative displacement of hair bundle</div>
+            <div class="sf-step"><span class="sf-num">4.</span><strong>Transient receptor potential</strong></div>
+          </div>
+          <ul class="facts" style="margin-top:8px;">
+            <li>Response is <strong>transient</strong> for translational movements (not sustained)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row three">
+      <div class="box c4">
+        <span class="box-icon">⚖️</span>
+        <div class="box-title">Striola Division</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Striola</strong> = dividing line in macula</li>
+            <li>Orientation of hair cells <strong>switches at striola</strong></li>
+            <li>Tilt on striola axis: <strong>excites</strong> cells on one side, <strong>inhibits</strong> cells on other</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">↔️</span>
+        <div class="box-title">Utricle — Horizontal Plane</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Hair bundles <strong>oriented horizontally</strong></li>
+            <li>Responds to translational movements in the <strong>horizontal plane</strong></li>
+            <li>Detects <strong>sideways head tilts</strong></li>
+            <li>Codes motion in <strong>horizontal plane</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">↕️</span>
+        <div class="box-title">Saccule — Vertical Plane</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Hair bundles <strong>oriented vertically</strong></li>
+            <li>Responds to translational movements in the <strong>vertical plane</strong></li>
+            <li>Detects <strong>upward/downward head tilts</strong></li>
+            <li>Codes motion in <strong>vertical plane</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c4">
+        <span class="box-icon">🔃</span>
+        <div class="box-title">Bilateral Mirroring</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Saccular &amp; utricular maculae are <strong>mirrored</strong> on both sides of the head</li>
+            <li>Tilting to one side has <strong>opposite effects</strong> on contralateral corresponding hair cells</li>
+            <li>Together, both sides provide <strong>complete 3D representation</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">📈</span>
+        <div class="box-title">Afferent Firing Properties (Otolith)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Afferents <strong>fire steadily</strong> when head is upright (baseline)</li>
+            <li>Tilt response: <strong>increase or decrease</strong> in firing depending on direction</li>
+            <li>Response is <strong>sustained</strong> as long as tilting force remains</li>
+            <li><strong>Tonic</strong> response = head tilts · <strong>Transient</strong> response = translational movements</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row single">
+      <div class="box c4">
+        <span class="box-icon">🗂</span>
+        <div class="box-title">Otolith Organ Recap</div>
+        <div class="box-body">
+          <div class="two-col-list">
+            <ul class="facts">
+              <li>Utricle → horizontal plane motion</li>
+              <li>Saccule → vertical plane motion</li>
+              <li>Together → respond to <strong>any linear force in 3D</strong></li>
+              <li>Specific movements stimulate <strong>subsets</strong> of otolith hair cells while inhibiting others</li>
+              <li>Population-level changes in hair cell polarity <strong>comprehensively code</strong> head position &amp; movement</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 5: SEMICIRCULAR CANALS -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent5)"></div>
+      <h2 style="color:var(--accent5)">5 — Semicircular Canals</h2>
+      <div class="line"></div>
+      <div class="num">05</div>
+    </div>
+
+    <div class="row two">
+      <div class="box c5">
+        <span class="box-icon">🌀</span>
+        <div class="box-title">Anatomy of the Semicircular Canals</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>3 canals</strong> sense head rotations from self-movement OR external angular accelerations</li>
+            <li><strong>Crista</strong> = sensory epithelium at bulbous expansion (ampulla)</li>
+            <li>Hair bundles extend into gelatinous mass = <strong>cupula</strong></li>
+            <li>Cupula bridges <strong>entire width</strong> of ampulla → prevents endolymph circulation</li>
+            <li>All hair cells point in <strong>same direction</strong> (NO striola, no mirror axis)</li>
+            <li>Structures: Ampulla, Cupula, Crista, Nerve fibers, Hair cells</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c5">
+        <span class="box-icon">🎯</span>
+        <div class="box-title">Three Canal Planes & Axes</div>
+        <div class="box-body">
+          <table class="compare-table">
+            <thead><tr><th>Canal</th><th>Axis</th><th>Motion type</th></tr></thead>
+            <tbody>
+              <tr><td>Horizontal</td><td>Z-axis</td><td>Pirouette (yaw)</td></tr>
+              <tr><td>Superior (anterior)</td><td>Y-axis</td><td>Backflip (pitch)</td></tr>
+              <tr><td>Posterior</td><td>X-axis</td><td>Cartwheel (roll)</td></tr>
+            </tbody>
+          </table>
+          <ul class="facts" style="margin-top:8px;">
+            <li>Also named: +Z/LHRH, +LARP, +RALP axes in literature</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c5">
+        <span class="box-icon">🌊</span>
+        <div class="box-title">Mechanism: Rotational Movements</div>
+        <div class="box-body">
+          <div class="signal-flow">
+            <div class="sf-step"><span class="sf-num">1.</span>Head turns on plane of one semicircular canal</div>
+            <div class="sf-step"><span class="sf-num">2.</span>Movement of <strong>endolymphatic fluid</strong></div>
+            <div class="sf-step"><span class="sf-num">3.</span>Cupula distorted <strong>away from direction of head movement</strong></div>
+            <div class="sf-step"><span class="sf-num">4.</span><strong>Hair bundles displaced</strong> within the crista</div>
+            <div class="sf-step"><span class="sf-num">5.</span>Receptor potential generated</div>
+            <div class="sf-step"><span class="sf-num">6.</span>Neurotransmitter release → <strong>vestibular nerve activated</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="box c5">
+        <span class="box-icon">↔️</span>
+        <div class="box-title">Mechanism: Translational Movements</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Translational forces produce <strong>equal forces on both sides</strong> of the cupula</li>
+            <li>Hair bundles are <strong>NOT displaced</strong></li>
+            <li>Therefore semicircular canals are <strong>insensitive</strong> to translational (linear) movements</li>
+            <li>This is why otolith organs are needed to detect linear motion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c5">
+        <span class="box-icon">🔁</span>
+        <div class="box-title">Push-Pull Bilateral Arrangement</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Each canal works in concert with its <strong>partner on opposite side</strong></li>
+            <li>Hair cells aligned oppositely → <strong>opposite changes in firing rates</strong></li>
+            <li>Activity <strong>increased</strong> on the side <em>toward</em> which head is moving</li>
+            <li><strong>Example (head turns left):</strong> cupula pushed toward kinocilium on left → <strong>left canal firing ↑</strong>; same movement pushes cupula away on right → <strong>right canal firing ↓</strong></li>
+            <li>3 pairs: <strong>Horizontal</strong>, <strong>Superior/Posterior</strong>, <strong>Posterior/Superior</strong></li>
+            <li>Encodes head rotation in <strong>any direction</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c5">
+        <span class="box-icon">📊</span>
+        <div class="box-title">Afferent Firing During Rotation</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>All canal afferents maintain <strong>high baseline firing rate</strong></li>
+            <li>Information via <strong>increases AND decreases</strong> in firing rate</li>
+            <li><strong>Acceleration:</strong> maximum increase in firing</li>
+            <li><strong>Constant velocity:</strong> firing rates return to <strong>baseline</strong></li>
+            <li><strong>Deceleration:</strong> maximum inhibition (minimum firing)</li>
+            <li>Cupula can stay deflected for up to <strong>~15 seconds</strong> at constant velocity</li>
+            <li>Prolonged acceleratory arcs (ships, planes, space, amusement parks) → cupula undeflects while head still turning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 6: CENTRAL PROCESSING -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent6)"></div>
+      <h2 style="color:var(--accent6)">6 — Central Vestibular Processing</h2>
+      <div class="line"></div>
+      <div class="num">06</div>
+    </div>
+
+    <div class="row three">
+      <div class="box c6">
+        <span class="box-icon">🧬</span>
+        <div class="box-title">Multi-functional System</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Two major <strong>reflex classes</strong>:
+              <ul style="list-style:none; padding-left:12px; margin-top:4px;">
+                <li style="padding:3px 0; font-size:0.78rem; color:#c0c4d8;">→ Maintaining equilibrium &amp; gaze during movement</li>
+                <li style="padding:3px 0; font-size:0.78rem; color:#c0c4d8;">→ Maintaining posture &amp; balance</li>
+              </ul>
+            </li>
+            <li><strong>Higher order</strong>: sense of spatial orientation &amp; self-motion</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c6">
+        <span class="box-icon">🎛</span>
+        <div class="box-title">Multisensory Integration</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Many neurons in <strong>vestibular nuclei</strong> also receive <strong>visual input</strong></li>
+            <li>Many vestibular nuclei neurons function as <strong>premotor neurons</strong></li>
+            <li>Short-latency sensorimotor arc → rapid <strong>~5 ms</strong> compensatory head &amp; eye movements</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c6">
+        <span class="box-icon">🕸</span>
+        <div class="box-title">Vestibular Nuclei Integration Inputs</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Semicircular canals</strong> &amp; otoliths</li>
+            <li><strong>Contralateral vestibular nuclei</strong></li>
+            <li><strong>Cerebellum</strong></li>
+            <li><strong>Visual system</strong></li>
+            <li><strong>Somatic sensory systems</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row single">
+      <div class="box c6">
+        <span class="box-icon">🗺</span>
+        <div class="box-title">Central Vestibular Pathway Overview (3 Main Pathways)</div>
+        <div class="box-body">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
+            <div style="flex:1; min-width:200px; padding:14px; background:rgba(79,156,249,0.06); border:1px solid rgba(79,156,249,0.2); border-radius:10px;">
+              <div style="color:var(--accent1); font-weight:600; font-size:0.85rem; margin-bottom:8px;">① VOR</div>
+              <div style="font-size:0.78rem; color:#c0c4d8;">Vestibulo-ocular reflex → oculomotor muscles → gaze stabilization</div>
+            </div>
+            <div style="flex:1; min-width:200px; padding:14px; background:rgba(94,199,104,0.06); border:1px solid rgba(94,199,104,0.2); border-radius:10px;">
+              <div style="color:var(--accent6); font-weight:600; font-size:0.85rem; margin-bottom:8px;">② Spinal Cord</div>
+              <div style="font-size:0.78rem; color:#c0c4d8;">Descending projections → neck &amp; trunk/limb muscles → balance &amp; posture</div>
+            </div>
+            <div style="flex:1; min-width:200px; padding:14px; background:rgba(244,169,69,0.06); border:1px solid rgba(244,169,69,0.2); border-radius:10px;">
+              <div style="color:var(--accent4); font-weight:600; font-size:0.85rem; margin-bottom:8px;">③ Sense of Self-Motion</div>
+              <div style="font-size:0.78rem; color:#c0c4d8;">Ascending pathways → thalamus → cortex → spatial perception, cognition, memory</div>
+            </div>
+          </div>
+          <div style="margin-top:14px; padding:10px; background:rgba(255,255,255,0.02); border-radius:8px; font-size:0.78rem; color:#c0c4d8;">
+            Also projects to: <strong>Hypothalamic-pituitary zone</strong> (hormones · thermoregulation · food intake · chronobiology · sleep · hormone secretion · stress response · behaviour), and <strong>Bulbar centres</strong> (neurovegetative regulation, postural blood pressure/volume regulation)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell bodies & nerve pathway -->
+    <div class="row two">
+      <div class="box c6">
+        <span class="box-icon">🔌</span>
+        <div class="box-title">Vestibular Nerve Pathway</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Vestibular nerve cell bodies in <strong>Scarpa's ganglion</strong> (vestibular nerve ganglion)</li>
+            <li><strong>Distal processes</strong> → semicircular canals &amp; otolith organs</li>
+            <li><strong>Central processes</strong> → via CN VIII → vestibular nuclei <em>and</em> directly to cerebellum</li>
+          </ul>
+          <div class="pathway-chain">
+            <div class="pathway-node">Semicircular Canals + Otolith Organs</div>
+            <div class="pathway-arrow">→</div>
+            <div class="pathway-node">Scarpa's Ganglion (CN VIII)</div>
+            <div class="pathway-arrow">→</div>
+            <div class="pathway-node">Vestibular Nuclei + Cerebellum</div>
+          </div>
+        </div>
+      </div>
+      <div class="box c6">
+        <span class="box-icon">🏛</span>
+        <div class="box-title">Vestibular Nuclei (4)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Superior Vestibular Nucleus (SVN)</strong></li>
+            <li><strong>Lateral Vestibular Nucleus (LVN)</strong> — Deiter's nucleus</li>
+            <li><strong>Inferior Vestibular Nucleus (IVN)</strong></li>
+            <li><strong>Medial Vestibular Nucleus (MVN)</strong></li>
+            <li>Collectively = <strong>"Hub"</strong> of central vestibular processing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 7: VOR -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent1)"></div>
+      <h2 style="color:var(--accent1)">7 — Pathway ① : The Vestibulo-Ocular Reflex (VOR)</h2>
+      <div class="line"></div>
+      <div class="num">07</div>
+    </div>
+
+    <div class="row two">
+      <div class="box c1">
+        <span class="box-icon">👀</span>
+        <div class="box-title">What the VOR Does</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Produces <strong>eye movements that counter head movements</strong></li>
+            <li>Permits <strong>gaze to remain fixed</strong> on a target despite head moving</li>
+            <li>Very fast: latency ~<strong>5 ms</strong></li>
+            <li>Works in <strong>all planes</strong> of movement</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c1">
+        <span class="box-icon">🔀</span>
+        <div class="box-title">VOR Circuit (Head Turns LEFT example)</div>
+        <div class="box-body">
+          <div class="signal-flow">
+            <div class="sf-step"><span class="sf-num">1.</span>Left horizontal canal activated → left vestibular nucleus (medial + lateral)</div>
+            <div class="sf-step"><span class="sf-num">2.</span>Excitatory fibers from <strong>left medial vestibular nucleus</strong> cross midline to right <strong>abducens nucleus</strong></div>
+            <div class="sf-step"><span class="sf-num">3a.</span>Abducens nucleus: motor pathway → <strong>right lateral rectus contracts</strong> (right eye turns right)</div>
+            <div class="sf-step"><span class="sf-num">3b.</span>Excitatory projection crosses midline via <strong>MLF</strong> → left oculomotor nucleus → <strong>left medial rectus contracts</strong> (left eye turns right)</div>
+            <div class="sf-step"><span class="sf-num">4.</span><strong>Inhibitory neurons</strong> from medial vestibular nucleus → left abducens nucleus → <strong>↓ drive on left lateral rectus</strong> + <strong>↓ drive on right medial rectus</strong></div>
+            <div class="sf-step"><span class="sf-num">5.</span>Net: Both eyes turn <strong>right</strong> (opposite to head turn)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c1">
+        <span class="box-icon">🎭</span>
+        <div class="box-title">Nystagmus</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Physiological nystagmus:</strong> during horizontal head rotation, net differences in left vs. right vestibular nerve firing</li>
+            <li><strong>Slow phase:</strong> eyes move counter to rotation direction (VOR compensatory)</li>
+            <li><strong>Fast phase:</strong> eyes reset to new position (saccadic reset in same direction as rotation)</li>
+            <li><strong>Spontaneous nystagmus:</strong> damage to one vestibular nerve → eye movements in <em>absence</em> of head rotation (due to net difference in firing between two nerves)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c1">
+        <span class="box-icon">⚠️</span>
+        <div class="box-title">Loss of VOR — Consequences</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Oscillopsia ("bouncing vision"):</strong> inability to fixate visual targets while head is moving</li>
+            <li><strong>Unilateral damage:</strong> can be compensated over time</li>
+            <li><strong>Bilateral damage:</strong> persistent sense that the world is moving when head moves; oculomotor centers receive no vestibular input → no compensatory eye movements possible</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 8: CLINICAL — CALORIC TESTING -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent4)"></div>
+      <h2 style="color:var(--accent4)">8 — Clinical Evaluation: Caloric Testing</h2>
+      <div class="line"></div>
+      <div class="num">08</div>
+    </div>
+
+    <div class="row three">
+      <div class="box c4">
+        <span class="box-icon">🧊</span>
+        <div class="box-title">Cold Water Irrigation</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Cold H₂O injected → endolymph <strong>falls</strong></li>
+            <li>Convection currents mimic <strong>rotational movement</strong></li>
+            <li><strong>Conscious patient:</strong></li>
+            <li>→ Slow eye movement <strong>toward</strong> irrigated ear</li>
+            <li>→ Fast eye movement <strong>away from</strong> irrigated ear</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">🔥</span>
+        <div class="box-title">Warm Water Irrigation</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Warm H₂O injected → endolymph <strong>rises</strong></li>
+            <li>Produces <strong>opposite effect</strong> to cold water</li>
+            <li><strong>Conscious patient:</strong></li>
+            <li>→ Slow eye movement <strong>away from</strong> irrigated ear</li>
+            <li>→ Fast eye movement <strong>toward</strong> irrigated ear</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">🏥</span>
+        <div class="box-title">Comatose / Unconscious Patients</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Used to diagnose <strong>brainstem activity</strong></li>
+            <li><strong>Intact brainstem:</strong> only <em>slow</em> movement toward irrigated ear observed (no fast reset)</li>
+            <li><strong>Brainstem lesions:</strong> this slow movement is <strong>disrupted/absent</strong></li>
+            <li>Horizontal canals are <strong>nearly vertical</strong> in reclining patients → gravity acts on them</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 9: DESCENDING PATHWAYS -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent2)"></div>
+      <h2 style="color:var(--accent2)">9 — Pathway ② : Descending (Spinal) Projections</h2>
+      <div class="line"></div>
+      <div class="num">09</div>
+    </div>
+
+    <div class="row two">
+      <div class="box c2">
+        <span class="box-icon">🦒</span>
+        <div class="box-title">Vestibulocervical Reflex (VCR)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Function:</strong> regulates head position via reflex activity of <strong>neck muscles</strong></li>
+            <li><strong>Stimulus:</strong> semicircular canal activation</li>
+            <li><strong>Pathway:</strong> Semicircular canals → <strong>Medial Vestibular Nucleus</strong> → axons descend in <strong>Medial Longitudinal Fasciculus (MLF)</strong> → <strong>upper cervical levels</strong> of spinal cord</li>
+            <li><strong>Example:</strong> downward pitch (tripping) → superior canals activated → head muscles <strong>reflexively pull head up</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c2">
+        <span class="box-icon">🦵</span>
+        <div class="box-title">Vestibulospinal Reflex (VSR)</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Function:</strong> mediates <strong>balance and upright posture</strong></li>
+            <li><strong>Stimulus:</strong> otolith organ activation</li>
+            <li><strong>Pathway:</strong> Otolith organs → <strong>Lateral Vestibular Nucleus (LVN)</strong> → <strong>Lateral Vestibulospinal Tract</strong> → <strong>ipsilateral ventral horn</strong> of spinal cord</li>
+            <li><strong>Effect:</strong> activates extensor motor neurons + inhibits flexor motor neurons</li>
+            <li>Net: powerful <strong>excitatory influence on extensor (antigravity) muscles</strong></li>
+            <li><strong>Normally suppressed</strong> by cerebral cortex</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c2">
+        <span class="box-icon">⚡</span>
+        <div class="box-title">Decerebrate Rigidity</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Cutting brainstem <strong>above vestibular nuclei</strong> → <strong>decerebrate rigidity</strong> (rigid extension of all limbs)</li>
+            <li><strong>Lesioning the vestibular nuclei</strong> → relieves decerebrate rigidity</li>
+            <li>Reveals role of vestibular system in <strong>maintaining muscle tone</strong></li>
+            <li>Normally, cerebral cortex suppresses vestibulospinal drive</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c2">
+        <span class="box-icon">🗺</span>
+        <div class="box-title">Descending Tract Anatomy</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Medial Vestibulospinal Tract</strong> → bilateral, upper cord (head/neck)</li>
+            <li><strong>Lateral Vestibulospinal Tract</strong> → ipsilateral, entire cord (trunk/limb extensors)</li>
+            <li>Both originate from lateral vestibular nucleus + medial vestibular nucleus</li>
+            <li>Terminate in <strong>ventral horn</strong> → alpha motor neurons</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 10: CEREBELLAR PATHWAYS -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent3)"></div>
+      <h2 style="color:var(--accent3)">10 — Vestibular-Cerebellar Pathways</h2>
+      <div class="line"></div>
+      <div class="num">10</div>
+    </div>
+
+    <div class="row two">
+      <div class="box c3">
+        <span class="box-icon">🌿</span>
+        <div class="box-title">Cerebellum & Vestibular System</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Cerebellum is a <strong>major target</strong> of ascending vestibular pathways</li>
+            <li>Also sends <strong>descending projections</strong> back to vestibular nuclei</li>
+            <li>Important for <strong>integrating and modulating</strong> vestibular signals</li>
+            <li>Enables <strong>adaptive change</strong> in vestibular reflexes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c3">
+        <span class="box-icon">🔬</span>
+        <div class="box-title">Purkinje Cell Roles</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>VOR adaptation:</strong> altered firing of Purkinje cells → send <strong>inhibitory projections</strong> to vestibular nucleus → modify VOR gain</li>
+            <li><strong>Tilt vs. translation discrimination:</strong> Purkinje cells integrate signals from <strong>otolith organs</strong> + <strong>semicircular canals</strong> to differentiate head tilts from translational movements</li>
+            <li>Some cerebellar sub-regions <strong>do NOT respond</strong> to self-generated movement → related to <strong>predictive/efference copy signals</strong> that cancel out vestibular/proprioceptive inputs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 11: THALAMUS & CORTEX -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent5)"></div>
+      <h2 style="color:var(--accent5)">11 — Pathway ③ : Thalamus & Cortex (Sense of Self-Motion)</h2>
+      <div class="line"></div>
+      <div class="num">11</div>
+    </div>
+
+    <div class="row two">
+      <div class="box c5">
+        <span class="box-icon">🧠</span>
+        <div class="box-title">Pathway to Cortex</div>
+        <div class="box-body">
+          <div class="pathway-chain" style="flex-direction:column; align-items:flex-start;">
+            <div class="pathway-node">Lateral + Superior Vestibular Nuclei</div>
+            <div class="pathway-arrow" style="padding-left:12px;">↓</div>
+            <div class="pathway-node">Ventral Posterior Nuclear Complex (Thalamus)</div>
+            <div class="pathway-arrow" style="padding-left:12px;">↓</div>
+            <div class="pathway-node">Cortical Areas near Central Sulcus</div>
+          </div>
+          <ul class="facts" style="margin-top:10px;">
+            <li>There is <strong>NO "primary vestibular cortex"</strong> (unlike auditory/visual/somatosensory)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c5">
+        <span class="box-icon">📍</span>
+        <div class="box-title">Cortical Areas</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Area 2v</strong> — posterior to face representation in SI; part of dorsal visual stream</li>
+            <li><strong>Two regions of Area 3a</strong></li>
+            <li><strong>Parietoinsular Vestibular Cortex (PIVC)</strong> — most important for self-motion perception</li>
+            <li>Visual posterior Sylvian area also involved</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row two">
+      <div class="box c5">
+        <span class="box-icon">🌐</span>
+        <div class="box-title">PIVC Functions</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>PIVC = <strong>Parietoinsular Vestibular Cortex</strong></li>
+            <li>Important for <strong>sense of self-motion</strong></li>
+            <li>Stimulating PIVC → <strong>elicits vestibular sensations</strong></li>
+            <li>PIVC is <strong>activated</strong> by vestibular stimulation</li>
+            <li>Cortical neurons respond to <strong>proprioceptive</strong>, <strong>visual</strong>, AND <strong>vestibular</strong> stimuli → multisensory integration</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c5">
+        <span class="box-icon">💭</span>
+        <div class="box-title">Higher Cognitive Functions</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li><strong>Cognition</strong></li>
+            <li><strong>Spatial Memory</strong></li>
+            <li><strong>Body perception</strong></li>
+            <li><strong>Representation in space</strong></li>
+            <li><strong>Anxiety &amp; Stress responses</strong></li>
+            <li><strong>Emotions</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 12: SPATIAL PERCEPTION -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent4)"></div>
+      <h2 style="color:var(--accent4)">12 — Spatial Orientation & Multisensory Integration</h2>
+      <div class="line"></div>
+      <div class="num">12</div>
+    </div>
+
+    <div class="row three">
+      <div class="box c4">
+        <span class="box-icon">🗺</span>
+        <div class="box-title">Spatial Orientation Perception</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Beyond reflexes, vestibular system contributes to <strong>conscious perception</strong> of spatial orientation &amp; self-motion</li>
+            <li>Detect <strong>direction and magnitude</strong> of self-generated motion</li>
+            <li>Distinguish <strong>self-generated motion</strong> from movement of objects around us</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">👁</span>
+        <div class="box-title">Visual-Vestibular Integration</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Vestibular system works <strong>in integration with the visual system</strong></li>
+            <li>Visual flow + vestibular signals combined to estimate self-motion</li>
+            <li>Conflicts between vision and vestibular → <strong>motion sickness</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c4">
+        <span class="box-icon">🔮</span>
+        <div class="box-title">Proprioceptive Integration</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>Proprioceptive afferents from <strong>dorsal column</strong> and <strong>trigeminal nuclei</strong> also project to vestibular thalamic region</li>
+            <li>Combined with vestibular signals for full sense of body position</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 13: COMPLETE SUMMARY TABLE -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent3)"></div>
+      <h2 style="color:var(--accent3)">13 — Master Comparison: Otolith Organs vs. Semicircular Canals</h2>
+      <div class="line"></div>
+      <div class="num">13</div>
+    </div>
+
+    <div class="row single">
+      <div class="box c3">
+        <div class="box-body">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th style="color:var(--accent4)">Utricle</th>
+                <th style="color:var(--accent5)">Saccule</th>
+                <th style="color:var(--accent1)">Semicircular Canals (×3)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Type</td><td>Otolith organ</td><td>Otolith organ</td><td>Rotational sensor</td></tr>
+              <tr><td>Detects</td><td>Linear acceleration, horizontal tilts</td><td>Linear acceleration, vertical tilts</td><td>Angular/rotational acceleration</td></tr>
+              <tr><td>Sensory epithelium</td><td>Macula (utricular)</td><td>Macula (saccular)</td><td>Crista (in ampulla)</td></tr>
+              <tr><td>Gelatinous mass</td><td>Otolithic membrane + otoconia</td><td>Otolithic membrane + otoconia</td><td>Cupula</td></tr>
+              <tr><td>Hair cell polarity</td><td>2 populations (striola divides)</td><td>2 populations (striola divides)</td><td>All same direction (no striola)</td></tr>
+              <tr><td>Orientation</td><td>Horizontal</td><td>Vertical</td><td>3 orthogonal planes</td></tr>
+              <tr><td>Response type</td><td>Tonic (tilts) + transient (acceleration)</td><td>Tonic (tilts) + transient (acceleration)</td><td>Transient (acceleration/deceleration)</td></tr>
+              <tr><td>Bilateral pairing</td><td>Mirrored maculae</td><td>Mirrored maculae</td><td>Push-pull canal pairs</td></tr>
+              <tr><td>Projects to</td><td>Lateral vestibular nucleus (VSR)</td><td>Lateral vestibular nucleus</td><td>Medial vestibular nucleus (VCR, VOR)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION 14: LEARNING GUIDE -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="section-divider">
+  <div class="section">
+    <div class="section-label">
+      <div class="dot" style="background:var(--accent1)"></div>
+      <h2 style="color:var(--accent1)">14 — Learning Guide for Sensory Systems</h2>
+      <div class="line"></div>
+      <div class="num">14</div>
+    </div>
+
+    <div class="row three">
+      <div class="box c1">
+        <span class="box-icon">🔬</span>
+        <div class="box-title">① Mechanism of Signal Transduction</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>How is the physical stimulus converted to an electrical signal?</li>
+            <li>What ion channels are involved?</li>
+            <li>What is the receptor potential?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c1">
+        <span class="box-icon">🗺</span>
+        <div class="box-title">② Anatomical/Synaptic Pathway to Cortex</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>What is the complete route from receptor to cortex?</li>
+            <li>Which nuclei and relay stations are involved?</li>
+            <li>Where does decussation occur?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box c1">
+        <span class="box-icon">📐</span>
+        <div class="box-title">③ Mapping Rules</div>
+        <div class="box-body">
+          <ul class="facts">
+            <li>How is sensory space represented in the nervous system?</li>
+            <li>What are the population coding rules?</li>
+            <li>How do bilateral inputs combine?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- FOOTER -->
+  <!-- ══════════════════════════════════════════ -->
+  <div style="text-align:center; margin-top:60px; padding:24px; border-top:1px solid var(--border);">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--muted);">
+      Introduction to Neuroscience · Week 5, Lecture 2 · Vestibular System · Mohammad Darainy<br>
+      <span style="opacity:0.5;">Complete concept map · All slides covered</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Collapsible boxes
+  document.querySelectorAll('.box.collapsible .box-title').forEach(title => {
+    title.addEventListener('click', () => {
+      title.closest('.box').classList.toggle('collapsed');
+    });
+  });
+
+  // Intersection observer for section fade-in
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.05 });
+
+  sections.forEach(s => {
+    s.style.opacity = '0';
+    s.style.transform = 'translateY(20px)';
+    s.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(s);
+  });
+</script>
+
+</body>
+</html>

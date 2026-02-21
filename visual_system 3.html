@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NSCI201 – Visual System Part 3 Mindmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050d1a;
+    --surface: #0b1628;
+    --card: #0f1e35;
+    --card2: #101f36;
+    --border: rgba(80,160,255,0.18);
+    --accent1: #38bdf8;   /* sky blue */
+    --accent2: #a78bfa;   /* violet */
+    --accent3: #34d399;   /* emerald */
+    --accent4: #fb923c;   /* orange */
+    --accent5: #f472b6;   /* pink */
+    --accent6: #facc15;   /* yellow */
+    --text: #e2eaf8;
+    --muted: #6b82a8;
+    --section-colors: #38bdf8, #a78bfa, #34d399, #fb923c, #f472b6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 80px 0;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .hero {
+    background: linear-gradient(135deg, #050d1a 0%, #0d1e3a 60%, #0a1828 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(56,189,248,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.3);
+    border-radius: 4px;
+    padding: 4px 12px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #e2eaf8 0%, #38bdf8 50%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .hero-sub span { color: var(--accent1); font-weight: 500; }
+
+  /* LEGEND */
+  .legend {
+    max-width: 1200px;
+    margin: 32px auto 0;
+    padding: 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .legend-item:hover { background: rgba(255,255,255,0.04); border-color: var(--border); }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+  /* MAIN LAYOUT */
+  .map-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  /* SECTION */
+  .section { position: relative; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    width: 28px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-toggle {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    user-select: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .section-toggle:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+
+  /* CARD GRID */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    transition: all 0.35s ease;
+  }
+  .card-grid.collapsed { display: none; }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .card.wide { grid-column: span 2; }
+  .card.tall .card-body { max-height: none; }
+
+  .card-header {
+    padding: 14px 16px 12px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+    line-height: 1.3;
+  }
+  .card-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .card-body {
+    padding: 14px 16px;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+  .card.folded .card-body { max-height: 0; padding-top: 0; padding-bottom: 0; }
+
+  /* CONTENT ELEMENTS */
+  .fact {
+    display: flex;
+    gap: 9px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #b8cde8;
+    margin-bottom: 8px;
+    padding-left: 2px;
+  }
+  .fact:last-child { margin-bottom: 0; }
+  .bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .sub-fact {
+    display: flex;
+    gap: 8px;
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-bottom: 5px;
+    margin-left: 14px;
+    padding-left: 2px;
+  }
+  .sub-bullet {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+    background: var(--muted);
+  }
+  .keyword {
+    font-weight: 600;
+    font-size: 12.5px;
+  }
+  .em { font-style: italic; }
+
+  /* PATHWAY DIAGRAM */
+  .pathway {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+  }
+  .pnode {
+    padding: 4px 9px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .parrow { color: var(--muted); font-size: 13px; }
+
+  /* TABLE */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-top: 8px;
+  }
+  .mini-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding: 5px 6px;
+    text-align: left;
+    font-weight: 400;
+  }
+  .mini-table td {
+    padding: 5px 6px;
+    color: #b8cde8;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 11.5px;
+    vertical-align: top;
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 10px 0;
+  }
+
+  /* CHIP */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .chip {
+    font-size: 10.5px;
+    font-family: 'Space Mono', monospace;
+    padding: 3px 9px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #b8cde8;
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* VISUAL FIELD DIAGRAM */
+  .vf-diagram {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+  }
+  .vf-eye {
+    width: 60px;
+    height: 60px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    border: 2px solid;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .vf-left { border-color: var(--accent1); color: var(--accent1); }
+  .vf-right { border-color: var(--accent2); color: var(--accent2); }
+  .vf-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--muted);
+    font-size: 9px;
+  }
+
+  /* COLORS PER SECTION */
+  .s1 { --sc: var(--accent1); }
+  .s2 { --sc: var(--accent4); }
+  .s3 { --sc: var(--accent3); }
+  .s4 { --sc: var(--accent2); }
+  .s5 { --sc: var(--accent5); }
+  .s6 { --sc: var(--accent6); }
+
+  .card { border-top: 2px solid var(--sc, var(--border)); }
+  .card .bullet { background: var(--sc, var(--accent1)); }
+  .card .card-tag { background: rgba(from var(--sc) r g b / 0.15); color: var(--sc, var(--accent1)); border: 1px solid rgba(from var(--sc) r g b / 0.3); }
+  .card .keyword { color: var(--sc, var(--accent1)); }
+  .card .pnode { background: rgba(from var(--sc) r g b / 0.15); color: var(--sc, var(--accent1)); border: 1px solid rgba(from var(--sc) r g b / 0.25); }
+  .section-title { color: var(--sc, var(--accent1)); }
+
+  /* override for pnode colors */
+  .pnode.blue { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+  .pnode.violet { background: rgba(167,139,250,0.15); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
+  .pnode.green { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+  .pnode.orange { background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+  .pnode.pink { background: rgba(244,114,182,0.15); color: #f472b6; border: 1px solid rgba(244,114,182,0.3); }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: fixed;
+    bottom: 24px;
+    right: 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* SEARCH BAR */
+  .search-bar {
+    max-width: 1200px;
+    margin: 28px auto 0;
+    padding: 0 40px;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px 10px 42px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b82a8' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 14px center;
+  }
+  .search-input:focus { border-color: var(--accent1); }
+  .search-input::placeholder { color: var(--muted); }
+
+  /* CARD HIGHLIGHT */
+  .card.search-match { box-shadow: 0 0 0 2px var(--accent1); }
+  .card.search-hide { opacity: 0.15; pointer-events: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .hero { padding: 36px 20px 28px; }
+    .map-container, .legend, .search-bar { padding-left: 16px; padding-right: 16px; }
+    .card.wide { grid-column: span 1; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+
+  /* TOOLTIP */
+  .tooltip-ref {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--accent3);
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.25);
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">NSCI201 · Stuart Trenholm · McGill University · Jan 27, 2026</div>
+    <h1>The Visual System<br>Part 3: Visual Reflexes &amp; Higher Visual Pathways</h1>
+    <p class="hero-sub">Comprehensive interactive mindmap — <span>click any card to collapse/expand</span> · click section headers to hide entire sections</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div>Overview &amp; Projections</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>Visual Reflexes</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Primary Visual Pathway</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Primary Visual Cortex (V1)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div>Higher Visual Areas</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#facc15"></div>Disorders &amp; Clinical</div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <input class="search-input" type="text" id="search" placeholder="Search any concept, structure, or term…" autocomplete="off">
+</div>
+
+<!-- MAIN MAP -->
+<div class="map-container">
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1 — OVERVIEW & PROJECTIONS
+  ══════════════════════════════════════════ -->
+  <div class="section s1" data-section="1">
+    <div class="section-label">
+      <span class="section-num">01</span>
+      <span class="section-title">Overview: Central Projections of Retinal Ganglion Cells</span>
+      <div class="section-line"></div>
+      <div class="section-toggle" onclick="toggleSection(this)">collapse ▲</div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card s1" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">anatomy</span>
+            <div class="card-title">Retinal Ganglion Cell Axons</div>
+          </div>
+          <div class="card-icon">🧠</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>RGC axons leave the eye via the <span class="keyword">optic nerve</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>They project to <span class="keyword">many different regions</span> of the brain (not just cortex)</div></div>
+          <div class="fact"><div class="bullet"></div><div>All axons converge at the <span class="keyword">optic chiasm</span></div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div>At the optic chiasm: <span class="keyword">~60%</span> of axons cross hemispheres (project <span class="keyword em">contralaterally</span>)</div></div>
+          <div class="fact"><div class="bullet"></div><div>Remaining <span class="keyword">~40%</span> stay on the <span class="keyword em">ipsilateral</span> side</div></div>
+        </div>
+      </div>
+
+      <div class="card s1" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">targets</span>
+            <div class="card-title">Major Brain Targets of RGC Axons</div>
+          </div>
+          <div class="card-icon">🎯</div>
+        </div>
+        <div class="card-body">
+          <table class="mini-table">
+            <tr><th>Brain Region</th><th>Function</th></tr>
+            <tr><td><span class="keyword">Lateral Geniculate Nucleus (LGN)</span></td><td>Conscious vision (thalamic relay)</td></tr>
+            <tr><td><span class="keyword">Hypothalamus</span></td><td>Regulation of circadian rhythms</td></tr>
+            <tr><td><span class="keyword">Pretectum</span></td><td>Reflex control of pupil and lens</td></tr>
+            <tr><td><span class="keyword">Superior Colliculus</span></td><td>Orienting movements of head and eyes</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card s1" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">concept</span>
+            <div class="card-title">Conscious vs. Subconscious Vision</div>
+          </div>
+          <div class="card-icon">👁️</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Conscious vision</span>: passes via LGN → <span class="keyword">primary visual cortex</span> (striate cortex / V1)</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Subconscious vision</span>: most other retinal pathways; drives reflexes, controls circadian rhythm, supports subconscious visual perception</div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Hypothalamus</span> (suprachiasmatic nucleus, SCN): photo-entrainment of circadian rhythm</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div>Driven by <span class="keyword">melanopsin</span>-expressing RGCs</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div>These cells are <span class="keyword em">intrinsically photosensitive</span></div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Superior colliculus</span>: coordinates head and eye movements to visual targets</div></div>
+        </div>
+      </div>
+
+      <div class="card s1" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">pathway</span>
+            <div class="card-title">Signal Flow: Eye → Brain</div>
+          </div>
+          <div class="card-icon">⚡</div>
+        </div>
+        <div class="card-body">
+          <div class="pathway">
+            <div class="pnode blue">Retina / RGCs</div><div class="parrow">→</div>
+            <div class="pnode blue">Optic Nerve</div><div class="parrow">→</div>
+            <div class="pnode blue">Optic Chiasm</div>
+          </div>
+          <div class="pathway">
+            <div class="parrow" style="margin-left:12px">↙ ipsilateral</div>
+            <div style="margin: 0 8px; color:var(--muted); font-size:11px">+</div>
+            <div class="parrow">↘ contralateral (60%)</div>
+          </div>
+          <div class="pathway">
+            <div class="pnode blue">Optic Tract</div><div class="parrow">→</div>
+            <div class="pnode blue">LGN / SC / etc.</div>
+          </div>
+          <div class="pathway">
+            <div class="pnode blue">LGN</div><div class="parrow">→</div>
+            <div class="pnode blue">Optic Radiation</div><div class="parrow">→</div>
+            <div class="pnode blue">V1 (Striate Cortex)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 — VISUAL REFLEXES
+  ══════════════════════════════════════════ -->
+  <div class="section s2" data-section="2">
+    <div class="section-label">
+      <span class="section-num">02</span>
+      <span class="section-title">Visual Reflexes</span>
+      <div class="section-line"></div>
+      <div class="section-toggle" onclick="toggleSection(this)">collapse ▲</div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card s2 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">reflex</span>
+            <div class="card-title">Pupillary Light Reflex</div>
+          </div>
+          <div class="card-icon">🔦</div>
+        </div>
+        <div class="card-body">
+          <div class="pathway">
+            <div class="pnode orange">RGCs → Pretectum</div><div class="parrow">→</div>
+            <div class="pnode orange">Edinger-Westphal Nucleus (EWN)</div><div class="parrow">→</div>
+            <div class="pnode orange">Oculomotor Nerve</div><div class="parrow">→</div>
+            <div class="pnode orange">Ciliary Ganglion</div><div class="parrow">→</div>
+            <div class="pnode orange">Iris Constrictor Muscles</div><div class="parrow">→</div>
+            <div class="pnode orange">Pupil Diameter ↓</div>
+          </div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div>Certain RGCs send axons to the <span class="keyword">pretectum</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Pretectal neurons project to the <span class="keyword">Edinger-Westphal Nucleus (EWN)</span> in the midbrain</div></div>
+          <div class="fact"><div class="bullet"></div><div>EWN neurons send axons via the <span class="keyword">oculomotor nerve</span> to the <span class="keyword">ciliary ganglion</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Ciliary ganglion neurons innervate <span class="keyword">constrictor muscles of the iris</span> → pupil diameter decreases</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Both pupils</span> respond to monocular visual stimulation (consensual reflex)</div></div>
+        </div>
+      </div>
+
+      <div class="card s2" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">eye movement</span>
+            <div class="card-title">Saccadic Eye Movements</div>
+          </div>
+          <div class="card-icon">⚡</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Rapid, ballistic jumps of the eye between fixation points</div></div>
+          <div class="fact"><div class="bullet"></div><div>Used during normal scanning of scenes, reading</div></div>
+          <div class="fact"><div class="bullet"></div><div>Form the <span class="keyword">fast phase</span> component of nystagmus</div></div>
+          <div class="fact"><div class="bullet"></div><div>Coordinated by the <span class="keyword">superior colliculus</span> and frontal eye fields</div></div>
+        </div>
+      </div>
+
+      <div class="card s2" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">eye movement</span>
+            <div class="card-title">Smooth Pursuit Eye Movements</div>
+          </div>
+          <div class="card-icon">🔄</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Slow, continuous eye movements that <span class="keyword">track a moving target</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Require a moving target to initiate (cannot perform voluntarily on stationary target)</div></div>
+          <div class="fact"><div class="bullet"></div><div>Form the <span class="keyword">slow phase</span> component of nystagmus</div></div>
+          <div class="fact"><div class="bullet"></div><div>Requires cortical input (posterior parietal cortex, MT)</div></div>
+        </div>
+      </div>
+
+      <div class="card s2 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">reflex</span>
+            <div class="card-title">Optokinetic Reflex (Optokinetic Nystagmus, OKN)</div>
+          </div>
+          <div class="card-icon">🌀</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>A <span class="keyword">gaze-stabilizing reflex</span> triggered by large-field motion across the visual scene</div></div>
+          <div class="fact"><div class="bullet"></div><div>Consists of two components:</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">Slow phase</span>: smooth pursuit — eyes track the moving scene</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">Fast phase</span>: saccade — eyes quickly reset to a new fixation point in the opposite direction</div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div>Neural pathway: a <span class="keyword">subset of directionally selective RGCs</span> project to the <span class="keyword">Nucleus of the Optic Tract (NOT)</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>NOT activates cranial nerves controlling the eye muscles</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword em">Key evidence</span>: blocking direction selectivity in the retina completely <span class="keyword">ablates the OKN</span> (Yonehara et al., Neuron 2016)</div></div>
+          <div class="divider"></div>
+          <div class="chips">
+            <div class="chip">Slow + Fast phases</div>
+            <div class="chip">Directionally Selective RGCs</div>
+            <div class="chip">Nucleus of Optic Tract</div>
+            <div class="chip">Gaze Stabilization</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 — PRIMARY VISUAL PATHWAY
+  ══════════════════════════════════════════ -->
+  <div class="section s3" data-section="3">
+    <div class="section-label">
+      <span class="section-num">03</span>
+      <span class="section-title">The Primary Visual Pathway: Retina → LGN → V1</span>
+      <div class="section-line"></div>
+      <div class="section-toggle" onclick="toggleSection(this)">collapse ▲</div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">overview</span>
+            <div class="card-title">Primary Visual Pathway</div>
+          </div>
+          <div class="card-icon">🌐</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Underlies <span class="keyword">conscious vision</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>RGCs → <span class="keyword">Lateral Geniculate Nucleus (LGN)</span> of the thalamus</div></div>
+          <div class="fact"><div class="bullet"></div><div>LGN relay neurons → <span class="keyword">Primary Visual Cortex (V1)</span> via optic radiations</div></div>
+        </div>
+      </div>
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">anatomy</span>
+            <div class="card-title">Visual Field Segregation by Hemisphere</div>
+          </div>
+          <div class="card-icon">↔️</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Information from the <span class="keyword">right visual field</span> → <span class="keyword">left brain hemisphere</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Information from the <span class="keyword">left visual field</span> → <span class="keyword">right brain hemisphere</span></div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Temporal retina</span> signals from each eye join with <span class="keyword">nasal retina</span> signals from the other eye at the optic chiasm</div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div>Each eye has its <span class="keyword">own visual field</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Combined = <span class="keyword">binocular visual field</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Strictly peripheral vision is <span class="keyword">monocular</span></div></div>
+        </div>
+      </div>
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">optics</span>
+            <div class="card-title">Eye Optics &amp; Image Inversion</div>
+          </div>
+          <div class="card-icon">🔭</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Due to the optics of the eye, images entering the eye are <span class="keyword">flipped both vertically and horizontally</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Superior visual field → inferior retinal quadrant → processed in superior V1</div></div>
+          <div class="fact"><div class="bullet"></div><div>Inferior visual field → superior retinal quadrant → processed in inferior V1</div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div>Left visual field → right temporal retina + left nasal retina</div></div>
+        </div>
+      </div>
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">anatomy</span>
+            <div class="card-title">LGN → V1 Projections (Meyer's Loop)</div>
+          </div>
+          <div class="card-icon">🔀</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Fibers representing <span class="keyword">superior visual fields</span> (inferior retinal quadrants) travel dorsally from LGN</div></div>
+          <div class="fact"><div class="bullet"></div><div>Fibers representing <span class="keyword">inferior visual fields</span> (superior retinal quadrants) travel through <span class="keyword">Meyer's loop</span> ventrally</div></div>
+          <div class="fact"><div class="bullet"></div><div>These two fiber bundles take <span class="keyword">different anatomical paths</span> from LGN to V1</div></div>
+          <div class="fact"><div class="bullet"></div><div>Clinical implication: lesions at different points produce different visual field deficits</div></div>
+        </div>
+      </div>
+
+      <div class="card s3 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">parallel pathways</span>
+            <div class="card-title">Parallel Visual Pathways: Magno-, Parvo-, Koniocellular</div>
+          </div>
+          <div class="card-icon">🔱</div>
+        </div>
+        <div class="card-body">
+          <table class="mini-table">
+            <tr>
+              <th>Pathway</th><th>LGN Layers</th><th>V1 Target</th><th>Origin (RGC)</th><th>Properties</th>
+            </tr>
+            <tr>
+              <td><span class="keyword">Magnocellular (M)</span></td>
+              <td>2 ventral layers (layers 1–2)</td>
+              <td>Layer <span class="keyword">4Cα</span></td>
+              <td>Parasol ganglion cells</td>
+              <td>Large receptive fields; <span class="keyword">transient</span>, <span class="keyword">motion-sensitive</span>; NOT color</td>
+            </tr>
+            <tr>
+              <td><span class="keyword">Parvocellular (P)</span></td>
+              <td>4 dorsal layers (layers 3–6)</td>
+              <td>Layer <span class="keyword">4Cβ</span></td>
+              <td>Midget ganglion cells</td>
+              <td>Small receptive fields; <span class="keyword">sustained</span> responses; signals <span class="keyword">color</span></td>
+            </tr>
+            <tr>
+              <td><span class="keyword">Koniocellular (K)</span></td>
+              <td>Interdigitate between M &amp; P layers</td>
+              <td>Patches in layer <span class="keyword">2/3</span> (CO blobs)</td>
+              <td>Non-midget, non-parasol RGCs</td>
+              <td>Role <span class="keyword">still unclear</span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card s3 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">clinical</span>
+            <div class="card-title">Visual Field Deficits from Pathway Damage</div>
+          </div>
+          <div class="card-icon">🩺</div>
+        </div>
+        <div class="card-body">
+          <table class="mini-table">
+            <tr><th>Lesion Site</th><th>Deficit</th></tr>
+            <tr><td><span class="keyword">A — Left optic nerve</span></td><td>Complete blindness in <span class="keyword">left eye</span> only (monocular anopia)</td></tr>
+            <tr><td><span class="keyword">B — Optic chiasm</span> (midline)</td><td><span class="keyword">Bitemporal hemianopia</span> — loss of both temporal visual fields</td></tr>
+            <tr><td><span class="keyword">C — Left optic tract</span></td><td><span class="keyword">Right homonymous hemianopia</span> — loss of right visual field in both eyes</td></tr>
+            <tr><td><span class="keyword">D — Left optic radiation</span></td><td><span class="keyword">Right homonymous hemianopia</span> (same side as C but further downstream)</td></tr>
+            <tr><td><span class="keyword">E — Left striate cortex</span> (partial)</td><td><span class="keyword">Right homonymous quadrantanopia</span> — partial right visual field loss</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">map</span>
+            <div class="card-title">Retinotopic Map of the Visual World</div>
+          </div>
+          <div class="card-icon">🗺️</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>In retina, LGN, and V1: <span class="keyword">neighbouring parts of the visual field</span> are processed by <span class="keyword">neighbouring parts of the brain</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>This is called a <span class="keyword">retinotopic map</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>The <span class="keyword">foveal region</span> is <span class="keyword">over-represented</span> (cortical magnification) in visual cortex</div></div>
+          <div class="fact"><div class="bullet"></div><div>Demonstrated in both human and monkey visual cortex using fMRI and retinotopic mapping</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 4 — PRIMARY VISUAL CORTEX (V1)
+  ══════════════════════════════════════════ -->
+  <div class="section s4" data-section="4">
+    <div class="section-label">
+      <span class="section-num">04</span>
+      <span class="section-title">Primary Visual Cortex (V1 / Striate Cortex)</span>
+      <div class="section-line"></div>
+      <div class="section-toggle" onclick="toggleSection(this)">collapse ▲</div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">architecture</span>
+            <div class="card-title">Cortical Layers of V1</div>
+          </div>
+          <div class="card-icon">🧱</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Cortex (neocortex) is a <span class="keyword">highly layered neuronal structure</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Consists of <span class="keyword">6 layers</span>, some can be grouped (2/3) or subdivided (4A–C)</div></div>
+          <div class="divider"></div>
+          <table class="mini-table">
+            <tr><th>Layer</th><th>Key Input/Output</th></tr>
+            <tr><td><span class="keyword">4C</span></td><td>Primary target of incoming LGN axons (4Cα = M; 4Cβ = P)</td></tr>
+            <tr><td><span class="keyword">2/3</span> (superficial)</td><td>Pyramidal cells → <span class="keyword">other cortical areas</span></td></tr>
+            <tr><td><span class="keyword">5/6</span> (deep)</td><td>Pyramidal cells → <span class="keyword">subcortical targets</span> (LGN, superior colliculus)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card s4 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">Hubel &amp; Wiesel</span>
+            <div class="card-title">Receptive Field Properties in V1</div>
+          </div>
+          <div class="card-icon">📊</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Classic experiments by <span class="keyword">David Hubel and Torsten Wiesel</span> (Nobel Prize 1981)</div></div>
+          <div class="fact"><div class="bullet"></div><div>Small circular spots that drove RGCs and LGN neurons <span class="keyword">did NOT strongly drive V1 cells</span></div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Orientation selective cells</span>: prefer elongated edges at a <span class="keyword">specific angle</span></div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Direction selective cells</span>: respond only when preferred-orientation bar moves in one of the angles <span class="keyword">perpendicular to the long-axis</span> of the bar</div></div>
+          <div class="fact"><div class="bullet"></div><div>Cells care about <span class="keyword">spatial frequency</span> (size of stimulus) and <span class="keyword">temporal frequency</span> (speed or flicker rate)</div></div>
+        </div>
+      </div>
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">hierarchy</span>
+            <div class="card-title">Hierarchical Organization: LGN → V1</div>
+          </div>
+          <div class="card-icon">📐</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>LGN neurons: <span class="keyword">center-surround</span> receptive fields</div></div>
+          <div class="fact"><div class="bullet"></div><div>V1 simple cells: <span class="keyword">orientation selective</span> — built by integrating inputs from a row of LGN neurons</div></div>
+          <div class="fact"><div class="bullet"></div><div>Multiple aligned center-surround LGN neurons → one orientation-selective cortical simple cell</div></div>
+          <div class="fact"><div class="bullet"></div><div>Increasing complexity of receptive fields as you go higher in the visual hierarchy</div></div>
+        </div>
+      </div>
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">columns</span>
+            <div class="card-title">Functional Organization: Orientation Columns</div>
+          </div>
+          <div class="card-icon">🏛️</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Cells <span class="keyword">above and below</span> each other (vertical): same visual field location, <span class="keyword">similar orientation selectivity</span> = <span class="keyword">orientation column</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Cells <span class="keyword">beside</span> one another: less overlapping receptive fields, <span class="keyword">different preferred orientations</span></div></div>
+        </div>
+      </div>
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">organization</span>
+            <div class="card-title">Orientation Pinwheels</div>
+          </div>
+          <div class="card-icon">🌀</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Surface view of V1: color-coded by preferred orientation of cells in each area</div></div>
+          <div class="fact"><div class="bullet"></div><div>Similar orientations <span class="keyword">cluster together</span> (orientation columns)</div></div>
+          <div class="fact"><div class="bullet"></div><div>At any given receptive field location, <span class="keyword">all orientations are represented</span> = <span class="keyword">orientation pinwheel</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>This pattern repeats at every new receptive field location</div></div>
+          <div class="fact"><div class="bullet"></div><div>Pinwheels repeat every <span class="keyword">~1 mm</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Evidence from both macroscopic (optical imaging) and single-cell (electrode) recordings</div></div>
+        </div>
+      </div>
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">binocularity</span>
+            <div class="card-title">Binocular Vision Starts in V1</div>
+          </div>
+          <div class="card-icon">👀</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Contralateral and ipsilateral retinal axons project to <span class="keyword">separate layers</span> in the LGN</div></div>
+          <div class="fact"><div class="bullet"></div><div>Eye-specific segregation is maintained in <span class="keyword">layer 4</span> of V1 → <span class="keyword">ocular dominance columns</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Layer 4: <span class="keyword">robust ocular dominance</span> (monocular responses)</div></div>
+          <div class="fact"><div class="bullet"></div><div>Outside layer 4: most neurons are <span class="keyword">binocular</span> (respond to both eyes)</div></div>
+          <div class="fact"><div class="bullet"></div><div>But binocular cells generally receive <span class="keyword">stronger input from one eye</span> (corresponding to their layer 4 column)</div></div>
+        </div>
+      </div>
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">organization</span>
+            <div class="card-title">Hypercolumn</div>
+          </div>
+          <div class="card-icon">🧊</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>All different spatially segregated functional modules <span class="keyword">overlay in V1</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>A <span class="keyword">hypercolumn</span> contains:</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div>One complete set of <span class="keyword">orientation columns</span> (all 180°)</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div>Ocular dominance columns for <span class="keyword">both eyes</span></div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">CO blobs</span> (cytochrome oxidase patches — color processing)</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div>Interblob regions (form/orientation processing)</div></div>
+          <div class="fact"><div class="bullet"></div><div>Each hypercolumn processes a <span class="keyword">single point in the visual field</span> through all feature dimensions</div></div>
+        </div>
+      </div>
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">depth perception</span>
+            <div class="card-title">Stereopsis — Depth from Disparity</div>
+          </div>
+          <div class="card-icon">🔲</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Stereopsis</span>: sensation of depth from viewing nearby objects with two eyes in slightly different locations</div></div>
+          <div class="fact"><div class="bullet"></div><div>Objects in front of or behind the fixation plane project to <span class="keyword">non-corresponding parts</span> of both retinas</div></div>
+          <div class="fact"><div class="bullet"></div><div>This <span class="keyword">binocular disparity</span> generates the sensation of depth</div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div>V1 contains disparity-tuned cells:</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">Far cells</span>: respond to objects <span class="keyword">behind</span> fixation</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">Near cells</span>: respond to objects <span class="keyword">in front of</span> fixation</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">Tuned zero cells</span>: respond to objects <span class="keyword">at</span> the fixation plane</div></div>
+        </div>
+      </div>
+
+      <div class="card s4" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">development</span>
+            <div class="card-title">CO Blobs – Color Vision Conduit</div>
+          </div>
+          <div class="card-icon">🎨</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Cytochrome oxidase (CO) <span class="keyword">blobs</span>: patches in layers 2/3 of V1 that stain darkly for CO</div></div>
+          <div class="fact"><div class="bullet"></div><div>Receive input from <span class="keyword">koniocellular LGN layers</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Thought to be a conduit for <span class="keyword">chromatic contrast (color)</span> processing</div></div>
+          <div class="fact"><div class="bullet"></div><div>Blobs in V1 → <span class="keyword">thin stripes in V2</span> → <span class="keyword">V4 "globs"</span> (color processing cells)</div></div>
+          <div class="fact"><div class="bullet"></div><div>Interblobs → pale stripes in V2 → involved in <span class="keyword">achromatic/form</span> processing</div></div>
+          <div class="fact"><div class="bullet"></div><div>Research by <span class="keyword">Beverly Conway</span> on chromatic hierarchy</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 5 — DISORDERS / CLINICAL
+  ══════════════════════════════════════════ -->
+  <div class="section s6" data-section="5">
+    <div class="section-label">
+      <span class="section-num">05</span>
+      <span class="section-title">Disorders &amp; Clinical Correlates</span>
+      <div class="section-line"></div>
+      <div class="section-toggle" onclick="toggleSection(this)">collapse ▲</div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card s6 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">clinical</span>
+            <div class="card-title">Strabismus and Amblyopia</div>
+          </div>
+          <div class="card-icon">🩺</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Strabismus</span>: misalignment of the eyes — they don't properly align when looking at an object</div></div>
+          <div class="fact"><div class="bullet"></div><div>Two common forms:</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">Esotropia</span>: cross-eyed (eyes deviate inward)</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div><span class="keyword">Exotropia</span>: eyes deviate outwards</div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div>Long-term, <span class="keyword">untreated strabismus in childhood</span> → <span class="keyword">amblyopia</span></div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Amblyopia</span> ("lazy eye"): brain stops processing inputs from one eye; ocular dominance columns for that eye shrink</div></div>
+          <div class="fact"><div class="bullet"></div><div>Critical period: occurs during <span class="keyword">visual development</span>; treatment (patching strong eye) most effective early in life</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 6 — HIGHER VISUAL AREAS
+  ══════════════════════════════════════════ -->
+  <div class="section s5" data-section="6">
+    <div class="section-label">
+      <span class="section-num">06</span>
+      <span class="section-title">Higher Visual Areas &amp; Streams Beyond V1</span>
+      <div class="section-line"></div>
+      <div class="section-toggle" onclick="toggleSection(this)">collapse ▲</div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card s5" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">overview</span>
+            <div class="card-title">Higher Visual Areas After V1</div>
+          </div>
+          <div class="card-icon">🗂️</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Downstream from V1: several other visual areas, each with a <span class="keyword">complete map of visual space</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Higher regions tend to be dedicated to <span class="keyword">specific visual detection tasks</span></div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Middle Temporal area (MT)</span>: selectively responds to motion in specific directions, <span class="keyword">doesn't care about color</span></div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">V4</span>: high percentage of <span class="keyword">color selective cells</span>, doesn't care about direction of motion</div></div>
+          <div class="fact"><div class="bullet"></div><div>Visual areas: V1, V2, V3, V3A, VP, V4, V4t, MT, MST, and many more (Felleman &amp; Van Essen, 1990)</div></div>
+        </div>
+      </div>
+
+      <div class="card s5" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">complexity</span>
+            <div class="card-title">Many Higher Brain Areas for Vision</div>
+          </div>
+          <div class="card-icon">🕸️</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Felleman &amp; Van Essen (1990): landmark diagram of <span class="keyword">30+ visual areas</span> in macaque</div></div>
+          <div class="fact"><div class="bullet"></div><div>Distinct visual areas are <span class="keyword">highly and reciprocally interconnected</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Both feedforward (ascending) and <span class="keyword">feedback (descending)</span> connections between areas</div></div>
+          <div class="fact"><div class="bullet"></div><div>The visual system involves a <span class="keyword">substantial fraction of the primate cortex</span></div></div>
+          <div class="chips">
+            <div class="chip">V1, V2, V3</div><div class="chip">V4, V4t</div><div class="chip">MT/V5</div>
+            <div class="chip">MST</div><div class="chip">LIP, VIP</div><div class="chip">IT, TEO</div>
+            <div class="chip">FEF</div><div class="chip">STPa, STPp</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card s5" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">streams</span>
+            <div class="card-title">Functional Streams from V1: Blobs, Interblobs, 4B</div>
+          </div>
+          <div class="card-icon">🌊</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Multiple functional streams leave V1 for V2, then diverge further</div></div>
+          <table class="mini-table">
+            <tr><th>V1 origin</th><th>V2 target</th><th>Higher target</th></tr>
+            <tr><td><span class="keyword">Blobs</span></td><td>Thin stripes</td><td>V4 (color)</td></tr>
+            <tr><td><span class="keyword">Interblobs</span></td><td>Pale (lateral) stripes</td><td>V4 (form)</td></tr>
+            <tr><td><span class="keyword">Layer 4B</span></td><td>Thick stripes + Pale (medial)</td><td>MT (motion)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card s5 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">streams</span>
+            <div class="card-title">Dorsal vs. Ventral Streams</div>
+          </div>
+          <div class="card-icon">🔀</div>
+        </div>
+        <div class="card-body">
+          <table class="mini-table">
+            <tr><th></th><th>Ventral Stream</th><th>Dorsal Stream</th></tr>
+            <tr><td>Nickname</td><td><span class="keyword">"What" pathway</span></td><td><span class="keyword">"Where" / "How" pathway</span></td></tr>
+            <tr><td>Direction</td><td>V1 → V2 → V4 → <span class="keyword">temporal cortex (IT)</span></td><td>V1 → V2 → MT → <span class="keyword">parietal cortex</span></td></tr>
+            <tr><td>Function</td><td>Semantic nature of scene; <span class="keyword">object recognition, color, form</span></td><td><span class="keyword">Moving objects</span>, spatial vision, guiding actions</td></tr>
+            <tr><td>Key areas</td><td>V4, TEO, Inferotemporal cortex (IT)</td><td>MT/V5, MST, LIP, VIP, PMd</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card s5 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">dorsal stream</span>
+            <div class="card-title">Area MT &amp; The Aperture Problem</div>
+          </div>
+          <div class="card-icon">🎥</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">MT (Middle Temporal area / V5)</span>: part of the dorsal stream; involved in detection of motion</div></div>
+          <div class="fact"><div class="bullet"></div><div>V1 receptive fields are <span class="keyword">small</span> — may give misleading information on the direction of movement</div></div>
+          <div class="fact"><div class="bullet"></div><div>This is called the <span class="keyword">aperture problem</span>: a cell with a small receptive field can only see a portion of a moving edge — cannot determine the true direction of the overall object's motion</div></div>
+          <div class="fact"><div class="bullet"></div><div>Neurons in <span class="keyword">area MT integrate inputs</span> from many smaller receptive field V1 neurons → can detect the <span class="keyword">true overall direction of object movement</span></div></div>
+          <div class="divider"></div>
+          <div class="pathway">
+            <div class="pnode violet">RGC</div><div class="parrow">→</div>
+            <div class="pnode violet">V1 (small RF, limited dir.)</div><div class="parrow">→</div>
+            <div class="pnode violet">MT (large RF, true direction)</div><div class="parrow">→</div>
+            <div class="pnode violet">MST, Parietal</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card s5 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">ventral stream</span>
+            <div class="card-title">Ventral Stream: Color, Form &amp; Object Recognition</div>
+          </div>
+          <div class="card-icon">🖼️</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Ventral stream: concerned with <span class="keyword">semantic nature of visual scene</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Processes <span class="keyword">color, form, texture, object identity</span></div></div>
+          <div class="pathway">
+            <div class="pnode pink">V1</div><div class="parrow">→</div>
+            <div class="pnode pink">V2</div><div class="parrow">→</div>
+            <div class="pnode pink">V3</div><div class="parrow">→</div>
+            <div class="pnode pink">V4 (color)</div><div class="parrow">→</div>
+            <div class="pnode pink">TEO</div><div class="parrow">→</div>
+            <div class="pnode pink">IT (objects/faces)</div>
+          </div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">V4</span>: high % of color selective neurons; does not encode direction of motion</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Inferotemporal cortex (IT/TEO)</span>: high-order object recognition including faces</div></div>
+        </div>
+      </div>
+
+      <div class="card s5 wide" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">ventral stream</span>
+            <div class="card-title">Face Cells — High-Order Visual Object Selectivity</div>
+          </div>
+          <div class="card-icon">🤖</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div>Neurons in <span class="keyword">Area IT (Inferotemporal cortex)</span> in macaques selectively respond to faces</div></div>
+          <div class="fact"><div class="bullet"></div><div>Classic discovery: cells respond best to <span class="keyword">full face vs. caricature or scrambled lines</span></div></div>
+          <div class="fact"><div class="bullet"></div><div>Removing eyes from a face <span class="keyword">reduces the response</span></div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Monkey Face Cells</span> (Freiwald et al., 2009): respond to monkey and human faces; tuned to specific face angles (~80–100°)</div></div>
+          <div class="divider"></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Do face cells really encode faces?</span> (Ponce et al., 2019)</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div>Used a <span class="keyword">deep generator network + genetic algorithm</span> to evolve synthetic images that maximally drive face cells</div></div>
+          <div class="sub-fact"><div class="sub-bullet"></div><div>Result: face cells drove strongly by <span class="keyword">face-like images</span> — but the "optimal" stimuli are not always perfectly face-like, suggesting the cells encode <span class="keyword">complex high-dimensional features</span> associated with faces</div></div>
+          <div class="chips">
+            <div class="chip">Area IT</div><div class="chip">Inferotemporal cortex</div>
+            <div class="chip">Monkey face cells</div><div class="chip">Feature hierarchy</div>
+            <div class="chip">Deep neural nets</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 7 — QUICK REFERENCE
+  ══════════════════════════════════════════ -->
+  <div class="section s3" data-section="7">
+    <div class="section-label">
+      <span class="section-num">07</span>
+      <span class="section-title">Quick Reference — Key Terms &amp; Researchers</span>
+      <div class="section-line"></div>
+      <div class="section-toggle" onclick="toggleSection(this)">collapse ▲</div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">glossary</span>
+            <div class="card-title">Key Terms A–M</div>
+          </div>
+          <div class="card-icon">📖</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Amblyopia</span> — brain suppression of input from one eye due to strabismus</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Aperture problem</span> — small RF cells cannot determine true object motion direction</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Binocular disparity</span> — slight difference in retinal image between two eyes; basis of stereopsis</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">CO blobs</span> — cytochrome oxidase patches in V1 layer 2/3; color conduit</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Esotropia</span> — cross-eyed form of strabismus</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Exotropia</span> — outward-deviating form of strabismus</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Koniocellular pathway</span> — third parallel pathway through LGN; unknown role</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">LGN</span> — lateral geniculate nucleus of thalamus; thalamic relay for vision</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Magnocellular pathway</span> — motion, transient; ventral LGN layers 1–2; → V1 layer 4Cα</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Melanopsin</span> — photopigment in ipRGCs that drives circadian entrainment</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Meyer's loop</span> — inferior optic radiation pathway carrying superior visual field info</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">MT (V5)</span> — middle temporal area; motion perception; aperture problem solved here</div></div>
+        </div>
+      </div>
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">glossary</span>
+            <div class="card-title">Key Terms O–Z</div>
+          </div>
+          <div class="card-icon">📖</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Ocular dominance columns</span> — alternating columns in V1 layer 4 responsive to L vs R eye</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">OKN (optokinetic nystagmus)</span> — gaze-stabilizing reflex; fast + slow phases</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Optic chiasm</span> — crossing point of optic nerve fibers; ~60% decussation</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Orientation column</span> — vertical V1 column sharing preferred orientation</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Orientation pinwheel</span> — all orientations present at one location; repeats ~1mm</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Parvocellular pathway</span> — color, sustained; dorsal LGN layers 3–6; → V1 layer 4Cβ</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Pretectum</span> — pupillary light reflex; sends signal to EWN</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Retinotopic map</span> — spatial preservation of visual field across retina, LGN, V1</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">SCN</span> — suprachiasmatic nucleus; circadian rhythm master clock</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Stereopsis</span> — depth perception from binocular disparity</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Strabismus</span> — misalignment of the two eyes</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Superior colliculus</span> — head/eye orienting movements to visual targets</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">V1 / Striate cortex</span> — primary visual cortex; first cortical visual area</div></div>
+        </div>
+      </div>
+
+      <div class="card s3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <span class="card-tag">researchers</span>
+            <div class="card-title">Key Researchers &amp; Studies</div>
+          </div>
+          <div class="card-icon">🔬</div>
+        </div>
+        <div class="card-body">
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">David Hubel &amp; Torsten Wiesel</span> — Nobel Prize 1981; discovered orientation &amp; direction selectivity in V1; ocular dominance columns; critical period</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Yonehara et al. (Neuron, 2016)</span> — blocking direction selectivity in retina ablates OKN</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Felleman &amp; Van Essen (1990)</span> — hierarchical organization of primate visual cortex; 30+ visual areas</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Freiwald et al. (2009)</span> — monkey face cells in IT; tuned to face angle</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Ponce et al. (2019)</span> — deep generator network + genetic algorithm to probe face cell preferences</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Beverly Conway</span> — chromatic processing hierarchy in V1 blobs → V2 thin stripes → V4 globs</div></div>
+          <div class="fact"><div class="bullet"></div><div><span class="keyword">Horton &amp; Hedley-Whyte (1984)</span> — ocular dominance column anatomy in primate V1</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="scroll-hint">▼ scroll to explore</div>
+
+<script>
+  function toggleCard(card) {
+    card.classList.toggle('folded');
+  }
+
+  function toggleSection(btn) {
+    const section = btn.closest('.section');
+    const grid = section.querySelector('.card-grid');
+    const collapsed = grid.classList.toggle('collapsed');
+    btn.textContent = collapsed ? 'expand ▼' : 'collapse ▲';
+  }
+
+  // Search
+  const searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', function() {
+    const query = this.value.trim().toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      if (!query) {
+        card.classList.remove('search-match', 'search-hide');
+        return;
+      }
+      const text = card.textContent.toLowerCase();
+      if (text.includes(query)) {
+        card.classList.add('search-match');
+        card.classList.remove('search-hide');
+        // Expand card if folded
+        card.classList.remove('folded');
+        // Expand section if collapsed
+        const grid = card.closest('.card-grid');
+        if (grid && grid.classList.contains('collapsed')) {
+          grid.classList.remove('collapsed');
+          const btn = grid.previousElementSibling?.querySelector('.section-toggle');
+          if (btn) btn.textContent = 'collapse ▲';
+        }
+      } else {
+        card.classList.remove('search-match');
+        card.classList.add('search-hide');
+      }
+    });
+  });
+
+  // Scroll hint fade
+  window.addEventListener('scroll', () => {
+    const hint = document.querySelector('.scroll-hint');
+    if (window.scrollY > 100) hint.style.opacity = '0';
+    else hint.style.opacity = '0.6';
+  });
+
+  // Staggered card entrance
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, i * 40);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(18px)';
+    card.style.transition = 'opacity 0.4s ease, transform 0.4s ease, box-shadow 0.2s, border-color 0.2s';
+    observer.observe(card);
+  });
+</script>
+</body>
+</html>

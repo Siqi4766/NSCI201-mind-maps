@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Visual System – Vision Loss & Restoration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c23;
+    --border: rgba(255,255,255,0.07);
+    --accent1: #c8a96e; /* warm gold */
+    --accent2: #5ec4b6; /* teal */
+    --accent3: #e07a7a; /* rose */
+    --accent4: #7fa8d4; /* blue */
+    --accent5: #a78bfa; /* purple */
+    --accent6: #6ad476; /* green */
+    --text: #e8e4dc;
+    --muted: #7a7f8e;
+    --tag-bg: rgba(255,255,255,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 0 0 80px 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(200,169,110,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(94,196,182,0.05) 0%, transparent 60%);
+  }
+
+  /* ─── HEADER ─── */
+  .page-header {
+    text-align: center;
+    padding: 56px 24px 36px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .page-header::after {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent1), transparent);
+    margin: 20px auto 0;
+  }
+  .eyeball-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.9;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:.9;transform:scale(1)} 50%{opacity:1;transform:scale(1.07)} }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .page-header h1 span { color: var(--accent1); }
+  .page-header .subtitle {
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .meta-pill {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .meta-pill span { color: var(--accent2); }
+
+  /* ─── LAYOUT ─── */
+  .map-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* ─── SECTION ─── */
+  .section {
+    margin-top: 48px;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-left: 4px;
+  }
+  .section-label .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .section-label h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-label .line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── GRID ─── */
+  .grid { display: grid; gap: 14px; }
+  .grid-1 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-2-1 { grid-template-columns: 2fr 1fr; }
+  .grid-1-2 { grid-template-columns: 1fr 2fr; }
+  @media(max-width:900px) {
+    .grid-3,.grid-4,.grid-2,.grid-2-1,.grid-1-2 { grid-template-columns: 1fr; }
+  }
+  @media(min-width:901px) and (max-width:1100px) {
+    .grid-4 { grid-template-columns: repeat(2,1fr); }
+    .grid-3 { grid-template-columns: repeat(2,1fr); }
+  }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    border-radius: 14px 14px 0 0;
+  }
+  /* accent colors */
+  .ca1::before { background: var(--accent1); } .card.ca1:hover { border-color: rgba(200,169,110,0.35); }
+  .ca2::before { background: var(--accent2); } .card.ca2:hover { border-color: rgba(94,196,182,0.35); }
+  .ca3::before { background: var(--accent3); } .card.ca3:hover { border-color: rgba(224,122,122,0.35); }
+  .ca4::before { background: var(--accent4); } .card.ca4:hover { border-color: rgba(127,168,212,0.35); }
+  .ca5::before { background: var(--accent5); } .card.ca5:hover { border-color: rgba(167,139,250,0.35); }
+  .ca6::before { background: var(--accent6); } .card.ca6:hover { border-color: rgba(106,212,118,0.35); }
+
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .card h4 {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 14px 0 6px;
+  }
+  .card p {
+    color: #b0b5c1;
+    font-size: 13px;
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* FACT CHIPS */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    color: #c8cdd8;
+    font-family: 'DM Mono', monospace;
+    line-height: 1.5;
+  }
+  .chip.hl { background: rgba(200,169,110,0.12); border-color: rgba(200,169,110,0.3); color: var(--accent1); }
+  .chip.hl2 { background: rgba(94,196,182,0.12); border-color: rgba(94,196,182,0.3); color: var(--accent2); }
+  .chip.hl3 { background: rgba(224,122,122,0.12); border-color: rgba(224,122,122,0.3); color: var(--accent3); }
+  .chip.hl4 { background: rgba(127,168,212,0.12); border-color: rgba(127,168,212,0.3); color: var(--accent4); }
+  .chip.hl5 { background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.3); color: var(--accent5); }
+  .chip.hl6 { background: rgba(106,212,118,0.12); border-color: rgba(106,212,118,0.3); color: var(--accent6); }
+
+  /* BULLET LIST */
+  .blist { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+  .blist li {
+    padding-left: 16px;
+    position: relative;
+    color: #b0b5c1;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .blist li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .blist li strong { color: var(--text); font-weight: 600; }
+  .blist li em { color: var(--accent2); font-style: normal; }
+
+  /* SUB-CARDS (nested) */
+  .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .sub-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .sub-card h5 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .sub-card p { font-size: 12px; color: #909099; line-height: 1.55; }
+
+  /* STAT BOX */
+  .stat-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .stat-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+  }
+  .stat-box .val {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .stat-box .lbl {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 3px;
+  }
+
+  /* TOPIC BAND */
+  .topic-band {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px 12px 3px 8px;
+    font-size: 10.5px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .topic-band .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* VISION SIM */
+  .vsim {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: #000;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+  .vsim canvas { width: 100% !important; height: 100% !important; border-radius: 10px; }
+
+  /* EYE DIAGRAM */
+  .eye-diagram {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 14px 0;
+  }
+  .eye-sim {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .eye-circle {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 2px solid;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .eye-lbl { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* toggle collapsible */
+  .collapsible { cursor: pointer; user-select: none; }
+  .collapsible:after { content: ' ▾'; font-size: 10px; color: var(--muted); }
+  .collapsible.open:after { content: ' ▴'; }
+  .collapse-body { display: none; }
+  .collapse-body.open { display: block; }
+
+  /* CENTERED HERO CARD */
+  .hero-card {
+    background: linear-gradient(135deg, #1a1f2b 0%, #141820 100%);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 36px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent5), var(--accent3));
+  }
+  .hero-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 3vw, 32px);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .hero-card p { color: var(--muted); font-size: 13px; max-width: 560px; margin: 0 auto; }
+
+  /* RESTORATION GRID special */
+  .restore-flow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .restore-step {
+    flex: 1;
+    min-width: 200px;
+    max-width: 280px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 18px;
+    position: relative;
+    transition: transform 0.2s;
+    margin: 7px;
+  }
+  .restore-step:hover { transform: translateY(-3px); }
+  .restore-step .num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #2a2f3a; border-radius: 3px; }
+
+  /* connector line between sections */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    color: var(--muted);
+    font-size: 18px;
+    opacity: 0.3;
+  }
+
+  /* fade in */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+  .card, .hero-card { animation: fadeUp 0.5s ease both; }
+  .card:nth-child(1) { animation-delay: 0.02s; }
+  .card:nth-child(2) { animation-delay: 0.07s; }
+  .card:nth-child(3) { animation-delay: 0.12s; }
+  .card:nth-child(4) { animation-delay: 0.17s; }
+
+  .tag { 
+    display: inline-block;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 6px 0 12px;
+  }
+  .note {
+    display: flex;
+    gap: 8px;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #909099;
+    line-height: 1.6;
+  }
+  .note strong { color: var(--accent2); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+<div class="page-header">
+  <span class="eyeball-icon">👁</span>
+  <h1>The Visual System — <span>Part 4</span></h1>
+  <p class="subtitle">Vision Loss &amp; Vision Restoration · Comprehensive Mind Map</p>
+  <div class="meta-row">
+    <div class="meta-pill">Prof. <span>Stuart Trenholm</span></div>
+    <div class="meta-pill">Montreal Neurological Institute · <span>McGill</span></div>
+    <div class="meta-pill">NSCI201 · <span>Jan 29 2026</span></div>
+    <div class="meta-pill"><span>stuart.trenholm@mcgill.ca</span></div>
+  </div>
+</div>
+
+<div class="map-container">
+
+<!-- ═══════════ OVERVIEW ═══════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="dot" style="background:var(--accent1)"></div>
+    <h2>Overview</h2>
+    <div class="line"></div>
+  </div>
+  <div class="hero-card">
+    <h2>Vision Loss &amp; Restoration</h2>
+    <p>This lecture covers major causes of vision loss — from the eye's lens &amp; retina to optic nerve, cortical &amp; higher-level pathways — and explores cutting-edge therapeutic strategies to restore sight.</p>
+    <div class="chips" style="justify-content:center;margin-top:16px">
+      <span class="chip hl">Cataracts</span>
+      <span class="chip hl">Glaucoma</span>
+      <span class="chip hl">Macular Degeneration</span>
+      <span class="chip hl">Retinitis Pigmentosa</span>
+      <span class="chip hl">Diabetic Retinopathy</span>
+      <span class="chip hl2">Blindsight</span>
+      <span class="chip hl2">Hemispatial Neglect</span>
+      <span class="chip hl2">Akinetopsia</span>
+      <span class="chip hl2">Prosopagnosia</span>
+      <span class="chip hl2">Split Brain</span>
+      <span class="chip hl5">Cell Therapy</span>
+      <span class="chip hl5">Gene Therapy</span>
+      <span class="chip hl5">Retinal Implants</span>
+      <span class="chip hl5">Optogenetics</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PART A: CAUSES OF VISION LOSS ═══════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="dot" style="background:var(--accent3)"></div>
+    <h2>Part A — Ocular Causes of Vision Loss</h2>
+    <div class="line"></div>
+  </div>
+
+  <!-- ROW 1: Cataracts + Glaucoma -->
+  <div class="grid grid-2">
+
+    <!-- CATARACTS -->
+    <div class="card ca1">
+      <span class="topic-band"><span class="dot" style="background:var(--accent1)"></span>Lens disorder</span>
+      <span class="card-icon">🔍</span>
+      <h3>Cataracts</h3>
+
+      <h4>Definition</h4>
+      <p>A <strong>clouding of the lens</strong> that blocks &amp; scatters incoming light.</p>
+
+      <h4>Global Impact</h4>
+      <div class="stat-row">
+        <div class="stat-box"><span class="val">½</span><span class="lbl">of all global blindness</span></div>
+        <div class="stat-box"><span class="val">⅓</span><span class="lbl">of all visual impairment</span></div>
+        <div class="stat-box"><span class="val">~20M</span><span class="lbl">people affected</span></div>
+      </div>
+
+      <h4>Risk Factors</h4>
+      <ul class="blist">
+        <li><strong>Aging</strong> — most common cause</li>
+        <li><strong>Diabetes</strong></li>
+        <li><strong>Smoking</strong></li>
+        <li><strong>Prolonged UV / sunlight exposure</strong></li>
+      </ul>
+
+      <h4>Prevalence Stats</h4>
+      <ul class="blist">
+        <li>&gt;50% of Americans have cataracts by <em>age 80</em></li>
+        <li>~<em>1 in 10,000</em> children will develop cataracts (congenital)</li>
+      </ul>
+
+      <h4>Treatment</h4>
+      <p>Can be <strong>easily removed</strong> and replaced with an artificial lens.</p>
+      <div class="note"><strong>Historical note:</strong> The <em>Sushruta Samhita</em> (Indian medical treatise, ~800 BCE) describes a <em>"couching"</em> procedure to push the cataract lens out of the visual axis — one of the earliest recorded eye surgeries.</div>
+
+      <!-- Visual sim: blurred vs normal -->
+      <h4>Simulated Vision</h4>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <div style="flex:1;text-align:center">
+          <canvas id="c-normal" width="200" height="130" style="width:100%;border-radius:8px"></canvas>
+          <div style="font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:4px">Normal</div>
+        </div>
+        <div style="flex:1;text-align:center">
+          <canvas id="c-cataract" width="200" height="130" style="width:100%;border-radius:8px"></canvas>
+          <div style="font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:4px">With Cataract</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLAUCOMA -->
+    <div class="card ca3">
+      <span class="topic-band"><span class="dot" style="background:var(--accent3)"></span>Optic nerve disease</span>
+      <span class="card-icon">🔭</span>
+      <h3>Glaucoma</h3>
+
+      <h4>Definition</h4>
+      <p>A <strong>group of diseases</strong> causing damage to the <strong>optic nerve</strong>, leading to progressive vision loss.</p>
+
+      <h4>Epidemiology</h4>
+      <div class="stat-row">
+        <div class="stat-box"><span class="val">6–60M</span><span class="lbl">global sufferers</span></div>
+        <div class="stat-box"><span class="val">#2</span><span class="lbl">cause of blindness worldwide (after cataracts)</span></div>
+      </div>
+
+      <h4>Key Features</h4>
+      <ul class="blist">
+        <li>Most common in <strong>older adults</strong></li>
+        <li><strong>Very slow onset</strong> — many notice only after substantial vision is lost</li>
+        <li>Peripheral vision lost first → progresses to tunnel-like narrowing</li>
+      </ul>
+
+      <h4>Risk Factors</h4>
+      <div class="chips">
+        <span class="chip hl3">↑ Intraocular pressure</span>
+        <span class="chip hl3">Family history</span>
+        <span class="chip hl3">Age</span>
+      </div>
+
+      <h4>Visual Effect</h4>
+      <p>Progressive <strong>tunnel vision</strong> — periphery darkens while a central island of vision remains (opposite pattern from retinitis pigmentosa).</p>
+
+      <!-- Glaucoma visual simulation using canvas -->
+      <h4>Simulated Vision</h4>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <div style="flex:1;text-align:center">
+          <canvas id="g-normal" width="200" height="130" style="width:100%;border-radius:8px"></canvas>
+          <div style="font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:4px">Normal</div>
+        </div>
+        <div style="flex:1;text-align:center">
+          <canvas id="g-glaucoma" width="200" height="130" style="width:100%;border-radius:8px"></canvas>
+          <div style="font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:4px">Glaucoma</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /ROW 1 -->
+
+  <!-- ROW 2: AMD + RP + Diabetic -->
+  <div class="grid grid-3" style="margin-top:14px">
+
+    <!-- AMD -->
+    <div class="card ca1">
+      <span class="topic-band"><span class="dot" style="background:var(--accent1)"></span>Retinal — central</span>
+      <span class="card-icon">🟡</span>
+      <h3>Age-Related Macular Degeneration (AMD)</h3>
+
+      <h4>Epidemiology (USA)</h4>
+      <ul class="blist">
+        <li><em>#1 cause</em> of vision loss in people <strong>over 55</strong></li>
+        <li>Affects ~<em>6 million</em> Americans</li>
+        <li>Some forms are also <strong>juvenile onset</strong></li>
+      </ul>
+
+      <h4>Pathology</h4>
+      <p>Damages <strong>photoreceptors in the macula &amp; fovea</strong> → loss of <em>high-resolution central vision</em>.</p>
+
+      <h4>Two Types</h4>
+      <div class="sub-grid">
+        <div class="sub-card">
+          <h5>💧 Wet AMD (~10%)</h5>
+          <p>Caused by <strong>leaky blood vessels</strong> behind the retina disturbing the retina–RPE connection. More acute &amp; treatable.</p>
+        </div>
+        <div class="sub-card">
+          <h5>🏜 Dry AMD (~90%)</h5>
+          <p><strong>Slowly progressing</strong>. Drusen deposits accumulate. <em>No good treatments</em> currently available.</p>
+        </div>
+      </div>
+
+      <h4>Visual Effect</h4>
+      <p>Central scotoma — dark/blurry spot blocks the centre of gaze; peripheral vision preserved.</p>
+    </div>
+
+    <!-- RP -->
+    <div class="card ca5">
+      <span class="topic-band"><span class="dot" style="background:var(--accent5)"></span>Retinal — peripheral</span>
+      <span class="card-icon">🌀</span>
+      <h3>Retinitis Pigmentosa (RP)</h3>
+
+      <h4>Definition</h4>
+      <p>A <strong>heterogeneous group</strong> of largely <em>hereditary</em> diseases affecting retinal photoreceptors.</p>
+
+      <h4>Epidemiology</h4>
+      <div class="stat-row">
+        <div class="stat-box"><span class="val">~100K</span><span class="lbl">affected in the US</span></div>
+      </div>
+
+      <h4>Pathology</h4>
+      <p>Predominantly causes <strong>photoreceptor degeneration in the peripheral retina</strong>.</p>
+
+      <h4>Symptoms</h4>
+      <div class="chips">
+        <span class="chip hl5">Night-blindness (early)</span>
+        <span class="chip hl5">Tunnel vision</span>
+        <span class="chip hl5">Peripheral field loss</span>
+        <span class="chip hl5">Eventual central loss</span>
+      </div>
+
+      <div class="note" style="border-color:var(--accent5)">
+        <strong>Note:</strong> RP is the primary target disease for optogenetic therapy clinical trials currently underway.
+      </div>
+    </div>
+
+    <!-- DIABETIC RETINOPATHY -->
+    <div class="card ca2">
+      <span class="topic-band"><span class="dot" style="background:var(--accent2)"></span>Retinal — vascular</span>
+      <span class="card-icon">🩸</span>
+      <h3>Diabetic Retinopathy</h3>
+
+      <h4>Epidemiology (USA)</h4>
+      <ul class="blist">
+        <li><em>#1 cause of blindness</em> in people aged <strong>20–64</strong></li>
+        <li>Causes ~<em>12%</em> of all new blindness cases per year</li>
+        <li>Affects ~<em>80%</em> of people with diabetes for <strong>≥20 years</strong></li>
+      </ul>
+
+      <h4>Mechanisms</h4>
+      <div class="sub-grid">
+        <div class="sub-card">
+          <h5>Early: Macular Edema</h5>
+          <p>Blood vessels <strong>leak their contents</strong> into the eye/retina, disrupting photoreceptors.</p>
+        </div>
+        <div class="sub-card">
+          <h5>Late: Neovascularization</h5>
+          <p>Abnormal new vessel growth leads to <strong>bleeding &amp; inflammation</strong>.</p>
+        </div>
+      </div>
+
+      <h4>Visual Effect</h4>
+      <p>Irregular dark patches / floaters scattered across the visual field; can progress to severe diffuse loss.</p>
+    </div>
+
+  </div><!-- /ROW 2 -->
+
+</div><!-- /PART A -->
+
+
+<!-- ═══════════ PART B: BRAIN-LEVEL VISION DISORDERS ═══════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="dot" style="background:var(--accent2)"></div>
+    <h2>Part B — Brain-Level Vision Disorders</h2>
+    <div class="line"></div>
+  </div>
+
+  <!-- ROW 1: Blindsight + Hemispatial -->
+  <div class="grid grid-2">
+
+    <!-- BLINDSIGHT -->
+    <div class="card ca2">
+      <span class="topic-band"><span class="dot" style="background:var(--accent2)"></span>V1 damage</span>
+      <span class="card-icon">👁‍🗨</span>
+      <h3>Blindsight</h3>
+
+      <h4>Cause</h4>
+      <p>Damage to <strong>primary visual cortex (V1)</strong> → loss of <em>conscious</em> vision in corresponding visual field region.</p>
+
+      <h4>The Paradox</h4>
+      <p>Despite cortical blindness, certain <strong>"subconscious" forms of vision persist</strong>:</p>
+      <div class="chips" style="margin-top:8px">
+        <span class="chip hl2">Awareness of visual objects</span>
+        <span class="chip hl2">Awareness of visual motion</span>
+      </div>
+
+      <h4>Neural Pathways Involved</h4>
+      <div class="sub-grid">
+        <div class="sub-card">
+          <h5>Superior Colliculus route</h5>
+          <p>Retinal ganglion cells → <strong>superior colliculus</strong> → unconscious orienting / detection</p>
+        </div>
+        <div class="sub-card">
+          <h5>LGN → Secondary Areas</h5>
+          <p>LGN signals bypass V1 and reach <strong>secondary visual cortices</strong> directly</p>
+        </div>
+      </div>
+
+      <div class="note" style="border-color:var(--accent2)">
+        <strong>Key insight:</strong> Consciousness of vision ≠ all visual processing. Subcortical and extrastriate pathways maintain functional, unconscious vision even when V1 is destroyed.
+      </div>
+    </div>
+
+    <!-- HEMISPATIAL NEGLECT -->
+    <div class="card ca4">
+      <span class="topic-band"><span class="dot" style="background:var(--accent4)"></span>Parietal lobe damage</span>
+      <span class="card-icon">◀▶</span>
+      <h3>Hemispatial Neglect</h3>
+
+      <h4>Cause</h4>
+      <p>Usually arises from <strong>strokes or brain injury</strong> affecting the <em>right cerebral hemisphere, parietal lobe</em> unilaterally.</p>
+
+      <h4>Effect</h4>
+      <ul class="blist">
+        <li>The <strong>left visual field</strong> is neglected (contralateral to injury)</li>
+        <li>The eyes <em>physically see</em> the whole visual scene</li>
+        <li>Patients are <strong>unable to perceive</strong> half the visual field</li>
+        <li>They are <em>totally unaware</em> of what they are missing — no subjective sense of absence</li>
+      </ul>
+
+      <h4>Key Distinction from Blindness</h4>
+      <p>Not a sensory loss — the <strong>visual information reaches the brain</strong> but attention/awareness mechanisms fail to process the neglected hemifield.</p>
+
+      <div class="chips" style="margin-top:10px">
+        <span class="chip hl4">Right hemisphere</span>
+        <span class="chip hl4">Parietal lobe</span>
+        <span class="chip hl4">Attentional deficit</span>
+        <span class="chip hl4">Left neglect</span>
+      </div>
+    </div>
+
+  </div><!-- /ROW 1 -->
+
+  <!-- ROW 2: Akinetopsia + Prosopagnosia + Split Brain -->
+  <div class="grid grid-3" style="margin-top:14px">
+
+    <!-- AKINETOPSIA -->
+    <div class="card ca6">
+      <span class="topic-band"><span class="dot" style="background:var(--accent6)"></span>MT area damage</span>
+      <span class="card-icon">🎞</span>
+      <h3>Cerebral Akinetopsia</h3>
+      <p style="color:var(--accent6);font-size:12px;margin-bottom:10px">— Motion Blindness —</p>
+
+      <h4>Cause</h4>
+      <p>Damage to the <strong>Middle Temporal area (MT)</strong> — the visual motion-sensitive cortical region.</p>
+
+      <h4>Symptom</h4>
+      <p>Moving images appear as a <strong>series of slowly refreshing static snapshots</strong> — motion is not perceived continuously.</p>
+
+      <h4>Clinical Implications</h4>
+      <ul class="blist">
+        <li>Patients cannot perceive <em>fluid motion</em> — crossing streets is dangerous</li>
+        <li>Liquid appears frozen; faces &amp; lip movements freeze between frames</li>
+      </ul>
+
+      <div class="note" style="border-color:var(--accent6)">
+        <strong>MT / V5:</strong> A critical hub in the dorsal "where/how" visual stream, receiving inputs via V1 and also direct LGN magnocellular inputs.
+      </div>
+    </div>
+
+    <!-- PROSOPAGNOSIA -->
+    <div class="card ca5">
+      <span class="topic-band"><span class="dot" style="background:var(--accent5)"></span>Inferotemporal damage</span>
+      <span class="card-icon">😶</span>
+      <h3>Prosopagnosia</h3>
+      <p style="color:var(--accent5);font-size:12px;margin-bottom:10px">— Face Blindness —</p>
+
+      <h4>Cause</h4>
+      <p>Arises after <strong>damage to, or improper development of</strong>, face-selective visual regions in the <em>inferotemporal cortex</em>.</p>
+
+      <h4>Location</h4>
+      <div class="chips">
+        <span class="chip hl5">Inferotemporal cortex</span>
+        <span class="chip hl5">Ventral stream (high areas)</span>
+        <span class="chip hl5">"What" pathway</span>
+      </div>
+
+      <h4>Symptom</h4>
+      <p>Cannot recognise <strong>individual faces</strong> — even familiar ones, including own reflection. Object recognition &amp; other visual functions may be intact.</p>
+
+      <h4>Testing</h4>
+      <p>Prof. Trenholm links to <a href="https://www.testmybrain.org/" style="color:var(--accent5);text-decoration:none;font-weight:600">testmybrain.org</a> for face recognition assessment.</p>
+    </div>
+
+    <!-- SPLIT BRAIN -->
+    <div class="card ca4">
+      <span class="topic-band"><span class="dot" style="background:var(--accent4)"></span>Corpus callosum</span>
+      <span class="card-icon">🧠</span>
+      <h3>Split Brain</h3>
+      <p style="color:var(--accent4);font-size:12px;margin-bottom:10px">— Interhemispheric Communication —</p>
+
+      <h4>Key Researchers</h4>
+      <div class="chips">
+        <span class="chip hl4">Roger Sperry (1913–1994)</span>
+        <span class="chip hl4">Michael Gazzaniga (1939–)</span>
+      </div>
+
+      <h4>Method</h4>
+      <p>Studied <strong>animals &amp; patients</strong> in which the <em>corpus callosum was severed</em> (callosotomy — done to treat severe epilepsy).</p>
+
+      <h4>Key Findings</h4>
+      <ul class="blist">
+        <li>Severing the callosum stopped <strong>"interocular transfer"</strong> — learning something with one eye did <em>not</em> transfer to the other eye</li>
+        <li>Left hemisphere required for <strong>many forms of language processing</strong></li>
+        <li>Callosum needed to transfer visual information presented to one hemisphere to <strong>motor control on the contralateral side of the body</strong></li>
+        <li>Without the callosum: left hand literally may not know what right hand is doing (visual guidance)</li>
+      </ul>
+    </div>
+
+  </div><!-- /ROW 2 -->
+
+</div><!-- /PART B -->
+
+
+<!-- ═══════════ PART C: VISION RESTORATION ═══════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="dot" style="background:var(--accent6)"></div>
+    <h2>Part C — Vision Restoration Strategies</h2>
+    <div class="line"></div>
+  </div>
+
+  <!-- Overview row -->
+  <div class="card ca6" style="margin-bottom:14px">
+    <h3>Overview of Restoration Approaches</h3>
+    <p>Many different strategies are currently being explored to restore sight to blind or vision-impaired people. They operate at different points in the visual pathway.</p>
+    <div class="chips" style="margin-top:10px">
+      <span class="chip hl6">Cell therapy</span>
+      <span class="chip hl6">Gene therapy</span>
+      <span class="chip hl6">Retinal prosthetic implants</span>
+      <span class="chip hl6">Optogenetic therapy</span>
+    </div>
+  </div>
+
+  <!-- 4 restoration strategies -->
+  <div class="grid grid-2">
+
+    <!-- CELL THERAPY -->
+    <div class="card ca1">
+      <span class="topic-band"><span class="dot" style="background:var(--accent1)"></span>Biological replacement</span>
+      <span class="card-icon">🧫</span>
+      <h3>Cell Therapy</h3>
+
+      <h4>Core Principle</h4>
+      <p>Use <strong>stem cell approaches</strong> to generate new cells that replace <em>diseased or damaged</em> retinal cells.</p>
+
+      <h4>Two Approaches</h4>
+      <div class="sub-grid">
+        <div class="sub-card">
+          <h5>🔬 Individual cell implantation</h5>
+          <p>Grow <strong>individual cell types</strong> in a dish, then attempt to implant them directly into the patient's retina.</p>
+        </div>
+        <div class="sub-card">
+          <h5>🧩 Retinal organoids</h5>
+          <p>Grow <strong>full retinal organoids</strong> in a dish (self-organising 3D retina-like structure), then implant to replace layers of the retina.</p>
+        </div>
+      </div>
+
+      <h4>Key Reference</h4>
+      <div class="note" style="border-color:var(--accent1)">
+        <strong>Eiraku et al., 2011:</strong> Demonstrated self-organising retinal organoid formation from ES cell aggregates through stages: induction of Rx⁺ neuroepithelium → evagination → invagination into spherical vesicle → formation of neural retina (NR) + retinal pigment epithelium (RPE). Sequence shown over Days 1 → 5 → 7 → 9 in culture.
+      </div>
+
+      <h4>Challenges</h4>
+      <div class="chips">
+        <span class="chip">Integration into host retina</span>
+        <span class="chip">Synaptic connectivity</span>
+        <span class="chip">Immune rejection</span>
+      </div>
+    </div>
+
+    <!-- GENE THERAPY -->
+    <div class="card ca2">
+      <span class="topic-band"><span class="dot" style="background:var(--accent2)"></span>Genetic correction</span>
+      <span class="card-icon">🧬</span>
+      <h3>Gene Therapy</h3>
+
+      <h4>Core Principle</h4>
+      <p>Correct <strong>damaging or null mutations</strong> by delivering <em>functional copies of the correct gene</em> into target cells.</p>
+
+      <h4>Delivery Vehicle</h4>
+      <p>Genes are packaged and delivered using <strong>adeno-associated viruses (AAVs)</strong> — small, non-pathogenic vectors that can transduce retinal cells after intravitreal or subretinal injection.</p>
+
+      <h4>Clinical Example: Luxturna</h4>
+      <div class="sub-card" style="margin-top:10px">
+        <h5>💉 Luxturna (voretigene neparvovec)</h5>
+        <p>Treats a <strong>rare mutation of RPE65</strong> gene (involved in the visual cycle). Delivered via AAV2 vector. <em>Recently FDA-approved in the USA.</em> Initial price: <strong style="color:var(--accent3)">$850,000 per treatment</strong>. Just approved in <strong>Canada</strong> — price currently being negotiated.</p>
+      </div>
+
+      <h4>Process (from slide figure)</h4>
+      <ul class="blist">
+        <li>Intravitreal injection of AAV vector (e.g. AAV.7m8)</li>
+        <li>Vector transduces <strong>rod &amp; cone photoreceptors, RPE cells, bipolar cells, ganglion cells</strong></li>
+        <li>Corrected protein (e.g. retinoschisin) produced &amp; secreted by rod cells</li>
+      </ul>
+
+      <h4>Reference</h4>
+      <div class="chips"><span class="chip hl2">Scholl et al., 2016</span></div>
+    </div>
+
+  </div><!-- /2-col row -->
+
+  <div class="grid grid-2" style="margin-top:14px">
+
+    <!-- RETINAL PROSTHETICS -->
+    <div class="card ca3">
+      <span class="topic-band"><span class="dot" style="background:var(--accent3)"></span>Bioelectronic device</span>
+      <span class="card-icon">💡</span>
+      <h3>Retinal Prosthetic Implants</h3>
+      <p style="color:var(--accent3);font-size:12px;margin-bottom:10px">— The "Bionic Eye" —</p>
+
+      <h4>Core Principle</h4>
+      <p>Restore sight via implantation of an <strong>electric chip</strong> that <em>electrically stimulates retinal ganglion cells</em>.</p>
+
+      <h4>System Components</h4>
+      <ul class="blist">
+        <li><strong>Head-worn camera system</strong> (goggle-based) records the visual scene</li>
+        <li>Signal processing unit <strong>convolves the visual signal</strong> into a pattern of electrical stimulation</li>
+        <li><strong>Implanted chip</strong> on the retina delivers electrical pulses to RGCs</li>
+      </ul>
+
+      <h4>Regulatory Status</h4>
+      <div class="chips">
+        <span class="chip hl3">FDA approved (USA)</span>
+        <span class="chip hl3">Approved in Canada</span>
+        <span class="chip hl3">Multiple countries approved</span>
+      </div>
+
+      <h4>Notable Product</h4>
+      <p>The <strong>Argus II</strong> (Second Sight) — the first FDA-approved retinal prosthesis; featured in the New York Times as <em>"F.D.A. Approves Bionic Eye."</em></p>
+
+      <h4>Limitations</h4>
+      <div class="chips">
+        <span class="chip">Low resolution (~60 electrodes)</span>
+        <span class="chip">Requires surviving RGCs</span>
+        <span class="chip">Bulky hardware</span>
+      </div>
+    </div>
+
+    <!-- OPTOGENETICS -->
+    <div class="card ca5">
+      <span class="topic-band"><span class="dot" style="background:var(--accent5)"></span>Molecular photosensitisation</span>
+      <span class="card-icon">⚡</span>
+      <h3>Optogenetic Therapy</h3>
+
+      <h4>Core Principle</h4>
+      <p>Make <strong>any remaining cells</strong> in the blind retina light-sensitive by delivering <em>light-gated ion channels</em>.</p>
+
+      <h4>How It Works</h4>
+      <ul class="blist">
+        <li>Deliver <strong>optogenetic channel</strong> (e.g. <em>Channelrhodopsin, ChrimsonR</em>) to normally light-insensitive neurons via AAV vector</li>
+        <li>Uses same <strong>goggle-based system</strong> as retinal implants — goggles amplify &amp; transform ambient light to activate the channels</li>
+        <li>Unlike implants: no metal electrodes — purely biological light-gating</li>
+      </ul>
+
+      <h4>Advantages Over Implants</h4>
+      <div class="chips">
+        <span class="chip hl5">No surgery for chip placement</span>
+        <span class="chip hl5">Higher spatial resolution (cell-level)</span>
+        <span class="chip hl5">Mutation-independent</span>
+        <span class="chip hl5">Circuit-specific</span>
+      </div>
+
+      <h4>Target Cell Options</h4>
+      <div class="sub-grid">
+        <div class="sub-card">
+          <h5>Ganglion cells</h5>
+          <p>Bypasses all upstream retinal processing; simpler but loses ON/OFF coding.</p>
+        </div>
+        <div class="sub-card">
+          <h5>Bipolar cells</h5>
+          <p>Retains some downstream retinal processing — <strong>ON vs OFF pathways</strong> and even direction selectivity can be restored.</p>
+        </div>
+      </div>
+
+      <h4>Status</h4>
+      <div class="chips">
+        <span class="chip hl5">Currently in clinical trials</span>
+      </div>
+
+      <h4>Research Evidence</h4>
+      <div class="note" style="border-color:var(--accent5)">
+        <strong>Berry et al., 2019:</strong> In rd1 mouse model of RP, delivering <em>MW-opsin</em> (long-wavelength opsin) to bipolar cells restored vision to near-wildtype levels in pattern discrimination (horizontal vs. vertical bars) and static bar acuity tasks. Rhodopsin delivery to the same cells was not significantly effective (N.S. in bar discrimination), but MW-opsin showed significant improvement (p&lt;0.05). Tests run in a two-chamber avoidance box (36×15 cm), location recorded over 15-min trials.
+      </div>
+
+      <h4>Human Clinical Proof-of-Concept</h4>
+      <div class="note" style="border-color:var(--accent5)">
+        <strong>Sahel et al., Nature Medicine 2021:</strong> In a blind RP patient, intraocular injection of AAV encoding <em>ChrimsonR</em> combined with engineered goggles achieved partial recovery of visual function. The patient could perceive, locate, count, and touch objects using the treated eye with goggles. EEG showed object-related cortical activity in visual cortex during perception. Patient could not detect objects before injection or after injection without goggles — <em>first reported case of partial recovery in a neurodegenerative disease via optogenetic therapy.</em>
+      </div>
+
+      <h4>Key Reference</h4>
+      <div class="chips"><span class="chip hl5">Berry et al., 2019</span><span class="chip hl5">Sahel et al., Nature Medicine 2021</span><span class="chip hl5">DOI: 10.1038/s41591-021-01351-4</span></div>
+    </div>
+
+  </div><!-- /2-col row -->
+
+</div><!-- /PART C -->
+
+
+<!-- ═══════════ SUMMARY TABLE ═══════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="dot" style="background:var(--accent1)"></div>
+    <h2>Quick Reference Summary</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="grid grid-4">
+
+    <div class="card ca3" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">👁</span>
+      <h3 style="font-size:14px">Cataracts</h3>
+      <div class="chips"><span class="chip">Lens clouding</span><span class="chip hl">50% by age 80</span></div>
+      <p style="margin-top:8px;font-size:12px"><strong>Tx:</strong> Surgical removal + IOL</p>
+    </div>
+
+    <div class="card ca3" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">🔭</span>
+      <h3 style="font-size:14px">Glaucoma</h3>
+      <div class="chips"><span class="chip">Optic nerve</span><span class="chip hl3">6–60M people</span></div>
+      <p style="margin-top:8px;font-size:12px"><strong>Symptom:</strong> Tunnel vision; peripheral loss</p>
+    </div>
+
+    <div class="card ca1" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">🟡</span>
+      <h3 style="font-size:14px">AMD</h3>
+      <div class="chips"><span class="chip">Macula + fovea</span><span class="chip hl">6M USA</span></div>
+      <p style="margin-top:8px;font-size:12px"><strong>Symptom:</strong> Central vision loss</p>
+    </div>
+
+    <div class="card ca5" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">🌀</span>
+      <h3 style="font-size:14px">Retinitis Pigmentosa</h3>
+      <div class="chips"><span class="chip">Hereditary</span><span class="chip hl5">100K USA</span></div>
+      <p style="margin-top:8px;font-size:12px"><strong>Symptom:</strong> Night-blindness + tunnel vision</p>
+    </div>
+
+    <div class="card ca2" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">🩸</span>
+      <h3 style="font-size:14px">Diabetic Retinopathy</h3>
+      <div class="chips"><span class="chip">#1 (ages 20-64)</span><span class="chip hl2">12% new blindness</span></div>
+      <p style="margin-top:8px;font-size:12px"><strong>Cause:</strong> Vascular leakage + neovascularization</p>
+    </div>
+
+    <div class="card ca2" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">👁‍🗨</span>
+      <h3 style="font-size:14px">Blindsight</h3>
+      <div class="chips"><span class="chip">V1 damage</span><span class="chip hl2">SC / extrastriate</span></div>
+      <p style="margin-top:8px;font-size:12px">Unconscious vision persists via SC / LGN→V2+</p>
+    </div>
+
+    <div class="card ca4" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">◀</span>
+      <h3 style="font-size:14px">Hemispatial Neglect</h3>
+      <div class="chips"><span class="chip">R parietal</span><span class="chip hl4">L field ignored</span></div>
+      <p style="margin-top:8px;font-size:12px">Attentional not sensory — unaware of deficit</p>
+    </div>
+
+    <div class="card ca6" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">🎞</span>
+      <h3 style="font-size:14px">Akinetopsia</h3>
+      <div class="chips"><span class="chip">MT area</span><span class="chip hl6">Motion blindness</span></div>
+      <p style="margin-top:8px;font-size:12px">Motion perceived as slow slideshow</p>
+    </div>
+
+    <div class="card ca5" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">😶</span>
+      <h3 style="font-size:14px">Prosopagnosia</h3>
+      <div class="chips"><span class="chip">Inferotemporal</span><span class="chip hl5">Ventral stream</span></div>
+      <p style="margin-top:8px;font-size:12px">Face recognition lost; other object recognition intact</p>
+    </div>
+
+    <div class="card ca4" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">🧠</span>
+      <h3 style="font-size:14px">Split Brain</h3>
+      <div class="chips"><span class="chip">Corpus callosum</span><span class="chip hl4">Sperry + Gazzaniga</span></div>
+      <p style="margin-top:8px;font-size:12px">No interocular transfer; language lateralised</p>
+    </div>
+
+    <div class="card ca6" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">💊</span>
+      <h3 style="font-size:14px">Restoration Summary</h3>
+      <div class="chips"><span class="chip hl6">Cell</span><span class="chip hl6">Gene</span><span class="chip hl6">Prosthetic</span><span class="chip hl6">Optogenetic</span></div>
+      <p style="margin-top:8px;font-size:12px">Luxturna approved; optogenetics in trials</p>
+    </div>
+
+    <div class="card ca1" style="padding:16px 18px">
+      <span class="card-icon" style="font-size:18px">📚</span>
+      <h3 style="font-size:14px">Key References</h3>
+      <div class="chips"><span class="chip">Eiraku 2011</span><span class="chip">Berry 2019</span><span class="chip">Scholl 2016</span><span class="chip">Sahel 2021</span></div>
+      <p style="margin-top:8px;font-size:12px">Sperry &amp; Gazzaniga split-brain work</p>
+    </div>
+
+  </div>
+
+</div>
+
+</div><!-- /map-container -->
+
+<script>
+// Simple canvas art for vision simulations
+function drawScene(ctx, w, h) {
+  // sky gradient
+  const sky = ctx.createLinearGradient(0,0,0,h*0.65);
+  sky.addColorStop(0,'#6ba3c4');
+  sky.addColorStop(1,'#b8d4e8');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0,0,w,h*0.65);
+  // ground
+  const grd = ctx.createLinearGradient(0,h*0.65,0,h);
+  grd.addColorStop(0,'#4a8c3f');
+  grd.addColorStop(1,'#2d5c28');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0,h*0.65,w,h*0.35);
+  // mountain
+  ctx.fillStyle='#8ba8b0';
+  ctx.beginPath();
+  ctx.moveTo(w*0.1,h*0.65); ctx.lineTo(w*0.3,h*0.2); ctx.lineTo(w*0.5,h*0.65); ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle='#a0bec9';
+  ctx.beginPath();
+  ctx.moveTo(w*0.35,h*0.65); ctx.lineTo(w*0.55,h*0.18); ctx.lineTo(w*0.75,h*0.65); ctx.closePath();
+  ctx.fill();
+  // snow caps
+  ctx.fillStyle='#e8eef0';
+  ctx.beginPath();
+  ctx.moveTo(w*0.3,h*0.2); ctx.lineTo(w*0.24,h*0.35); ctx.lineTo(w*0.36,h*0.35); ctx.closePath(); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(w*0.55,h*0.18); ctx.lineTo(w*0.48,h*0.34); ctx.lineTo(w*0.62,h*0.34); ctx.closePath(); ctx.fill();
+  // cow body
+  ctx.fillStyle='#c8a05a';
+  ctx.beginPath();
+  ctx.ellipse(w*0.5,h*0.80,w*0.1,h*0.07,0,0,Math.PI*2);
+  ctx.fill();
+  // cow head
+  ctx.fillStyle='#c8a05a';
+  ctx.beginPath();
+  ctx.ellipse(w*0.61,h*0.77,w*0.04,h*0.04,0.3,0,Math.PI*2);
+  ctx.fill();
+  // legs
+  ctx.strokeStyle='#a07840'; ctx.lineWidth=2;
+  [[0.44,0.84,0.43,0.94],[0.47,0.84,0.46,0.94],[0.52,0.84,0.51,0.94],[0.56,0.84,0.55,0.94]].forEach(([x1,y1,x2,y2])=>{
+    ctx.beginPath(); ctx.moveTo(w*x1,h*y1); ctx.lineTo(w*x2,h*y2); ctx.stroke();
+  });
+}
+
+function gaussianBlur(ctx, w, h, radius) {
+  const imageData = ctx.getImageData(0,0,w,h);
+  const d = imageData.data;
+  const tmp = new Uint8ClampedArray(d);
+  const sigma = radius;
+  const ksize = Math.ceil(sigma*3)*2+1;
+  const kernel = [];
+  let ksum = 0;
+  for(let i=0;i<ksize;i++){
+    const x = i - Math.floor(ksize/2);
+    const v = Math.exp(-x*x/(2*sigma*sigma));
+    kernel.push(v); ksum+=v;
+  }
+  for(let i=0;i<ksize;i++) kernel[i]/=ksum;
+  // horiz
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      let r=0,g=0,b=0,a=0;
+      for(let k=0;k<ksize;k++){
+        const sx=Math.min(w-1,Math.max(0,x+k-Math.floor(ksize/2)));
+        const idx=(y*w+sx)*4;
+        r+=d[idx]*kernel[k]; g+=d[idx+1]*kernel[k]; b+=d[idx+2]*kernel[k]; a+=d[idx+3]*kernel[k];
+      }
+      const idx=(y*w+x)*4;
+      tmp[idx]=r; tmp[idx+1]=g; tmp[idx+2]=b; tmp[idx+3]=a;
+    }
+  }
+  // vert
+  const d2 = new Uint8ClampedArray(tmp);
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      let r=0,g=0,b=0,a=0;
+      for(let k=0;k<ksize;k++){
+        const sy=Math.min(h-1,Math.max(0,y+k-Math.floor(ksize/2)));
+        const idx=(sy*w+x)*4;
+        r+=tmp[idx]*kernel[k]; g+=tmp[idx+1]*kernel[k]; b+=tmp[idx+2]*kernel[k]; a+=tmp[idx+3]*kernel[k];
+      }
+      const idx=(y*w+x)*4;
+      d2[idx]=r; d2[idx+1]=g; d2[idx+2]=b; d2[idx+3]=a;
+    }
+  }
+  const out = new ImageData(d2,w,h);
+  ctx.putImageData(out,0,0);
+}
+
+function brightnessTint(ctx, w, h, brightness, tintR, tintG, tintB, alpha) {
+  ctx.save();
+  ctx.globalCompositeOperation='source-atop';
+  ctx.fillStyle=`rgba(${tintR},${tintG},${tintB},${alpha})`;
+  ctx.fillRect(0,0,w,h);
+  ctx.restore();
+}
+
+// === Cataract ===
+(function(){
+  const cn = document.getElementById('c-normal');
+  const cc = document.getElementById('c-cataract');
+  const w=200, h=130;
+  // Normal
+  let ctx = cn.getContext('2d');
+  drawScene(ctx,w,h);
+  // Cataract
+  ctx = cc.getContext('2d');
+  drawScene(ctx,w,h);
+  gaussianBlur(ctx,w,h,5);
+  // add whitish haze
+  ctx.fillStyle='rgba(220,210,190,0.35)';
+  ctx.fillRect(0,0,w,h);
+})();
+
+// === Glaucoma ===
+(function(){
+  const gn = document.getElementById('g-normal');
+  const gg = document.getElementById('g-glaucoma');
+  const w=200, h=130;
+  let ctx = gn.getContext('2d');
+  drawScene(ctx,w,h);
+  ctx = gg.getContext('2d');
+  drawScene(ctx,w,h);
+  // Dark vignette (tunnel)
+  const cx=w/2, cy=h/2, r = Math.min(w,h)*0.28;
+  const vignette = ctx.createRadialGradient(cx,cy,r,cx,cy,Math.max(w,h)*0.7);
+  vignette.addColorStop(0,'rgba(0,0,0,0)');
+  vignette.addColorStop(0.6,'rgba(0,0,0,0.5)');
+  vignette.addColorStop(1,'rgba(0,0,0,1)');
+  ctx.fillStyle=vignette;
+  ctx.fillRect(0,0,w,h);
+})();
+
+// Collapsible (not needed but keep JS ready)
+document.querySelectorAll('.collapsible').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    el.classList.toggle('open');
+    el.nextElementSibling.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>

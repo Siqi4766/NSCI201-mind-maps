@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lower Motor Neuron Circuits – Mind Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --border: #1e2d45;
+    --text: #e2eaf7;
+    --muted: #8899b4;
+    --accent1: #3b82f6;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --accent4: #10b981;
+    --accent5: #ec4899;
+    --accent6: #8b5cf6;
+    --accent7: #ef4444;
+    --accent8: #f97316;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 2.5rem 1rem 1.5rem;
+    background: linear-gradient(180deg, #0d1529 0%, transparent 100%);
+    position: relative;
+  }
+  header::after {
+    content:'';
+    position:absolute; bottom:0; left:10%; right:10%; height:1px;
+    background: linear-gradient(90deg, transparent, var(--accent1), var(--accent2), transparent);
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem,3vw,2.4rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+  }
+  header p { color: var(--muted); font-size: 0.85rem; margin-top: 0.4rem; }
+  .instructions { 
+    font-size:0.78rem; color:var(--muted); margin-top:0.6rem;
+    background: rgba(59,130,246,0.08); border:1px solid var(--border);
+    display:inline-block; padding:0.3rem 0.9rem; border-radius:20px;
+  }
+
+  /* ── TREE LAYOUT ── */
+  .tree-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+    gap: 0;
+  }
+
+  /* Central node */
+  .central-node {
+    background: linear-gradient(135deg, #1e3a6e, #0f2a54);
+    border: 2px solid var(--accent1);
+    border-radius: 18px;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+    box-shadow: 0 0 40px rgba(59,130,246,0.3);
+    position: relative;
+    z-index: 10;
+    cursor: default;
+    max-width: 320px;
+  }
+  .central-node span { display:block; font-size:0.72rem; font-weight:400; color:#93c5fd; margin-top:0.2rem; font-family:'DM Sans',sans-serif; }
+
+  /* Connector line from central down */
+  .connector-v {
+    width: 2px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  /* Branch row */
+  .branches {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 0.5rem;
+  }
+
+  /* ── SECTION CARD ── */
+  .section {
+    flex: 1 1 300px;
+    max-width: 400px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    overflow: hidden;
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .section:hover { transform: translateY(-3px); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  .section-header::after {
+    content: '▸';
+    position: absolute; right: 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    transition: transform 0.3s;
+  }
+  .section.open .section-header::after { transform: rotate(90deg); }
+
+  .section-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    line-height: 1.25;
+  }
+
+  .section-body {
+    display: none;
+    padding: 0 1rem 1rem;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .section.open .section-body { display: flex; }
+
+  /* ── SUBSECTION ── */
+  .subsection {
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+  }
+  .subsection-header {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    user-select: none;
+  }
+  .subsection-header .arrow { font-size: 0.7rem; transition: transform 0.3s; color: var(--muted); }
+  .subsection.open .subsection-header .arrow { transform: rotate(90deg); }
+
+  .subsection-body {
+    display: none;
+    padding: 0.5rem 0.8rem 0.7rem;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .subsection.open .subsection-body { display: flex; }
+
+  /* ── LEAF ── */
+  .leaf {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-left: 0.9rem;
+    position: relative;
+  }
+  .leaf::before {
+    content: '·';
+    position: absolute; left: 0.2rem;
+    color: var(--accent1);
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  .leaf strong { color: var(--text); font-weight: 500; }
+  .leaf em { color: var(--accent3); font-style: normal; }
+
+  /* color variants for sections */
+  .c1 { --c: var(--accent1); }
+  .c2 { --c: var(--accent2); }
+  .c3 { --c: var(--accent3); }
+  .c4 { --c: var(--accent4); }
+  .c5 { --c: var(--accent5); }
+  .c6 { --c: var(--accent6); }
+  .c7 { --c: var(--accent7); }
+  .c8 { --c: var(--accent8); }
+
+  .section { border-top: 3px solid var(--c); box-shadow: 0 0 18px rgba(0,0,0,0.4); }
+  .section:hover { box-shadow: 0 4px 24px color-mix(in srgb, var(--c) 20%, transparent); }
+  .section-icon { background: color-mix(in srgb, var(--c) 15%, transparent); color: var(--c); }
+  .section-title { color: var(--c); }
+  .subsection-header { background: color-mix(in srgb, var(--c) 8%, transparent); color: var(--c); }
+  .subsection { border-color: color-mix(in srgb, var(--c) 20%, transparent); }
+  .leaf::before { color: var(--c); }
+
+  /* expand-all button */
+  .controls {
+    display:flex; justify-content:center; gap:0.7rem; margin:1rem auto;
+  }
+  .btn {
+    background: rgba(59,130,246,0.1);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.4rem 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: rgba(59,130,246,0.22); }
+
+  /* search */
+  .search-wrap { display:flex; justify-content:center; margin-bottom:1rem; }
+  .search-wrap input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    width: min(340px, 90vw);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--accent1); }
+  .search-wrap input::placeholder { color: var(--muted); }
+
+  .highlight { background: color-mix(in srgb, var(--accent3) 35%, transparent); border-radius:3px; }
+
+  @media (max-width:640px) {
+    .section { flex: 1 1 100%; max-width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Lower Motor Neuron Circuits</h1>
+  <p>Introduction to Neuroscience · Week 7, Lecture 1 · Mohammad Darainy</p>
+  <div class="instructions">Click any section to expand · Use search to find topics · Expand/Collapse all</div>
+</header>
+
+<div class="controls">
+  <button class="btn" onclick="expandAll()">Expand All</button>
+  <button class="btn" onclick="collapseAll()">Collapse All</button>
+</div>
+<div class="search-wrap">
+  <input type="text" id="searchBox" placeholder="Search any topic…" oninput="doSearch(this.value)">
+</div>
+
+<div class="tree-root">
+  <div class="central-node">
+    🧠 Lower Motor Neuron Circuits
+    <span>The "Final Common Path" for all movement</span>
+  </div>
+  <div style="height:20px;width:2px;background:var(--border);margin:0 auto;"></div>
+  <div class="branches" id="branches">
+
+    <!-- ══════════════════════════════════════════ 1 -->
+    <div class="section c1" id="s1">
+      <div class="section-header" onclick="toggle('s1')">
+        <div class="section-icon">🗺️</div>
+        <div class="section-title">Organisation of Motor Control Systems</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub1a">
+          <div class="subsection-header" onclick="toggleSub('sub1a')">Why do we have brains? <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Answer:</strong> To move and act upon our environment</div>
+            <div class="leaf">Movement types: agility, balance, co-ordination, speed, jumping, climbing, walking, skating, hopping, swimming, skipping, throwing, dribbling, kicking, hitting, catching</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub1b">
+          <div class="subsection-header" onclick="toggleSub('sub1b')">Four Subsystems that Control Movement <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Motor Cortex (Upper Motor Neurons / Descending Systems)</strong> – planning, initiating, directing voluntary movements</div>
+            <div class="leaf"><strong>Basal Ganglia</strong> – initiation of intended movement; suppression of unwanted movement → Parkinson's &amp; Huntington's Disease</div>
+            <div class="leaf"><strong>Brainstem Centers</strong> – rhythmic, stereotyped movements and postural control</div>
+            <div class="leaf"><strong>Cerebellum</strong> – coordination of ongoing movement; predicting &amp; correcting motor error; feed-forward controller</div>
+            <div class="leaf"><strong>Spinal Cord &amp; Brainstem Circuits</strong> → Local circuit neurons (sensorimotor integration &amp; CPG) → Motor neuron pools (Lower motor neurons)</div>
+            <div class="leaf">Lower motor neurons = <em>"Final Common Path"</em> for both reflexive and voluntary movement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 2 -->
+    <div class="section c2" id="s2">
+      <div class="section-header" onclick="toggle('s2')">
+        <div class="section-icon">📍</div>
+        <div class="section-title">Distribution of Lower Motor Neurons</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub2a">
+          <div class="subsection-header" onclick="toggleSub('sub2a')">Spinal Cord Organisation <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Located in the <strong>ventral horn</strong> of spinal cord</div>
+            <div class="leaf">Each lower motor neuron innervates muscle fibers within a <strong>single muscle</strong></div>
+            <div class="leaf">All motor neurons innervating one muscle = <em>motor neuron pool</em> for that muscle</div>
+            <div class="leaf">Motor neuron pools are <strong>spatially distinct</strong> (shown in cat &amp; human)</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub2b">
+          <div class="subsection-header" onclick="toggleSub('sub2b')">Human Spatial Organisation <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><em>Cervical enlargement</em> → motor neuron pools innervating the <strong>arm</strong></div>
+            <div class="leaf"><em>Lumbar enlargement</em> → motor neuron pools innervating the <strong>leg</strong></div>
+          </div>
+        </div>
+        <div class="subsection" id="sub2c">
+          <div class="subsection-header" onclick="toggleSub('sub2c')">Somatotopic Organisation in Ventral Horn <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Medial motor neuron pools</strong> → postural trunk muscles (innervated by axial neurons)</div>
+            <div class="leaf"><strong>Lateral motor neuron pools</strong> → distal limb muscles &amp; limb motor control</div>
+            <div class="leaf">Proximal muscles controlled by intermediate pools</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub2d">
+          <div class="subsection-header" onclick="toggleSub('sub2d')">Local Circuit Neurons – Somatotopic Connections <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Long-distance local circuit neurons (red axons)</strong> – medial ventral horn; control axial muscles; long distance &amp; bilateral; control body position &amp; locomotion; commissural axons cross midline</div>
+            <div class="leaf"><strong>Short-distance local circuit neurons (orange axons)</strong> – lateral ventral horn; control distal limbs; short distance &amp; unilateral; mediate fine control of distal limb muscles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 3 -->
+    <div class="section c3" id="s3">
+      <div class="section-header" onclick="toggle('s3')">
+        <div class="section-icon">⚡</div>
+        <div class="section-title">Types of Lower Motor Neurons</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub3a">
+          <div class="subsection-header" onclick="toggleSub('sub3a')">α (Alpha) Motor Neurons <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Large diameter</strong> axons</div>
+            <div class="leaf">Innervate <em>extrafusal</em> muscle fibers (striated muscles)</div>
+            <div class="leaf">Generate <strong>force</strong> for posture and movement</div>
+            <div class="leaf">Each neuron branches to terminate on <strong>10–1000 individual muscle fibers</strong></div>
+            <div class="leaf">α MN + muscle fibers it innervates = <em>motor unit</em></div>
+            <div class="leaf">Muscle fibers within a motor unit are spatially distributed in the target muscle</div>
+            <div class="leaf">Multiple α MNs innervating same muscle are clustered in same motor nucleus in ventral spinal cord</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub3b">
+          <div class="subsection-header" onclick="toggleSub('sub3b')">γ (Gamma) Motor Neurons <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Small diameter</strong> axons</div>
+            <div class="leaf">Innervate <em>intrafusal</em> muscle fibers (<strong>muscle spindles</strong>)</div>
+            <div class="leaf">Spindles = sensory receptors embedded in capsules (fusal/intrafusal)</div>
+            <div class="leaf">Send sensory info about <strong>muscle length</strong> and <strong>speed of change in length</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 4 -->
+    <div class="section c4" id="s4">
+      <div class="section-header" onclick="toggle('s4')">
+        <div class="section-icon">💪</div>
+        <div class="section-title">Motor Units & Force Regulation</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub4a">
+          <div class="subsection-header" onclick="toggleSub('sub4a')">Motor Neuron Size & Force <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Small α MN</strong> → few muscle fibers → small motor unit → <em>small force</em></div>
+            <div class="leaf"><strong>Large α MN</strong> → more muscle fibers → larger motor unit → <em>greater force</em></div>
+          </div>
+        </div>
+        <div class="subsection" id="sub4b">
+          <div class="subsection-header" onclick="toggleSub('sub4b')">Innervation Ratio (examples) <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Biceps brachii:</strong> 774 α axons, 580,000 fibers, ratio 750</div>
+            <div class="leaf"><strong>Gastrocnemius (medial):</strong> 579 α axons, 1,042,000 fibers, ratio 1,800</div>
+            <div class="leaf"><strong>Lumbricales (1):</strong> 96 α axons, 10,269 fibers, ratio 107</div>
+            <div class="leaf"><strong>Rectus lateralis (eye):</strong> 4,150 α axons, 22,000 fibers, ratio <em>5</em> (ultra fine control)</div>
+            <div class="leaf"><strong>Platysma:</strong> 1,096 α axons, 27,100 fibers, ratio 25</div>
+            <div class="leaf">Low ratio = fine motor control; High ratio = powerful but coarse</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub4c">
+          <div class="subsection-header" onclick="toggleSub('sub4c')">Three Types of Motor Units <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Slow (S)</strong> – red, rich in myoglobin &amp; mitochondria; fatigue-resistant; important for <em>sustained activation</em> (upright posture)</div>
+            <div class="leaf"><strong>Fast fatigue-resistant (FR)</strong> – intermediate; greater force than S, less than FF; moderate endurance</div>
+            <div class="leaf"><strong>Fast-fatigable (FF)</strong> – pale, low mitochondria; easily fatigued; important for <em>forceful rapid movements</em> (running, jumping)</div>
+            <div class="leaf">Sprinter → more FF units | Marathon runner → more S units</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub4d">
+          <div class="subsection-header" onclick="toggleSub('sub4d')">Size Principle (Henneman) <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Small, slow motor units have <strong>lower activation thresholds</strong> than larger units</div>
+            <div class="leaf">Small units are tonically active during sustained effort (e.g. standing)</div>
+            <div class="leaf">Large, fast motor units only recruited during <strong>high force, rapid movements</strong></div>
+            <div class="leaf">Progressive recruitment order: <em>S → FR → FF</em></div>
+            <div class="leaf">More stimulation → larger higher-threshold units recruited → more force</div>
+            <div class="leaf">Size principle = simple solution to grading muscle force</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub4e">
+          <div class="subsection-header" onclick="toggleSub('sub4e')">Recruitment in Cat Medial Gastrocnemius <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Standing</strong> – ~5% max force; provided by S units only</div>
+            <div class="leaf"><strong>Walking</strong> – ~25% max force; additional recruitment of FR units</div>
+            <div class="leaf"><strong>Running/Galloping/Jumping</strong> – full force; additional recruitment of FF units</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub4f">
+          <div class="subsection-header" onclick="toggleSub('sub4f')">Stimulation Rate & Muscle Tension <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><em>Twitch</em> – single contraction from one AP in muscle fiber (5 Hz)</div>
+            <div class="leaf"><em>Temporal summation</em> – overlapping twitches increase force (20 Hz)</div>
+            <div class="leaf"><em>Unfused tetanus</em> – high frequency, individual twitches still apparent (80 Hz)</div>
+            <div class="leaf"><em>Fused tetanus</em> – highest rate; twitches indistinguishable; sustained contraction without relaxation (100 Hz)</div>
+            <div class="leaf">Under normal conditions: unfused tetanus achieves smooth movement because <strong>asynchronous firing</strong> of different LMNs averages out tension changes</div>
+            <div class="leaf">Both number of active motor units AND their rate of firing increase with voluntary force</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub4g">
+          <div class="subsection-header" onclick="toggleSub('sub4g')">Motor Unit Plasticity <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Ability to acquire new motor skills depends on <strong>upper motor neurons</strong> and motor units</div>
+            <div class="leaf">Chronic electrical stimulation alters motor units at both <em>muscle fiber level</em> and <em>motor neuron phenotype</em></div>
+            <div class="leaf">56 days of chronic stimulation → changes in fibre type and firing properties</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 5 -->
+    <div class="section c5" id="s5">
+      <div class="section-header" onclick="toggle('s5')">
+        <div class="section-icon">🔵</div>
+        <div class="section-title">Muscle Spindles</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub5a">
+          <div class="subsection-header" onclick="toggleSub('sub5a')">Two Fibre Types in Skeletal Muscle <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Extrafusal fibres</strong> – large diameter; produce movement via large α motor system; bulk of skeletal muscle</div>
+            <div class="leaf"><strong>Intrafusal fibres</strong> – small diameter; much shorter than extrafusal fibres; innervated by γ MNs; regulate muscle length at all times; stretch on extension, shorten on flexion</div>
+            <div class="leaf"><em>8–10 intrafusal fibres</em> grouped in connective tissue capsule = <strong>muscle spindle</strong></div>
+            <div class="leaf">Spindle is <strong>mechanically in parallel</strong> to extrafusal fibres</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub5b">
+          <div class="subsection-header" onclick="toggleSub('sub5b')">Intrafusal Fibre Sub-types <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Nuclear bag fibres</strong> – 2–3 per spindle; dynamic (db1) and static (sb2) varieties</div>
+            <div class="leaf"><strong>Nuclear chain fibres</strong> – 4–6 per spindle; static signalling</div>
+            <div class="leaf">Large diameter sensory axons relay rapid APs in response to stretch</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub5c">
+          <div class="subsection-header" onclick="toggleSub('sub5c')">Stretch Receptor Types <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Group Ia (primary endings)</strong> – spiral around bag &amp; chain fibres; respond <em>phasically</em> to small stretches (<strong>dynamic</strong> – rate of change)</div>
+            <div class="leaf"><strong>Group II (secondary endings)</strong> – mainly on chain fibres; fire <em>tonically</em>, proportional to stretch (<strong>static</strong> – absolute length)</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub5d">
+          <div class="subsection-header" onclick="toggleSub('sub5d')">Ia &amp; II Afferent Connections <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Ia afferents</strong> form mono- AND polysynaptic excitatory connections on α MNs</div>
+            <div class="leaf"><strong>II afferents</strong> form polysynaptic excitatory connections on α MNs</div>
+            <div class="leaf">The <em>stretch reflex</em> is mediated through this system</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub5e">
+          <div class="subsection-header" onclick="toggleSub('sub5e')">γ Motor Innervation of Spindle <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Two types of γ axon: <strong>dynamic</strong> and <strong>static</strong></div>
+            <div class="leaf"><em>Dynamic γ axon</em> → terminates on dynamic nuclear bag fibres</div>
+            <div class="leaf"><em>Static γ axon</em> → terminates on static bag AND chain fibres</div>
+            <div class="leaf">Dynamic bag intrafusal fibre innervated by 1–2 dynamic γ axons</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 6 -->
+    <div class="section c6" id="s6">
+      <div class="section-header" onclick="toggle('s6')">
+        <div class="section-icon">🔄</div>
+        <div class="section-title">Stretch Reflex</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub6a">
+          <div class="subsection-header" onclick="toggleSub('sub6a')">Basic Mechanism <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Stretching muscle spindle → ↑ activity in <strong>Group Ia sensory afferents</strong> → ↑ activity of α MNs that innervate the <em>same muscle</em></div>
+            <div class="leaf"><strong>Unique monosynaptic reflex</strong> – only one synapse between sensory afferent and motor neuron</div>
+            <div class="leaf">Ia afferents also excite motor neurons innervating <strong>synergistic muscles</strong></div>
+            <div class="leaf">Ia afferents indirectly <strong>inhibit</strong> motor neurons of antagonist muscles via <em>reciprocal Ia inhibitory interneurons</em> (grey neurons)</div>
+            <div class="leaf"><em>Reciprocal innervation</em> = contraction of stretched muscle + relaxation of antagonist</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub6b">
+          <div class="subsection-header" onclick="toggleSub('sub6b')">Negative Feedback Loop <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Disturbance (e.g. weight added to held glass) → ↑ muscle load → length change → spindle receptor activated → ↑ spindle afferent discharge → ↑ α MN activity → muscle resists disturbance</div>
+            <div class="leaf">Descending facilitation and inhibition modulate the loop</div>
+            <div class="leaf">Used to <strong>maintain muscle length</strong> at a setpoint</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub6c">
+          <div class="subsection-header" onclick="toggleSub('sub6c')">Stretch Reflex Gain <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><em>Gain</em> = amount of force produced in response to a given stretch</div>
+            <div class="leaf">High gain → small intrafusal stretch → large increase in extrafusal tension</div>
+            <div class="leaf"><strong>Muscle tone</strong> = steady tension level; mediated by <em>Group II sensory afferents</em></div>
+            <div class="leaf">Examples of gain modulation: standing on moving bus (gain ↑); doing stretching exercises (gain ↓ to allow lengthening)</div>
+            <div class="leaf"><strong>γ motor neurons</strong> regulate gain by adjusting tension in intrafusal fibres</div>
+            <div class="leaf">Gain also depends on excitability of α MNs</div>
+            <div class="leaf">α &amp; γ MNs often <strong>co-activated</strong> to regulate muscle spindles</div>
+            <div class="leaf">Both descending UMN projections AND local spinal circuits can modulate gain by exciting/inhibiting α &amp; γ MNs</div>
+            <div class="leaf">Inhibitory interneurons can regulate Ia afferents via <em>axo-axonal synapses</em></div>
+          </div>
+        </div>
+        <div class="subsection" id="sub6d">
+          <div class="subsection-header" onclick="toggleSub('sub6d')">α–γ Co-activation <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">When only α MN activated → muscle shortens → intrafusal fibres go slack → Ia firing drops (spindle silenced)</div>
+            <div class="leaf">When α <em>and</em> γ MNs activated simultaneously → γ activation keeps intrafusal taut → Ia response "filled in" → spindle can operate at <strong>any muscle length</strong></div>
+            <div class="leaf">Movement = combined result of sensory neurons + γ MNs + α MNs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 7 -->
+    <div class="section c7" id="s7">
+      <div class="section-header" onclick="toggle('s7')">
+        <div class="section-icon">🎯</div>
+        <div class="section-title">Golgi Tendon Organs (GTOs)</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub7a">
+          <div class="subsection-header" onclick="toggleSub('sub7a')">Structure &amp; Location <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Located at <strong>muscle–tendon junction</strong></div>
+            <div class="leaf">Collagen fibrils inside capsule innervated by a single group of <em>Ib sensory axons</em></div>
+            <div class="leaf">Muscle contraction → force ↑ tension in collagen fibrils → compresses sensory nerve endings</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub7b">
+          <div class="subsection-header" onclick="toggleSub('sub7b')">Sensitivity Profile <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Most sensitive to tension increase from <strong>active contraction</strong></div>
+            <div class="leaf"><strong>Insensitive to passive stretch</strong> (contrast with muscle spindles which are tonic during passive stretch)</div>
+            <div class="leaf">During passive stretch: spindles signal <em>rapidly (tonic)</em>; GTOs signal <em>slowly (phasic)</em></div>
+            <div class="leaf">During active contraction: spindles signal <em>phasically (less)</em>; GTOs signal <em>tonically (more)</em></div>
+          </div>
+        </div>
+        <div class="subsection" id="sub7c">
+          <div class="subsection-header" onclick="toggleSub('sub7c')">GTO Reflex Pathways <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Ib afferents → inhibitory interneurons → α MNs of SAME muscle</strong> → negative feedback regulation of muscle tension</div>
+            <div class="leaf"><strong>Ib afferents → excitatory interneurons → α MNs of ANTAGONIST muscles</strong> → ↑ activity in opposing muscle</div>
+            <div class="leaf">Arrangement protects muscle when <strong>exceptionally large force</strong> is generated</div>
+            <div class="leaf">At lower force levels: GTOs maintain steady tension, <em>counteracting fatigue</em> that would diminish force</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub7d">
+          <div class="subsection-header" onclick="toggleSub('sub7d')">Spindle vs GTO Summary <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Muscle spindles</strong> → monitor &amp; maintain muscle <em>LENGTH</em></div>
+            <div class="leaf"><strong>Golgi tendon organs</strong> → monitor &amp; maintain muscle <em>FORCE</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 8 -->
+    <div class="section c8" id="s8">
+      <div class="section-header" onclick="toggle('s8')">
+        <div class="section-icon">🦶</div>
+        <div class="section-title">Flexion (Withdrawal) Reflex</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub8a">
+          <div class="subsection-header" onclick="toggleSub('sub8a')">Pathway <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Triggered by <strong>nociceptor afferents</strong> (Aδ fibres) activating local circuit neurons in dorsal horn</div>
+            <div class="leaf"><em>Multi-synaptic pathway</em> (polysynaptic; purple = excitatory)</div>
+            <div class="leaf">Stimulation of nociceptors in foot → <strong>withdrawal of ipsilateral limb</strong></div>
+            <div class="leaf">Ipsilateral: <em>excitation of flexors</em> + <em>inhibition of extensors</em></div>
+            <div class="leaf"><strong>Crossed extensor reflex</strong>: contralateral limb extends to compensate &amp; support body weight</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ 9 -->
+    <div class="section c1" id="s9">
+      <div class="section-header" onclick="toggle('s9')">
+        <div class="section-icon">🚶</div>
+        <div class="section-title">Locomotion & Central Pattern Generators</div>
+      </div>
+      <div class="section-body">
+        <div class="subsection" id="sub9a">
+          <div class="subsection-header" onclick="toggleSub('sub9a')">Nature of Locomotion <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Rhythmic movements (walking, running, swimming) controlled by <strong>central pattern generators (CPGs)</strong> in spinal cord</div>
+            <div class="leaf">CPGs can control timing &amp; coordination of complex movement patterns</div>
+            <div class="leaf">CPGs can also <em>adjust</em> complex movements in response to altered circumstances</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub9b">
+          <div class="subsection-header" onclick="toggleSub('sub9b')">Single Limb Locomotion Cycle <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Stance phase</strong> – extending muscle; limb in contact with ground</div>
+            <div class="leaf"><strong>Swing phase</strong> – muscle flexed; limb off ground</div>
+            <div class="leaf">Speed increases by completing cycle more rapidly</div>
+            <div class="leaf">Faster speed → <em>reduced stance phase</em>; swing phase remains largely constant</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub9c">
+          <div class="subsection-header" onclick="toggleSub('sub9c')">Inter-limb Synchrony in Quadrupeds <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf"><strong>Walk</strong> – slow; left-to-right and back-to-front sequential pattern</div>
+            <div class="leaf"><strong>Trot</strong> – opposing limbs synchronise (LH–RF and LF–RH)</div>
+            <div class="leaf"><strong>Pace</strong> – ipsilateral limbs move together</div>
+            <div class="leaf"><strong>Gallop</strong> – forelimbs synchronised; hindlimbs synchronised; highest speed</div>
+          </div>
+        </div>
+        <div class="subsection" id="sub9d">
+          <div class="subsection-header" onclick="toggleSub('sub9d')">Evidence for Spinal CPGs <span class="arrow">▸</span></div>
+          <div class="subsection-body">
+            <div class="leaf">Coordinated locomotion does <strong>not</strong> require descending projections from higher centres</div>
+            <div class="leaf">After spinal cord transection, a <em>supported cat</em> can still walk on a treadmill</div>
+            <div class="leaf">Local spinal cord circuits act as CPGs to control flexion &amp; extension during locomotion</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.branches -->
+</div><!-- /.tree-root -->
+
+<script>
+  function toggle(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+  function toggleSub(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+  function expandAll() {
+    document.querySelectorAll('.section, .subsection').forEach(el => el.classList.add('open'));
+  }
+  function collapseAll() {
+    document.querySelectorAll('.section, .subsection').forEach(el => el.classList.remove('open'));
+  }
+
+  // Search
+  function doSearch(query) {
+    // Clear previous highlights
+    document.querySelectorAll('.highlight').forEach(el => {
+      const parent = el.parentNode;
+      parent.replaceChild(document.createTextNode(el.textContent), el);
+      parent.normalize();
+    });
+
+    if (!query.trim()) {
+      collapseAll();
+      return;
+    }
+
+    const q = query.toLowerCase();
+    let found = new Set();
+
+    document.querySelectorAll('.leaf').forEach(leaf => {
+      if (leaf.textContent.toLowerCase().includes(q)) {
+        found.add(leaf);
+        // open parent subsection and section
+        const sub = leaf.closest('.subsection');
+        if (sub) sub.classList.add('open');
+        const sec = leaf.closest('.section');
+        if (sec) sec.classList.add('open');
+        // highlight
+        highlightText(leaf, q);
+      }
+    });
+  }
+
+  function highlightText(el, query) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const idx = node.textContent.toLowerCase().indexOf(query);
+      if (idx === -1) return;
+      const span = document.createElement('mark');
+      span.className = 'highlight';
+      const range = document.createRange();
+      range.setStart(node, idx);
+      range.setEnd(node, idx + query.length);
+      range.surroundContents(span);
+    });
+  }
+</script>
+</body>
+</html>
